@@ -4,12 +4,15 @@
 
 #pragma once
 
+#include <boost/lexical_cast.hpp>
 #include <boost/type_traits/is_arithmetic.hpp>
 #include <boost/utility/enable_if.hpp>
 
 #include <ciere/json/value.hpp>
 
+#include "map.hpp"
 #include "detail/support/fusion/for_each_struct.hpp"
+
 
 namespace backbone { 
 
@@ -25,39 +28,55 @@ struct json_writer
 
    template <typename Key, typename Value = bool>
    void
-   operator () (Key const & key, bool data);
+   operator () (
+      Key const & key, 
+      bool data);
 
    template <typename Key, typename Value = int16_t>
    void
-   operator () (Key const & key, int16_t data);
+   operator () (
+      Key const & key, 
+      int16_t data);
 
    template <typename Key, typename Value = int32_t>
    void
-   operator () (Key const & key, int32_t data);
+   operator () (
+      Key const & key, 
+      int32_t data);
 
    template <typename Key, typename Value = int64_t>
    void
-   operator () (Key const & key, int64_t data);
+   operator () (
+      Key const & key, 
+      int64_t data);
 
 
    template <typename Key, typename Value = float>
    void
-   operator () (Key const & key, float data);
+   operator () (
+      Key const & key, 
+      float data);
 
 
    template <typename Key, typename Value = double>
    void
-   operator () (Key const & key, double data);
+   operator () (
+      Key const & key, 
+      double data);
 
 
    template <typename Key, typename Value = std::string>
    void
-   operator () (Key const & key, std::string const & data);
+   operator () (
+      Key const & key, 
+      std::string const & data);
 
 
    template <typename Key, typename Value>
    void
-   operator () (Key const & key, Value & data);
+   operator () (
+      Key const & key, 
+      Value & data);
 
 };
 
@@ -66,6 +85,11 @@ template <typename Model>
 static ciere::json::value
 to_json (
    Model const & m);
+
+template <typename Key, typename Value>
+static ciere::json::value
+to_json (
+   backbone::map <Key, Value> const & m);
 
 };
 

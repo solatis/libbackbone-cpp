@@ -4,7 +4,11 @@
 
 #pragma once
 
+#include <boost/signal.hpp>
 #include <boost/fusion/include/at_key.hpp>
+
+#include "detail/signals.hpp"
+#include "detail/observable.hpp"
 
 namespace backbone { 
 
@@ -13,12 +17,11 @@ namespace backbone {
   \brief Provides interface to a model
  */
 
-template <typename Derived>
-struct model
+template <typename Derived, typename Signals = detail::signals>
+struct model : public detail::observable <Signals>
 {
-
    template <typename Key, typename Value> 
-   void set (Value const & value);
+   void set (Value && value);
 
    template <typename Key>
    typename boost::fusion::result_of::at_key <Derived, Key>::type &

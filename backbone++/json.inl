@@ -59,6 +59,26 @@ json_writer::operator () (Key const & key, Value & data)
 }
 
 
+template <typename Key, typename Value>
+static inline ciere::json::value
+to_json (
+   backbone::map <Key, Value> const & m)
+{
+   ciere::json::object_t ret;
+
+   for (auto const & i : m.map_)
+   {
+      json_writer w;
+
+      boost::fusion::for_each_struct (i.second, w);
+
+      ret[boost::lexical_cast <std::string> (i.first)] = w.json_;
+   }
+
+   return ret;
+}
+
+
 template <typename Model>
 static inline ciere::json::value
 to_json (

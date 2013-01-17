@@ -59,5 +59,5 @@ AC_PROG_CXX
 # Checks for typedefs, structures, and compiler characteristics.
 
 # Checks for library functions.
-AC_CONFIG_FILES([Makefile backbone++/Makefile test/Makefile])
+AC_CONFIG_FILES([Makefile test/Makefile])
 AC_OUTPUT
