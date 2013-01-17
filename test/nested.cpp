@@ -6,23 +6,21 @@
 #include <boost/fusion/adapted/struct/adapt_assoc_struct.hpp>
 #include <boost/fusion/include/adapt_assoc_struct.hpp>
 
-#include <ciere/json/io.hpp>
-
 #include <backbone++/model.hpp>
-#include <backbone++/json.hpp>
-
 
 struct nested_model : public backbone::model <nested_model>
 {
    bool    a;
    double  b;
-   int64_t c;
+   float   c;
+   int64_t d;
    
    struct keys 
    {
       struct a;
       struct b;
       struct c;
+      struct d;
    };
    
 };
@@ -32,7 +30,8 @@ BOOST_FUSION_ADAPT_ASSOC_STRUCT(
    nested_model,
    (bool,    a, nested_model::keys::a)
    (double,  b, nested_model::keys::b)
-   (int64_t, c, nested_model::keys::c))
+   (float,   c, nested_model::keys::c)
+   (int64_t, d, nested_model::keys::d))
 
 
 struct my_model : public backbone::model <my_model>
@@ -65,17 +64,17 @@ int main ()
    my_model     model;
 
    nested.set <decltype(nested)::keys::a> (true);
-   nested.set <decltype(nested)::keys::b> (1.3);
-   nested.set <decltype(nested)::keys::c> (3);
+   nested.set <decltype(nested)::keys::b> (1.5);
+   nested.set <decltype(nested)::keys::c> (3.5);
+   nested.set <decltype(nested)::keys::d> (4);
 
-   model.set <decltype(model)::keys::v> ("foo");
-   model.set <decltype(model)::keys::w> (1);
-   model.set <decltype(model)::keys::x> (2);
-   model.set <decltype(model)::keys::y> (nested);
+   model.set <my_model::keys::v> ("foo");
+   model.set <my_model::keys::w> (1);
+   model.set <my_model::keys::x> (2);
+   model.set <my_model::keys::y> (nested);
 
-   assert (model.get <decltype(model)::keys::v> () == "foo");
-   assert (model.get <decltype(model)::keys::w> () == 1);
-   assert (model.get <decltype(model)::keys::x> () == 2);
-
-   std::cout << backbone::to_json (model) << std::endl;
+   assert (model.get <my_model::keys::y> ().get <nested_model::keys::a> () == true);
+   assert (model.get <my_model::keys::y> ().get <nested_model::keys::b> () == 1.5);
+   assert (model.get <my_model::keys::y> ().get <nested_model::keys::c> () == 3.5);
+   assert (model.get <my_model::keys::y> ().get <nested_model::keys::d> () == 4);
 }

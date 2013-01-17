@@ -34,4 +34,6 @@ core
 *.Po
 *.pyc
 
-test/basic1
+test/basic
+test/nested
+test/json

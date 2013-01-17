@@ -5,9 +5,15 @@ LDADD += -llog4cxx
 endif
 
 check_PROGRAMS = \
-	basic1 
+	basic \
+	nested \
+	json
 
-basic1_SOURCES      	  = basic1.cpp
+basic_SOURCES      	  = basic.cpp
+nested_SOURCES      	  = nested.cpp
+json_SOURCES      	  = json.cpp
 
 TESTS= \
-	basic1 
+	basic \
+	nested \
+	json

@@ -4,6 +4,9 @@
 
 #pragma once
 
+#include <boost/type_traits/is_arithmetic.hpp>
+#include <boost/utility/enable_if.hpp>
+
 #include <ciere/json/value.hpp>
 
 #include "detail/support/fusion/for_each_struct.hpp"
@@ -28,15 +31,19 @@ struct json_writer
    void
    operator () (Key const & key, int16_t data);
 
-
    template <typename Key, typename Value = int32_t>
    void
    operator () (Key const & key, int32_t data);
 
-
    template <typename Key, typename Value = int64_t>
    void
    operator () (Key const & key, int64_t data);
+
+
+   template <typename Key, typename Value = float>
+   void
+   operator () (Key const & key, float data);
+
 
    template <typename Key, typename Value = double>
    void

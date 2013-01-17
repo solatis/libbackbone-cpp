@@ -1,6 +1,5 @@
 namespace backbone {
 
-
 template <typename Key, typename Value>
 inline void
 json_writer::operator () (Key const & key, bool data) 
@@ -16,14 +15,12 @@ json_writer::operator () (Key const & key, int16_t data)
    json_[key] = ciere::json::int_t (data);
 }
 
-
 template <typename Key, typename Value>
 inline void
 json_writer::operator () (Key const & key, int32_t data) 
 {
    json_[key] = ciere::json::int_t (data);
 }
-
 
 template <typename Key, typename Value>
 inline void
@@ -34,10 +31,18 @@ json_writer::operator () (Key const & key, int64_t data)
 
 template <typename Key, typename Value>
 inline void
+json_writer::operator () (Key const & key, float data) 
+{
+   json_[key] = ciere::json::float_t (data);
+}
+
+template <typename Key, typename Value>
+inline void
 json_writer::operator () (Key const & key, double data) 
 {
    json_[key] = ciere::json::double_t (data);
 }
+
 
 template <typename Key, typename Value>
 inline void
@@ -51,7 +56,6 @@ inline void
 json_writer::operator () (Key const & key, Value & data) 
 {
    json_[key] = to_json (data);
-//   to_json <Value> (data);
 }
 
 
