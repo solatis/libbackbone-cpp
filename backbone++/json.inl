@@ -1,63 +1,15 @@
 namespace backbone {
 
-template <typename Key, typename Value>
-inline void
-json_writer::operator () (Key const & key, bool data) 
-{
-   json_[key] = ciere::json::bool_t (data);
-}
-
 
 template <typename Key, typename Value>
-inline void
-json_writer::operator () (Key const & key, int16_t data) 
+void
+json_writer::operator () (
+   Key const &  key,
+   Value &      data)
 {
-   json_[key] = ciere::json::int_t (data);
+   json_[key] = 
+      detail::json::writer::type_deduce <Value>::call (data);
 }
-
-template <typename Key, typename Value>
-inline void
-json_writer::operator () (Key const & key, int32_t data) 
-{
-   json_[key] = ciere::json::int_t (data);
-}
-
-template <typename Key, typename Value>
-inline void
-json_writer::operator () (Key const & key, int64_t data) 
-{
-   json_[key] = ciere::json::int_t (data);
-}
-
-template <typename Key, typename Value>
-inline void
-json_writer::operator () (Key const & key, float data) 
-{
-   json_[key] = ciere::json::float_t (data);
-}
-
-template <typename Key, typename Value>
-inline void
-json_writer::operator () (Key const & key, double data) 
-{
-   json_[key] = ciere::json::double_t (data);
-}
-
-
-template <typename Key, typename Value>
-inline void
-json_writer::operator () (Key const & key, std::string const & data) 
-{
-   json_[key] = data;
-}
-
-template <typename Key, typename Value>
-inline void
-json_writer::operator () (Key const & key, Value & data) 
-{
-   json_[key] = to_json (data);
-}
-
 
 template <typename Key, typename Value, typename Signals>
 static inline ciere::json::value

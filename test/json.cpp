@@ -81,6 +81,7 @@ test_nested_model ()
    model.set <my_model::keys::y> (nested);
 
    ciere::json::value json = backbone::to_json (model);
+
    assert (json["v"].get <ciere::json::string_t> () == "foo");
    assert (json["w"].get <ciere::json::int_t> () == 1);
    assert (json["x"].get <ciere::json::int_t> () == 2);
@@ -128,3 +129,4 @@ int main ()
    test_nested_map ();
    test_nested_collection ();
 }
+
