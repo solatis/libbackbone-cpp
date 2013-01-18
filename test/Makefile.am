@@ -9,17 +9,20 @@ check_PROGRAMS = \
 	nested \
 	map_ \
 	json \
-	events
+	events \
+	collection
 
 basic_SOURCES      	  = basic.cpp
 nested_SOURCES      	  = nested.cpp
 map__SOURCES      	  = map_.cpp
 json_SOURCES      	  = json.cpp
 events_SOURCES      	  = events.cpp
+collection_SOURCES        = collection.cpp
 
 TESTS= \
 	basic \
 	nested \
 	map_ \
 	json \
-	events
+	events \
+	collection

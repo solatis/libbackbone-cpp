@@ -6,6 +6,9 @@
 
 #include <map>
 
+#include "detail/observable.hpp"
+#include "detail/map/signals.hpp"
+
 namespace backbone { 
 
 
@@ -13,23 +16,34 @@ namespace backbone {
   \brief Provides interface to a model
  */
 
-template <typename Key, typename Value>
-struct map
+template <typename Key, typename Value, typename Signals = detail::map::signals <Key, Value> >
+struct map : public detail::observable <Signals>
 {
+   typedef std::map <Key, Value>                map_type;
+   typedef typename map_type::iterator          iterator;
+   typedef typename map_type::const_iterator    const_iterator;
+
+   Value &
+   add (
+      Key const &       key,
+      Value &&          value);
+
+   void
+   erase (
+      Key const &       key);
 
    Value &
    get (
       Key const &       key);
 
-   void
-   set (
-      Key const &       key,
-      Value &&          value);
 
+   typename map_type::iterator
+   begin ();
 
+   typename map_type::iterator
+   end ();
 
-   std::map <Key, Value>        map_;
-
+   map_type     map_;
 };
 
 };

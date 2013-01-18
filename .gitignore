@@ -37,3 +37,6 @@ core
 test/basic
 test/nested
 test/json
+test/map_
+test/collection
+test/events

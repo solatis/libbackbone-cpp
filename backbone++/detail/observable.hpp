@@ -10,9 +10,8 @@ namespace backbone { namespace detail {
 
 
 template <typename Signals>
-class observable
+struct observable
 {
-public:
 
    observable ();
 
@@ -21,15 +20,16 @@ public:
    trigger (
       Signal &  sig);
 
+   template <typename Signal, typename Value>
+   void
+   trigger (
+      Signal &  sig,
+      Value &   value);
+
    Signals &
    signals ();
 
-private:
-
-private:
-
    std::unique_ptr <Signals>    signals_;
-
 
 };
 

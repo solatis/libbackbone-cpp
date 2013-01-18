@@ -6,18 +6,11 @@
 
 #include <boost/signals2.hpp>
 
-namespace backbone { namespace detail {
+namespace backbone { namespace detail { 
 
 struct signals
 {
-
-
    boost::signal <void ()>  all;
-   boost::signal <void ()>  get;
-   boost::signal <void ()>  set;
-   
-
 };
-
 
 }; };

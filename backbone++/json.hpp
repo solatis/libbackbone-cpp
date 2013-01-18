@@ -11,6 +11,8 @@
 #include <ciere/json/value.hpp>
 
 #include "map.hpp"
+#include "collection.hpp"
+
 #include "detail/support/fusion/for_each_struct.hpp"
 
 
@@ -71,7 +73,6 @@ struct json_writer
       Key const & key, 
       std::string const & data);
 
-
    template <typename Key, typename Value>
    void
    operator () (
@@ -86,10 +87,15 @@ static ciere::json::value
 to_json (
    Model const & m);
 
-template <typename Key, typename Value>
+template <typename Key, typename Value, typename Signals>
 static ciere::json::value
 to_json (
-   backbone::map <Key, Value> const & m);
+   backbone::map <Key, Value, Signals> const & m);
+
+template <typename Value, typename Signals>
+static ciere::json::value
+to_json (
+   backbone::collection <Value, Signals> const & c);
 
 };
 

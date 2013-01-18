@@ -7,6 +7,8 @@
 #include <boost/fusion/include/adapt_assoc_struct.hpp>
 
 #include <backbone++/model.hpp>
+#include <backbone++/map.hpp>
+#include <backbone++/collection.hpp>
 #include <backbone++/json.hpp>
 
 
@@ -60,7 +62,10 @@ BOOST_FUSION_ADAPT_ASSOC_STRUCT(
    (int32_t,      x, my_model::keys::x)
    (nested_model, y, my_model::keys::y))
 
-int main ()
+
+
+void
+test_nested_model ()
 {
    nested_model nested;
    my_model     model;
@@ -83,5 +88,43 @@ int main ()
    assert (json["y"]["a"].get <ciere::json::bool_t> () == true);
    assert (json["y"]["b"].get <ciere::json::double_t> () == 1.5);
    assert (json["y"]["c"].get <ciere::json::double_t> () == 3.5);
-   assert (json["y"]["d"].get <ciere::json::int_t> () == 4);
+   assert (json["y"]["d"].get <ciere::json::int_t> () == 4);   
+}
+
+void
+test_nested_map ()
+{
+   my_model model;
+   model.set <my_model::keys::v> ("foo");
+
+   backbone::map <int64_t, 
+                  backbone::map <bool, my_model> > map;
+
+   map.add (1, backbone::map <bool, my_model> ()).add (true, std::move (model));
+
+   ciere::json::value json = backbone::to_json (map);
+   assert (json["1"]["1"]["v"].get <ciere::json::string_t> () == "foo");
+}
+
+
+
+void
+test_nested_collection ()
+{
+   my_model model;
+   model.set <my_model::keys::v> ("foo");
+
+   backbone::collection <backbone::collection <my_model> > collection;
+
+   collection.add (backbone::collection <my_model> ()).add (std::move (model));
+
+   ciere::json::value json = backbone::to_json (collection);
+   assert (json[0][0]["v"].get <ciere::json::string_t> () == "foo");
+}
+
+int main ()
+{
+   test_nested_model ();
+   test_nested_map ();
+   test_nested_collection ();
 }

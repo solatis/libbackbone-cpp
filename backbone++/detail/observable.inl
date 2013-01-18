@@ -18,6 +18,18 @@ observable <Signals>::trigger (
    signal ();
 }
 
+
+template <typename Signals>
+template <typename Signal, typename Value>
+inline void
+observable <Signals>::trigger (
+   Signal &     signal,
+   Value &      value)
+{
+   signals_->all ();
+   signal (value);
+}
+
 template <typename Signals>
 inline Signals &
 observable <Signals>::signals ()
