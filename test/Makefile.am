@@ -10,7 +10,8 @@ check_PROGRAMS = \
 	map_ \
 	json \
 	events \
-	collection
+	collection \
+	proxy
 
 basic_SOURCES      	  = basic.cpp
 nested_SOURCES      	  = nested.cpp
@@ -18,6 +19,7 @@ map__SOURCES      	  = map_.cpp
 json_SOURCES      	  = json.cpp
 events_SOURCES      	  = events.cpp
 collection_SOURCES        = collection.cpp
+proxy_SOURCES    	  = proxy.cpp
 
 TESTS= \
 	basic \
@@ -25,4 +27,5 @@ TESTS= \
 	map_ \
 	json \
 	events \
-	collection
+	collection \
+	proxy

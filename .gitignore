@@ -40,3 +40,4 @@ test/json
 test/map_
 test/collection
 test/events
+test/proxy

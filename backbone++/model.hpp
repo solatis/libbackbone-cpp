@@ -20,6 +20,8 @@ namespace backbone {
 template <typename Derived, typename Signals = detail::model::signals>
 struct model : public detail::observable <Signals>
 {
+   typedef model <Derived, Signals>     base_type;
+
    template <typename Key, typename Value> 
    void set (Value && value);
 

@@ -19,6 +19,8 @@ namespace backbone {
 template <typename Value, typename Signals = detail::collection::signals <Value> >
 struct collection : public detail::observable <Signals>
 {
+   typedef collection <Value, Signals>                  base_type;
+
    typedef std::vector <Value>                          collection_type;
    typedef typename collection_type::iterator           iterator;
    typedef typename collection_type::const_iterator     const_iterator;

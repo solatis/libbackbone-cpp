@@ -1,16 +1,6 @@
 namespace backbone {
 
 
-template <typename Key, typename Value>
-void
-json_writer::operator () (
-   Key const &  key,
-   Value &      data)
-{
-   json_[key] = 
-      detail::json::writer::type_deduce <Value>::call (data);
-}
-
 template <typename Key, typename Value, typename Signals>
 static inline ciere::json::value
 to_json (
@@ -41,7 +31,6 @@ to_json (
    return ret;
 }
 
-
 template <typename Model>
 static inline ciere::json::value
 to_json (
@@ -52,5 +41,16 @@ to_json (
 
    return w.json_;
 }
+
+template <typename Key, typename Value>
+void
+json_writer::operator () (
+   Key const &  key,
+   Value &      data)
+{
+   json_[key] = 
+      detail::json::writer::type_deduce <Value>::call (data);
+}
+
 
 };

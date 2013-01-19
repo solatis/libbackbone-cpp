@@ -16,23 +16,7 @@
 #include "detail/support/fusion/for_each_struct.hpp"
 #include "detail/json/writer.hpp"
 
-namespace backbone { 
-
-
-/*!
-  \brief Implements to_json conversion of Backbone models
- */
-
-struct json_writer
-{   
-   ciere::json::value json_;
-
-   template <typename Key, typename Value>
-   void
-   operator () (
-      Key const & key, 
-      Value & data);
-};
+namespace backbone {
 
 template <typename Model>
 static ciere::json::value
@@ -48,6 +32,22 @@ template <typename Value, typename Signals>
 static ciere::json::value
 to_json (
    backbone::collection <Value, Signals> const & c);
+
+
+/*!
+  \brief Redirects to our detail::json::writer::type_deduction framework
+         to convert a certain fusion key/value to json.
+ */
+struct json_writer
+{   
+   ciere::json::value json_;
+
+   template <typename Key, typename Value>
+   void
+   operator () (
+      Key const & key, 
+      Value & data);
+};
 
 };
 

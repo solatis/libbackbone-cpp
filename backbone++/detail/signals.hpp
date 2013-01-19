@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <boost/signals2.hpp>
+#include <boost/signals.hpp>
 
 namespace backbone { namespace detail { 
 

@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <memory>
+
 #include <boost/fusion/include/at_key.hpp>
 
 namespace backbone { namespace detail {
