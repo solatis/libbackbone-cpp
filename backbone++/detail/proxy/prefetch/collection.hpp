@@ -8,18 +8,16 @@
 
 namespace backbone { namespace proxy {
 
-template <typename Base, typename Value, typename Signals>
-struct prefetch <Base, backbone::collection <Value, Signals> > : public Base
+template <typename Derived, typename Value, typename Signals>
+struct prefetch <Derived, backbone::collection <Value, Signals> > : public Derived
 {
    /*!
      \brief Constructor
     */
-   prefetch (
-      std::function <void ()> callback)
+   prefetch ()
       {
-         callback ();
+         static_cast <Derived &> (*this)();
       }
 };
-
 
 }; };

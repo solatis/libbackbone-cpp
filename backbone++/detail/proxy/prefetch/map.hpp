@@ -14,10 +14,9 @@ struct prefetch <Derived, backbone::map <Key, Value, Signals> > : public Derived
    /*!
      \brief Constructor
     */
-   prefetch (
-      std::function <void ()> callback)
+   prefetch ()
       {
-         callback ();
+         (*this) ();
       }
 
 };

@@ -14,10 +14,9 @@ struct prefetch <Base, backbone::model <Derived, Signals> > : public Base
    /*!
      \brief Constructor
     */
-   prefetch (
-      std::function <void ()> callback)
+   prefetch ()
       {
-         callback ();
+         static_cast <Derived &> (*this)();
       }
 };
 
