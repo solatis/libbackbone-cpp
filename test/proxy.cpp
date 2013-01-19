@@ -10,8 +10,8 @@
 #include <backbone++/proxy.hpp>
 
 
-struct my_model 
-   : public backbone::model <my_model>
+struct model_impl 
+   : public backbone::model <model_impl>
 {
    std::string  v;   
 
@@ -29,50 +29,50 @@ struct my_model
 };
 
 BOOST_FUSION_ADAPT_ASSOC_STRUCT(
-   my_model,
-   (std::string,  v, my_model::keys::v))
+   model_impl,
+   (std::string,  v, model_impl::keys::v))
 
-struct my_map 
+struct map_impl 
    : public backbone::map <int64_t
-                           , struct my_model>
+                           , struct model_impl>
 {
    void
    operator() ()
       {
-         struct my_model model;
-         model.set <my_model::keys::v> ("foo");
+         struct model_impl model;
+         model.set <model_impl::keys::v> ("foo");
 
          this->add (1, std::move (model));
       }
 };
 
-struct my_collection 
-   : public backbone::collection <struct my_model>
+struct collection_impl
+   : public backbone::collection <struct model_impl>
 {
    void
    operator() ()
       {
-         struct my_model model;
-         model.set <my_model::keys::v> ("foo");
+         struct model_impl model;
+         model.set <model_impl::keys::v> ("foo");
 
          this->add (std::move (model));
       }
 };
 
 
-struct prefetch_model 
-   : public backbone::proxy::prefetch <my_model>
+struct model 
+   : public backbone::proxy::prefetch <model_impl>
 {
 };
 
 
-struct prefetch_map 
-   : public backbone::proxy::prefetch <my_map>
+struct map 
+   : public backbone::proxy::prefetch <map_impl>
 {
 };
 
-struct prefetch_collection 
-   : public backbone::proxy::prefetch <my_collection>
+struct collection 
+   : public backbone::proxy::prefetch <collection_impl>
 {
 };
 
@@ -80,9 +80,9 @@ struct prefetch_collection
 void
 test_prefetch ()
 {
-   prefetch_map proxy_map;
-   prefetch_model proxy_model;
-   prefetch_collection proxy_collection;
+   map proxy_map;
+   model proxy_model;
+   collection proxy_collection;
 
    assert (proxy_model.v == "foo");
    assert (proxy_map.map_.at (1).v == "foo");
