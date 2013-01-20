@@ -1,0 +1,118 @@
+[section Your first model]
+
+A Backbone model is the M of MVC: it stores data, and provides a get () and set () function to change that data. Appropriate events are triggered when the data is changed. To provide this characteristic, a backbone model is implemented as follows:
+
+* you instantiate a class that inherits from [link libbackbone_cpp.reference.model model];
+* you provide data that is stored within your model;
+* you provide keys to access this data;
+* you adapt this model as a Fusion class.
+
+This all might sound a bit scary, but it's easier done than said. To demonstrate this, let's create our first model, a Person. First, let's include the necessary headers.
+
+  #include <stdint.h>
+  #include <string>
+
+  #include <boost/fusion/adapted/struct/adapt_assoc_struct.hpp>
+  #include <boost/fusion/include/adapt_assoc_struct.hpp>
+
+  #include <backbone++/model.hpp>
+
+
+Now, we're ready to create our Person class. This consists of a class with the appropriate member values that need to be stored, and the appropriate keys to access these values. 
+
+  struct person : public backbone::model<person>
+  {
+     std::string  name;
+     int16_t      age;
+  
+     struct keys
+     {
+        struct name;
+        struct age;
+     };
+  };
+
+You can notice two things in the code above:
+
+* Backbone uses [@http://en.wikipedia.org/wiki/Curiously_recurring_template_pattern CRTP]; this allows Backbone to access the member values of the Person class;
+* the keys are purely struct types and contain no real value; it will be clear later on why this is necessary.
+
+We are now going to Fusion-adapt this structure. Specifically, we are going to use [@http://www.boost.org/doc/libs/1_52_0/libs/fusion/doc/html/fusion/adapted/adapt_assoc.html BOOST_FUSION_ADAPT_ASSOC_STRUCT] to transform this into a [@http://www.boost.org/doc/libs/1_52_0/libs/fusion/doc/html/fusion/sequence/concepts/associative_sequence.html Associative Sequence]. 
+
+  BOOST_FUSION_ADAPT_ASSOC_STRUCT(
+     person,
+     (std::string,  name, person::keys::name)
+     (int16_t,      age,  person::keys::age))
+
+As you can see, we're essentially telling Boost.Fusion to generate all meta-code to tell Backbone what member values are contained by this model.
+
+[note You are free to ignore the details of Boost.Fusion, but you are encouraged to look into this library a bit. In a nutshell, Boost.Fusion provides wrapper macro's and functions to use C++ structures as if they supported introspection. In our context, it allows Backbone to know exactly what member values a Model contains, iterate over these values and provide a wrapper get() and set() function for these member values.]
+
+We now have a completely valid Backbone.Model! Let's see some use cases on how we can use this model:
+
+  int main ()
+  {
+     person     person;
+
+     assert (person.get <person::keys::name> ().empty () == true);
+   
+     person.set <person::keys::name> ("Bill Gates");
+     person.set <person::keys::age> (57);
+
+     assert (person.get <person::keys::name> () == "Bill Gates");
+     assert (person.get <person::keys::age> () == 57);
+
+     person.set <person::keys::name> (123); //! Fails, backbone is strongly typed
+  }
+
+I hope this gives you an impression of the basic usage of a Backbone model. In the next examples, we're going to use more complex examples.
+
+See the [link libbackbone_cpp.tutorial.your_first_model.a00001 full source listing]
+
+
+[section:a00001 Source listing for Your first model]
+
+  #include <stdint.h>
+  #include <string>
+
+  #include <boost/fusion/adapted/struct/adapt_assoc_struct.hpp>
+  #include <boost/fusion/include/adapt_assoc_struct.hpp>
+
+  #include <backbone++/model.hpp>
+
+  struct person : public backbone::model<person>
+  {
+     std::string  name;
+     int16_t      age;
+  
+     struct keys
+     {
+        struct name;
+        struct age;
+     };
+  };
+
+  BOOST_FUSION_ADAPT_ASSOC_STRUCT(
+     person,
+     (std::string,  name, person::keys::name)
+     (int16_t,      age,  person::keys::age))
+
+  int main ()
+  {
+     person     person;
+
+     assert (person.get <person::keys::name> ().empty () == true);
+   
+     person.set <person::keys::name> ("Bill Gates");
+     person.set <person::keys::age> (57);
+
+     assert (person.get <person::keys::name> () == "Bill Gates");
+     assert (person.get <person::keys::age> () == 57);
+
+     person.set <person::keys::name> (123); //! Fails, backbone is strongly typed
+  }
+
+[endsect]
+
+
+[endsect]

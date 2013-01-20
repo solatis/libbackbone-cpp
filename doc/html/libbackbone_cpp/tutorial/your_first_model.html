@@ -1,0 +1,155 @@
+<html>
+<head>
+<meta name="keywords" value="paxos,c++">
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>Your first model</title>
+<link rel="stylesheet" href="../../boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
+<link rel="home" href="../../index.html" title="libbackbone-cpp 0.1.0">
+<link rel="up" href="../tutorial.html" title="Tutorial">
+<link rel="prev" href="../tutorial.html" title="Tutorial">
+<link rel="next" href="your_first_model/a00001.html" title="Source listing for Your first model">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="spirit-nav">
+<a accesskey="p" href="../tutorial.html"><img src="../../images/prev.png" alt="Prev"></a><a accesskey="u" href="../tutorial.html"><img src="../../images/up.png" alt="Up"></a><a accesskey="h" href="../../index.html"><img src="../../images/home.png" alt="Home"></a><a accesskey="n" href="your_first_model/a00001.html"><img src="../../images/next.png" alt="Next"></a>
+</div>
+<div class="section">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="libbackbone_cpp.tutorial.your_first_model"></a><a class="link" href="your_first_model.html" title="Your first model">Your first
+      model</a>
+</h3></div></div></div>
+<p>
+        A Backbone model is the M of MVC: it stores data, and provides a get () and
+        set () function to change that data. Appropriate events are triggered when
+        the data is changed. To provide this characteristic, a backbone model is
+        implemented as follows:
+      </p>
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<li class="listitem">
+            you instantiate a class that inherits from <a class="link" href="../reference/model.html" title="model">model</a>;
+          </li>
+<li class="listitem">
+            you provide data that is stored within your model;
+          </li>
+<li class="listitem">
+            you provide keys to access this data;
+          </li>
+<li class="listitem">
+            you adapt this model as a Fusion class.
+          </li>
+</ul></div>
+<p>
+        This all might sound a bit scary, but it's easier done than said. To demonstrate
+        this, let's create our first model, a Person. First, let's include the necessary
+        headers.
+      </p>
+<pre class="programlisting"><span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">stdint</span><span class="special">.</span><span class="identifier">h</span><span class="special">&gt;</span>
+<span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">string</span><span class="special">&gt;</span>
+
+<span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">boost</span><span class="special">/</span><span class="identifier">fusion</span><span class="special">/</span><span class="identifier">adapted</span><span class="special">/</span><span class="keyword">struct</span><span class="special">/</span><span class="identifier">adapt_assoc_struct</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
+<span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">boost</span><span class="special">/</span><span class="identifier">fusion</span><span class="special">/</span><span class="identifier">include</span><span class="special">/</span><span class="identifier">adapt_assoc_struct</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
+
+<span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">backbone</span><span class="special">++/</span><span class="identifier">model</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
+</pre>
+<p>
+        Now, we're ready to create our Person class. This consists of a class with
+        the appropriate member values that need to be stored, and the appropriate
+        keys to access these values.
+      </p>
+<pre class="programlisting"><span class="keyword">struct</span> <span class="identifier">person</span> <span class="special">:</span> <span class="keyword">public</span> <span class="identifier">backbone</span><span class="special">::</span><span class="identifier">model</span><span class="special">&lt;</span><span class="identifier">person</span><span class="special">&gt;</span>
+<span class="special">{</span>
+   <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span>  <span class="identifier">name</span><span class="special">;</span>
+   <span class="identifier">int16_t</span>      <span class="identifier">age</span><span class="special">;</span>
+
+   <span class="keyword">struct</span> <span class="identifier">keys</span>
+   <span class="special">{</span>
+      <span class="keyword">struct</span> <span class="identifier">name</span><span class="special">;</span>
+      <span class="keyword">struct</span> <span class="identifier">age</span><span class="special">;</span>
+   <span class="special">};</span>
+<span class="special">};</span>
+</pre>
+<p>
+        You can notice two things in the code above:
+      </p>
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<li class="listitem">
+            Backbone uses <a href="http://en.wikipedia.org/wiki/Curiously_recurring_template_pattern" target="_top">CRTP</a>;
+            this allows Backbone to access the member values of the Person class;
+          </li>
+<li class="listitem">
+            the keys are purely struct types and contain no real value; it will be
+            clear later on why this is necessary.
+          </li>
+</ul></div>
+<p>
+        We are now going to Fusion-adapt this structure. Specifically, we are going
+        to use <a href="http://www.boost.org/doc/libs/1_52_0/libs/fusion/doc/html/fusion/adapted/adapt_assoc.html" target="_top">BOOST_FUSION_ADAPT_ASSOC_STRUCT</a>
+        to transform this into a <a href="http://www.boost.org/doc/libs/1_52_0/libs/fusion/doc/html/fusion/sequence/concepts/associative_sequence.html" target="_top">Associative
+        Sequence</a>.
+      </p>
+<pre class="programlisting"><span class="identifier">BOOST_FUSION_ADAPT_ASSOC_STRUCT</span><span class="special">(</span>
+   <span class="identifier">person</span><span class="special">,</span>
+   <span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">,</span>  <span class="identifier">name</span><span class="special">,</span> <span class="identifier">person</span><span class="special">::</span><span class="identifier">keys</span><span class="special">::</span><span class="identifier">name</span><span class="special">)</span>
+   <span class="special">(</span><span class="identifier">int16_t</span><span class="special">,</span>      <span class="identifier">age</span><span class="special">,</span>  <span class="identifier">person</span><span class="special">::</span><span class="identifier">keys</span><span class="special">::</span><span class="identifier">age</span><span class="special">))</span>
+</pre>
+<p>
+        As you can see, we're essentially telling Boost.Fusion to generate all meta-code
+        to tell Backbone what member values are contained by this model.
+      </p>
+<div class="note"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="../../images/note.png"></td>
+<th align="left">Note</th>
+</tr>
+<tr><td align="left" valign="top"><p>
+          You are free to ignore the details of Boost.Fusion, but you are encouraged
+          to look into this library a bit. In a nutshell, Boost.Fusion provides wrapper
+          macro's and functions to use C++ structures as if they supported introspection.
+          In our context, it allows Backbone to know exactly what member values a
+          Model contains, iterate over these values and provide a wrapper get() and
+          set() function for these member values.
+        </p></td></tr>
+</table></div>
+<p>
+        We now have a completely valid Backbone.Model! Let's see some use cases on
+        how we can use this model:
+      </p>
+<pre class="programlisting"><span class="keyword">int</span> <span class="identifier">main</span> <span class="special">()</span>
+<span class="special">{</span>
+   <span class="identifier">person</span>     <span class="identifier">person</span><span class="special">;</span>
+
+   <span class="identifier">assert</span> <span class="special">(</span><span class="identifier">person</span><span class="special">.</span><span class="identifier">get</span> <span class="special">&lt;</span><span class="identifier">person</span><span class="special">::</span><span class="identifier">keys</span><span class="special">::</span><span class="identifier">name</span><span class="special">&gt;</span> <span class="special">().</span><span class="identifier">empty</span> <span class="special">()</span> <span class="special">==</span> <span class="keyword">true</span><span class="special">);</span>
+
+   <span class="identifier">person</span><span class="special">.</span><span class="identifier">set</span> <span class="special">&lt;</span><span class="identifier">person</span><span class="special">::</span><span class="identifier">keys</span><span class="special">::</span><span class="identifier">name</span><span class="special">&gt;</span> <span class="special">(</span><span class="string">"Bill Gates"</span><span class="special">);</span>
+   <span class="identifier">person</span><span class="special">.</span><span class="identifier">set</span> <span class="special">&lt;</span><span class="identifier">person</span><span class="special">::</span><span class="identifier">keys</span><span class="special">::</span><span class="identifier">age</span><span class="special">&gt;</span> <span class="special">(</span><span class="number">57</span><span class="special">);</span>
+
+   <span class="identifier">assert</span> <span class="special">(</span><span class="identifier">person</span><span class="special">.</span><span class="identifier">get</span> <span class="special">&lt;</span><span class="identifier">person</span><span class="special">::</span><span class="identifier">keys</span><span class="special">::</span><span class="identifier">name</span><span class="special">&gt;</span> <span class="special">()</span> <span class="special">==</span> <span class="string">"Bill Gates"</span><span class="special">);</span>
+   <span class="identifier">assert</span> <span class="special">(</span><span class="identifier">person</span><span class="special">.</span><span class="identifier">get</span> <span class="special">&lt;</span><span class="identifier">person</span><span class="special">::</span><span class="identifier">keys</span><span class="special">::</span><span class="identifier">age</span><span class="special">&gt;</span> <span class="special">()</span> <span class="special">==</span> <span class="number">57</span><span class="special">);</span>
+
+   <span class="identifier">person</span><span class="special">.</span><span class="identifier">set</span> <span class="special">&lt;</span><span class="identifier">person</span><span class="special">::</span><span class="identifier">keys</span><span class="special">::</span><span class="identifier">name</span><span class="special">&gt;</span> <span class="special">(</span><span class="number">123</span><span class="special">);</span> <span class="comment">//! Fails, backbone is strongly typed</span>
+<span class="special">}</span>
+</pre>
+<p>
+        I hope this gives you an impression of the basic usage of a Backbone model.
+        In the next examples, we're going to use more complex examples.
+      </p>
+<p>
+        See the <a class="link" href="your_first_model/a00001.html" title="Source listing for Your first model">full
+        source listing</a>
+      </p>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"></td>
+<td align="right"><div class="copyright-footer">Copyright &#169; 2013 Leon Mergen<p>
+        Distributed under the 3-Clause BSD License. (See accompanying file COPYING
+        or copy at <a href="http://opensource.org/licenses/BSD-3-Clause" target="_top">http://opensource.org/licenses/BSD-3-Clause</a>)
+      </p>
+</div></td>
+</tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="../tutorial.html"><img src="../../images/prev.png" alt="Prev"></a><a accesskey="u" href="../tutorial.html"><img src="../../images/up.png" alt="Up"></a><a accesskey="h" href="../../index.html"><img src="../../images/home.png" alt="Home"></a><a accesskey="n" href="your_first_model/a00001.html"><img src="../../images/next.png" alt="Next"></a>
+</div>
+</body>
+</html>

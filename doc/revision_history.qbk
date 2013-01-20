@@ -1,0 +1,12 @@
+[section Revision history]
+
+
+[heading libbackbone-cpp 0.1.0]
+Releases version 0.1.0 of libbackbone-cpp, which is the first official version. Currently, it implements:
+
+* a model based on Boost.Fusion;
+* events that can be triggered on that model based on Boost.Signals;
+* a json conversion tool based on Ciere.Json;
+* a retrieval proxy mechanism built on top of the model using the event triggering mechanism.
+
+[endsect]

@@ -1,0 +1,135 @@
+<html>
+<head>
+<meta name="keywords" value="paxos,c++">
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>Getting started</title>
+<link rel="stylesheet" href="../boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
+<link rel="home" href="../index.html" title="libbackbone-cpp 0.1.0">
+<link rel="up" href="../index.html" title="libbackbone-cpp 0.1.0">
+<link rel="prev" href="../index.html" title="libbackbone-cpp 0.1.0">
+<link rel="next" href="tutorial.html" title="Tutorial">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="spirit-nav">
+<a accesskey="p" href="../index.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="tutorial.html"><img src="../images/next.png" alt="Next"></a>
+</div>
+<div class="section">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="libbackbone_cpp.getting_started"></a><a class="link" href="getting_started.html" title="Getting started">Getting started</a>
+</h2></div></div></div>
+<h4>
+<a name="libbackbone_cpp.getting_started.h0"></a>
+      <span><a name="libbackbone_cpp.getting_started.getting_the_source"></a></span><a class="link" href="getting_started.html#libbackbone_cpp.getting_started.getting_the_source">Getting
+      the source</a>
+    </h4>
+<h6>
+<a name="libbackbone_cpp.getting_started.h1"></a>
+      <span><a name="libbackbone_cpp.getting_started.prepackaged_distributions"></a></span><a class="link" href="getting_started.html#libbackbone_cpp.getting_started.prepackaged_distributions">Prepackaged
+      distributions</a>
+    </h6>
+<p>
+      You can get the latest prepackaged distribution online:
+    </p>
+<div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+          <a href="http://www.leonmergen.com/downloads/libbackbone-cpp-0.1.0.tar.gz" target="_top">http://www.leonmergen.com/downloads/libbackbone-cpp-0.1.0.tar.gz</a>
+        </li></ul></div>
+<p>
+      Alternatively, you can <a href="http://www.leonmergen.com/downloads/" target="_top">browse
+      older releases</a>.
+    </p>
+<h6>
+<a name="libbackbone_cpp.getting_started.h2"></a>
+      <span><a name="libbackbone_cpp.getting_started.github"></a></span><a class="link" href="getting_started.html#libbackbone_cpp.getting_started.github">Github</a>
+    </h6>
+<p>
+      You can obtain the source directly from the <a href="http://github.com/solatis/libbackbone-cpp" target="_top">github
+      repository</a>:
+    </p>
+<pre class="programlisting"><span class="identifier">git</span> <span class="identifier">clone</span> <span class="identifier">git</span><span class="error">@</span><span class="identifier">github</span><span class="special">.</span><span class="identifier">com</span><span class="special">:</span><span class="identifier">solatis</span><span class="special">/</span><span class="identifier">libbackbone</span><span class="special">-</span><span class="identifier">cpp</span><span class="special">.</span><span class="identifier">git</span>
+</pre>
+<p>
+      Keep in mind that building directly from the source repository requires you
+      to have the autotools environment ready on your server.
+    </p>
+<h4>
+<a name="libbackbone_cpp.getting_started.h3"></a>
+      <span><a name="libbackbone_cpp.getting_started.dependencies"></a></span><a class="link" href="getting_started.html#libbackbone_cpp.getting_started.dependencies">Dependencies</a>
+    </h4>
+<p>
+      All of this applies only to a Unix-like environment. Windows with cygwin will
+      perhaps work, but is not tested. Libbackbone-cpp depends upon the following
+      tools:
+    </p>
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<li class="listitem">
+          <a href="http://www.boost.org/" target="_top">Boost.org</a> libraries, version
+          1.49 or higher;
+        </li>
+<li class="listitem">
+          GCC version 4.5 or higher (C++11 support is required);
+        </li>
+<li class="listitem">
+          (Optional) Ciere.Json library for JSON conversion support
+        </li>
+</ul></div>
+<div class="note"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="../images/note.png"></td>
+<th align="left">Note</th>
+</tr>
+<tr><td align="left" valign="top"><p>
+        GCC version 4.4 is known to generate internal compiler errors and therefore
+        at least version 4.5 is recommended.
+      </p></td></tr>
+</table></div>
+<div class="note"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="../images/note.png"></td>
+<th align="left">Note</th>
+</tr>
+<tr><td align="left" valign="top"><p>
+        clang++ version 3.0 is known to generate internal compiler errors due to
+        very limited lambda support. Version 3.1 might work but is untested.
+      </p></td></tr>
+</table></div>
+<h4>
+<a name="libbackbone_cpp.getting_started.h4"></a>
+      <span><a name="libbackbone_cpp.getting_started.building_libbackbone_cpp"></a></span><a class="link" href="getting_started.html#libbackbone_cpp.getting_started.building_libbackbone_cpp">Building
+      libbackbone-cpp</a>
+    </h4>
+<p>
+      libbackbone-cpp follows the normal autotools flow of installing libraries:
+    </p>
+<pre class="programlisting"><span class="identifier">wget</span> <span class="identifier">http</span><span class="special">://</span><span class="identifier">www</span><span class="special">.</span><span class="identifier">leonmergen</span><span class="special">.</span><span class="identifier">com</span><span class="special">/</span><span class="identifier">download</span><span class="special">/</span><span class="identifier">libbackbone</span><span class="special">-</span><span class="identifier">cpp</span><span class="special">-</span><span class="identifier">VERSION</span><span class="special">.</span><span class="identifier">tar</span><span class="special">.</span><span class="identifier">gz</span>
+<span class="identifier">tar</span> <span class="special">-</span><span class="identifier">xzf</span> <span class="identifier">libbackbone</span><span class="special">-</span><span class="identifier">cpp</span><span class="special">-</span><span class="identifier">VERSION</span><span class="special">.</span><span class="identifier">tar</span><span class="special">.</span><span class="identifier">gz</span>
+<span class="identifier">cd</span> <span class="identifier">libbackbone</span><span class="special">-</span><span class="identifier">cpp</span><span class="special">-</span><span class="identifier">VERSION</span>
+<span class="special">./</span><span class="identifier">configure</span> <span class="special">--</span><span class="identifier">enable</span><span class="special">-</span><span class="identifier">json</span>
+<span class="identifier">make</span>
+<span class="identifier">make</span> <span class="identifier">check</span>
+<span class="identifier">make</span> <span class="identifier">install</span>
+</pre>
+<p>
+      Note that libbackbone-cpp is a header-only library, so installing the library
+      essentially just copies the necessary header files. There is no need to link
+      against any library.
+    </p>
+<p>
+      You can optionally choose to not --enable-json, although that means the <a class="link" href="reference/to_json.html" title="to_json">to_json function</a> of libbackbone-cpp
+      is lost.
+    </p>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"></td>
+<td align="right"><div class="copyright-footer">Copyright &#169; 2013 Leon Mergen<p>
+        Distributed under the 3-Clause BSD License. (See accompanying file COPYING
+        or copy at <a href="http://opensource.org/licenses/BSD-3-Clause" target="_top">http://opensource.org/licenses/BSD-3-Clause</a>)
+      </p>
+</div></td>
+</tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="../index.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="tutorial.html"><img src="../images/next.png" alt="Next"></a>
+</div>
+</body>
+</html>

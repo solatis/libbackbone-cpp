@@ -1,0 +1,67 @@
+<html>
+<head>
+<meta name="keywords" value="paxos,c++">
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>to_json</title>
+<link rel="stylesheet" href="../../boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
+<link rel="home" href="../../index.html" title="libbackbone-cpp 0.1.0">
+<link rel="up" href="../reference.html" title="Reference">
+<link rel="prev" href="proxy__prefetch.html" title="proxy::prefetch">
+<link rel="next" href="to_json/overload1.html" title="to_json (1 of 3 overloads)">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="spirit-nav">
+<a accesskey="p" href="proxy__prefetch.html"><img src="../../images/prev.png" alt="Prev"></a><a accesskey="u" href="../reference.html"><img src="../../images/up.png" alt="Up"></a><a accesskey="h" href="../../index.html"><img src="../../images/home.png" alt="Home"></a><a accesskey="n" href="to_json/overload1.html"><img src="../../images/next.png" alt="Next"></a>
+</div>
+<div class="section">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="libbackbone_cpp.reference.to_json"></a><a class="link" href="to_json.html" title="to_json">to_json</a>
+</h3></div></div></div>
+<p>
+        <a class="indexterm" name="idp35230400"></a> 
+Converts a backbone data structure to JSON.
+      </p>
+<pre class="programlisting"><span class="keyword">template</span><span class="special">&lt;</span>
+    <span class="keyword">typename</span> <span class="identifier">Model</span> <span class="special">&gt;</span>
+<span class="identifier">ciere</span><span class="special">::</span><span class="identifier">json</span><span class="special">::</span><span class="identifier">value</span> <a class="link" href="to_json/overload1.html" title="to_json (1 of 3 overloads)">to_json</a><span class="special">(</span>
+    <span class="identifier">Model</span> <span class="keyword">const</span> <span class="special">&amp;</span> <span class="identifier">model</span><span class="special">);</span>
+  <span class="emphasis"><em>&#187; <a class="link" href="to_json/overload1.html" title="to_json (1 of 3 overloads)">more...</a></em></span>
+
+<span class="keyword">template</span><span class="special">&lt;</span>
+    <span class="keyword">typename</span> <span class="identifier">Key</span> <span class="special">,</span>
+    <span class="keyword">typename</span> <span class="identifier">Value</span> <span class="special">,</span>
+    <span class="keyword">typename</span> <span class="identifier">Signals</span> <span class="special">&gt;</span>
+<span class="identifier">ciere</span><span class="special">::</span><span class="identifier">json</span><span class="special">::</span><span class="identifier">value</span> <a class="link" href="to_json/overload2.html" title="to_json (2 of 3 overloads)">to_json</a><span class="special">(</span>
+    <span class="identifier">backbone</span><span class="special">::</span><span class="identifier">map</span><span class="special">&lt;</span> <span class="identifier">Key</span><span class="special">,</span> <span class="identifier">Value</span><span class="special">,</span> <span class="identifier">Signals</span> <span class="special">&gt;</span> <span class="keyword">const</span> <span class="special">&amp;</span> <span class="identifier">map</span><span class="special">);</span>
+  <span class="emphasis"><em>&#187; <a class="link" href="to_json/overload2.html" title="to_json (2 of 3 overloads)">more...</a></em></span>
+
+<span class="keyword">template</span><span class="special">&lt;</span>
+    <span class="keyword">typename</span> <span class="identifier">Value</span> <span class="special">,</span>
+    <span class="keyword">typename</span> <span class="identifier">Signals</span> <span class="special">&gt;</span>
+<span class="identifier">ciere</span><span class="special">::</span><span class="identifier">json</span><span class="special">::</span><span class="identifier">value</span> <a class="link" href="to_json/overload3.html" title="to_json (3 of 3 overloads)">to_json</a><span class="special">(</span>
+    <span class="identifier">backbone</span><span class="special">::</span><span class="identifier">collection</span><span class="special">&lt;</span> <span class="identifier">Value</span><span class="special">,</span> <span class="identifier">Signals</span> <span class="special">&gt;</span> <span class="keyword">const</span> <span class="special">&amp;</span> <span class="identifier">collection</span><span class="special">);</span>
+  <span class="emphasis"><em>&#187; <a class="link" href="to_json/overload3.html" title="to_json (3 of 3 overloads)">more...</a></em></span>
+</pre>
+<h5>
+<a name="libbackbone_cpp.reference.to_json.h0"></a>
+        <span><a name="libbackbone_cpp.reference.to_json.requirements"></a></span><a class="link" href="to_json.html#libbackbone_cpp.reference.to_json.requirements">Requirements</a>
+      </h5>
+<p>
+        <span class="bold"><strong>Header: </strong></span><code class="literal">backbone++/json.hpp</code>
+      </p>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"></td>
+<td align="right"><div class="copyright-footer">Copyright &#169; 2013 Leon Mergen<p>
+        Distributed under the 3-Clause BSD License. (See accompanying file COPYING
+        or copy at <a href="http://opensource.org/licenses/BSD-3-Clause" target="_top">http://opensource.org/licenses/BSD-3-Clause</a>)
+      </p>
+</div></td>
+</tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="proxy__prefetch.html"><img src="../../images/prev.png" alt="Prev"></a><a accesskey="u" href="../reference.html"><img src="../../images/up.png" alt="Up"></a><a accesskey="h" href="../../index.html"><img src="../../images/home.png" alt="Home"></a><a accesskey="n" href="to_json/overload1.html"><img src="../../images/next.png" alt="Next"></a>
+</div>
+</body>
+</html>

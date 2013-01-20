@@ -1,0 +1,231 @@
+<html>
+<head>
+<meta name="keywords" value="paxos,c++">
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>map</title>
+<link rel="stylesheet" href="../../boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
+<link rel="home" href="../../index.html" title="libbackbone-cpp 0.1.0">
+<link rel="up" href="../reference.html" title="Reference">
+<link rel="prev" href="collection/iterator.html" title="collection::iterator">
+<link rel="next" href="map/add.html" title="map::add">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="spirit-nav">
+<a accesskey="p" href="collection/iterator.html"><img src="../../images/prev.png" alt="Prev"></a><a accesskey="u" href="../reference.html"><img src="../../images/up.png" alt="Up"></a><a accesskey="h" href="../../index.html"><img src="../../images/home.png" alt="Home"></a><a accesskey="n" href="map/add.html"><img src="../../images/next.png" alt="Next"></a>
+</div>
+<div class="section">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="libbackbone_cpp.reference.map"></a><a class="link" href="map.html" title="map">map</a>
+</h3></div></div></div>
+<p>
+        Provides interface to a map.
+      </p>
+<pre class="programlisting"><span class="keyword">template</span><span class="special">&lt;</span>
+    <span class="keyword">typename</span> <span class="identifier">Key</span> <span class="special">,</span>
+    <span class="keyword">typename</span> <span class="identifier">Value</span> <span class="special">,</span>
+    <span class="keyword">typename</span> <span class="identifier">Signals</span>  <span class="special">=</span> <span class="identifier">detail</span><span class="special">::</span><span class="identifier">map</span><span class="special">::</span><span class="identifier">signals</span> <span class="special">&lt;</span><span class="identifier">Key</span><span class="special">,</span> <span class="identifier">Value</span><span class="special">&gt;&gt;</span>
+<span class="keyword">struct</span> <span class="identifier">map</span>
+</pre>
+<h5>
+<a name="libbackbone_cpp.reference.map.h0"></a>
+        <span><a name="libbackbone_cpp.reference.map.types"></a></span><a class="link" href="map.html#libbackbone_cpp.reference.map.types">Types</a>
+      </h5>
+<div class="informaltable"><table class="table">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead><tr>
+<th>
+                <p>
+                  Name
+                </p>
+              </th>
+<th>
+                <p>
+                  Description
+                </p>
+              </th>
+</tr></thead>
+<tbody>
+<tr>
+<td>
+                <p>
+                  <a class="link" href="map/base_type.html" title="map::base_type">base_type</a>
+                </p>
+              </td>
+<td>
+              </td>
+</tr>
+<tr>
+<td>
+                <p>
+                  <a class="link" href="map/iterator.html" title="map::iterator">iterator</a>
+                </p>
+              </td>
+<td>
+              </td>
+</tr>
+<tr>
+<td>
+                <p>
+                  <a class="link" href="map/map_type.html" title="map::map_type">map_type</a>
+                </p>
+              </td>
+<td>
+              </td>
+</tr>
+</tbody>
+</table></div>
+<h5>
+<a name="libbackbone_cpp.reference.map.h1"></a>
+        <span><a name="libbackbone_cpp.reference.map.member_functions"></a></span><a class="link" href="map.html#libbackbone_cpp.reference.map.member_functions">Member
+        Functions</a>
+      </h5>
+<div class="informaltable"><table class="table">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead><tr>
+<th>
+                <p>
+                  Name
+                </p>
+              </th>
+<th>
+                <p>
+                  Description
+                </p>
+              </th>
+</tr></thead>
+<tbody>
+<tr>
+<td>
+                <p>
+                  <a class="link" href="map/add.html" title="map::add">add</a>
+                </p>
+              </td>
+<td>
+                <p>
+                  Adds new key/value pair to the map.
+                </p>
+              </td>
+</tr>
+<tr>
+<td>
+                <p>
+                  <a class="link" href="map/begin.html" title="map::begin">begin</a>
+                </p>
+              </td>
+<td>
+                <p>
+                  Provides iterator access to map.
+                </p>
+              </td>
+</tr>
+<tr>
+<td>
+                <p>
+                  <a class="link" href="map/end.html" title="map::end">end</a>
+                </p>
+              </td>
+<td>
+                <p>
+                  Provides iterator access to map.
+                </p>
+              </td>
+</tr>
+<tr>
+<td>
+                <p>
+                  <a class="link" href="map/erase.html" title="map::erase">erase</a>
+                </p>
+              </td>
+<td>
+                <p>
+                  Erases a key from the map.
+                </p>
+              </td>
+</tr>
+<tr>
+<td>
+                <p>
+                  <a class="link" href="map/get.html" title="map::get">get</a>
+                </p>
+              </td>
+<td>
+                <p>
+                  Provides access to a value by key.
+                </p>
+              </td>
+</tr>
+<tr>
+<td>
+                <p>
+                  <a class="link" href="map/map.html" title="map::map">map</a>
+                </p>
+              </td>
+<td>
+                <p>
+                  Constructor.
+                </p>
+              </td>
+</tr>
+</tbody>
+</table></div>
+<h5>
+<a name="libbackbone_cpp.reference.map.h2"></a>
+        <span><a name="libbackbone_cpp.reference.map.data_members"></a></span><a class="link" href="map.html#libbackbone_cpp.reference.map.data_members">Data
+        Members</a>
+      </h5>
+<div class="informaltable"><table class="table">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead><tr>
+<th>
+                <p>
+                  Name
+                </p>
+              </th>
+<th>
+                <p>
+                  Description
+                </p>
+              </th>
+</tr></thead>
+<tbody><tr>
+<td>
+                <p>
+                  <a class="link" href="map/map_.html" title="map::map_">map_</a>
+                </p>
+              </td>
+<td>
+              </td>
+</tr></tbody>
+</table></div>
+<h5>
+<a name="libbackbone_cpp.reference.map.h3"></a>
+        <span><a name="libbackbone_cpp.reference.map.requirements"></a></span><a class="link" href="map.html#libbackbone_cpp.reference.map.requirements">Requirements</a>
+      </h5>
+<p>
+        <span class="bold"><strong>Header: </strong></span><code class="literal">backbone++/map.hpp</code>
+      </p>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"></td>
+<td align="right"><div class="copyright-footer">Copyright &#169; 2013 Leon Mergen<p>
+        Distributed under the 3-Clause BSD License. (See accompanying file COPYING
+        or copy at <a href="http://opensource.org/licenses/BSD-3-Clause" target="_top">http://opensource.org/licenses/BSD-3-Clause</a>)
+      </p>
+</div></td>
+</tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="collection/iterator.html"><img src="../../images/prev.png" alt="Prev"></a><a accesskey="u" href="../reference.html"><img src="../../images/up.png" alt="Up"></a><a accesskey="h" href="../../index.html"><img src="../../images/home.png" alt="Home"></a><a accesskey="n" href="map/add.html"><img src="../../images/next.png" alt="Next"></a>
+</div>
+</body>
+</html>

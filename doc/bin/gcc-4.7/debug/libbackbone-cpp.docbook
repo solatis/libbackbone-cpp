@@ -1,0 +1,1931 @@
+<?xml version="1.0"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN" "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
+<article xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" id="libbackbone_cpp" rev:last-revision="$Date: 2013/01/20 15:32:25 $">
+  <title>libbackbone-cpp 0.1.0</title>
+  <articleinfo>
+    <authorgroup>
+    <author>
+      <firstname>Leon</firstname> <surname>Mergen</surname>
+    </author>
+    </authorgroup>
+    <copyright>
+      <year>2013</year> <holder>Leon Mergen</holder>
+    </copyright>
+    <legalnotice id="libbackbone_cpp.legal">
+      <para>
+        Distributed under the 3-Clause BSD License. (See accompanying file COPYING
+        or copy at <ulink url="http://opensource.org/licenses/BSD-3-Clause">http://opensource.org/licenses/BSD-3-Clause</ulink>)
+      </para>
+    </legalnotice>
+  </articleinfo>
+  <section id="libbackbone_cpp.getting_started">
+    <title><link linkend="libbackbone_cpp.getting_started">Getting started</link></title>
+    <bridgehead renderas="sect3" id="libbackbone_cpp.getting_started.h0">
+      <phrase id="libbackbone_cpp.getting_started.getting_the_source"/><link linkend="libbackbone_cpp.getting_started.getting_the_source">Getting
+      the source</link>
+    </bridgehead>
+    <bridgehead renderas="sect5" id="libbackbone_cpp.getting_started.h1">
+      <phrase id="libbackbone_cpp.getting_started.prepackaged_distributions"/><link linkend="libbackbone_cpp.getting_started.prepackaged_distributions">Prepackaged
+      distributions</link>
+    </bridgehead>
+    <para>
+      You can get the latest prepackaged distribution online:
+    </para>
+    <itemizedlist>
+      <listitem>
+        <simpara>
+          <ulink url="http://www.leonmergen.com/downloads/libbackbone-cpp-0.1.0.tar.gz">http://www.leonmergen.com/downloads/libbackbone-cpp-0.1.0.tar.gz</ulink>
+        </simpara>
+      </listitem>
+    </itemizedlist>
+    <para>
+      Alternatively, you can <ulink url="http://www.leonmergen.com/downloads/">browse
+      older releases</ulink>.
+    </para>
+    <bridgehead renderas="sect5" id="libbackbone_cpp.getting_started.h2">
+      <phrase id="libbackbone_cpp.getting_started.github"/><link linkend="libbackbone_cpp.getting_started.github">Github</link>
+    </bridgehead>
+    <para>
+      You can obtain the source directly from the <ulink url="http://github.com/solatis/libbackbone-cpp">github
+      repository</ulink>:
+    </para>
+<programlisting xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="identifier">git</phrase> <phrase role="identifier">clone</phrase> <phrase role="identifier">git</phrase><phrase role="error">@</phrase><phrase role="identifier">github</phrase><phrase role="special">.</phrase><phrase role="identifier">com</phrase><phrase role="special">:</phrase><phrase role="identifier">solatis</phrase><phrase role="special">/</phrase><phrase role="identifier">libbackbone</phrase><phrase role="special">-</phrase><phrase role="identifier">cpp</phrase><phrase role="special">.</phrase><phrase role="identifier">git</phrase>
+</programlisting>
+    <para>
+      Keep in mind that building directly from the source repository requires you
+      to have the autotools environment ready on your server.
+    </para>
+    <bridgehead renderas="sect3" id="libbackbone_cpp.getting_started.h3">
+      <phrase id="libbackbone_cpp.getting_started.dependencies"/><link linkend="libbackbone_cpp.getting_started.dependencies">Dependencies</link>
+    </bridgehead>
+    <para>
+      All of this applies only to a Unix-like environment. Windows with cygwin will
+      perhaps work, but is not tested. Libbackbone-cpp depends upon the following
+      tools:
+    </para>
+    <itemizedlist>
+      <listitem>
+        <simpara>
+          <ulink url="http://www.boost.org/">Boost.org</ulink> libraries, version
+          1.49 or higher;
+        </simpara>
+      </listitem>
+      <listitem>
+        <simpara>
+          GCC version 4.5 or higher (C++11 support is required);
+        </simpara>
+      </listitem>
+      <listitem>
+        <simpara>
+          (Optional) Ciere.Json library for JSON conversion support
+        </simpara>
+      </listitem>
+    </itemizedlist>
+    <note>
+      <para>
+        GCC version 4.4 is known to generate internal compiler errors and therefore
+        at least version 4.5 is recommended.
+      </para>
+    </note>
+    <note>
+      <para>
+        clang++ version 3.0 is known to generate internal compiler errors due to
+        very limited lambda support. Version 3.1 might work but is untested.
+      </para>
+    </note>
+    <bridgehead renderas="sect3" id="libbackbone_cpp.getting_started.h4">
+      <phrase id="libbackbone_cpp.getting_started.building_libbackbone_cpp"/><link linkend="libbackbone_cpp.getting_started.building_libbackbone_cpp">Building
+      libbackbone-cpp</link>
+    </bridgehead>
+    <para>
+      libbackbone-cpp follows the normal autotools flow of installing libraries:
+    </para>
+<programlisting xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="identifier">wget</phrase> <phrase role="identifier">http</phrase><phrase role="special">://</phrase><phrase role="identifier">www</phrase><phrase role="special">.</phrase><phrase role="identifier">leonmergen</phrase><phrase role="special">.</phrase><phrase role="identifier">com</phrase><phrase role="special">/</phrase><phrase role="identifier">download</phrase><phrase role="special">/</phrase><phrase role="identifier">libbackbone</phrase><phrase role="special">-</phrase><phrase role="identifier">cpp</phrase><phrase role="special">-</phrase><phrase role="identifier">VERSION</phrase><phrase role="special">.</phrase><phrase role="identifier">tar</phrase><phrase role="special">.</phrase><phrase role="identifier">gz</phrase>
+<phrase role="identifier">tar</phrase> <phrase role="special">-</phrase><phrase role="identifier">xzf</phrase> <phrase role="identifier">libbackbone</phrase><phrase role="special">-</phrase><phrase role="identifier">cpp</phrase><phrase role="special">-</phrase><phrase role="identifier">VERSION</phrase><phrase role="special">.</phrase><phrase role="identifier">tar</phrase><phrase role="special">.</phrase><phrase role="identifier">gz</phrase>
+<phrase role="identifier">cd</phrase> <phrase role="identifier">libbackbone</phrase><phrase role="special">-</phrase><phrase role="identifier">cpp</phrase><phrase role="special">-</phrase><phrase role="identifier">VERSION</phrase>
+<phrase role="special">./</phrase><phrase role="identifier">configure</phrase> <phrase role="special">--</phrase><phrase role="identifier">enable</phrase><phrase role="special">-</phrase><phrase role="identifier">json</phrase>
+<phrase role="identifier">make</phrase>
+<phrase role="identifier">make</phrase> <phrase role="identifier">check</phrase>
+<phrase role="identifier">make</phrase> <phrase role="identifier">install</phrase>
+</programlisting>
+    <para>
+      Note that libbackbone-cpp is a header-only library, so installing the library
+      essentially just copies the necessary header files. There is no need to link
+      against any library.
+    </para>
+    <para>
+      You can optionally choose to not --enable-json, although that means the <link linkend="libbackbone_cpp.reference.to_json">to_json function</link> of libbackbone-cpp
+      is lost.
+    </para>
+  </section>
+  <section id="libbackbone_cpp.tutorial">
+    <title><link linkend="libbackbone_cpp.tutorial">Tutorial</link></title>
+    <section id="libbackbone_cpp.tutorial.your_first_model">
+      <title><link linkend="libbackbone_cpp.tutorial.your_first_model">Your first
+      model</link></title>
+      <para>
+        A Backbone model is the M of MVC: it stores data, and provides a get () and
+        set () function to change that data. Appropriate events are triggered when
+        the data is changed. To provide this characteristic, a backbone model is
+        implemented as follows:
+      </para>
+      <itemizedlist>
+        <listitem>
+          <simpara>
+            you instantiate a class that inherits from <link linkend="libbackbone_cpp.reference.model">model</link>;
+          </simpara>
+        </listitem>
+        <listitem>
+          <simpara>
+            you provide data that is stored within your model;
+          </simpara>
+        </listitem>
+        <listitem>
+          <simpara>
+            you provide keys to access this data;
+          </simpara>
+        </listitem>
+        <listitem>
+          <simpara>
+            you adapt this model as a Fusion class.
+          </simpara>
+        </listitem>
+      </itemizedlist>
+      <para>
+        This all might sound a bit scary, but it's easier done than said. To demonstrate
+        this, let's create our first model, a Person. First, let's include the necessary
+        headers.
+      </para>
+<programlisting xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="preprocessor">#include</phrase> <phrase role="special">&lt;</phrase><phrase role="identifier">stdint</phrase><phrase role="special">.</phrase><phrase role="identifier">h</phrase><phrase role="special">&gt;</phrase>
+<phrase role="preprocessor">#include</phrase> <phrase role="special">&lt;</phrase><phrase role="identifier">string</phrase><phrase role="special">&gt;</phrase>
+
+<phrase role="preprocessor">#include</phrase> <phrase role="special">&lt;</phrase><phrase role="identifier">boost</phrase><phrase role="special">/</phrase><phrase role="identifier">fusion</phrase><phrase role="special">/</phrase><phrase role="identifier">adapted</phrase><phrase role="special">/</phrase><phrase role="keyword">struct</phrase><phrase role="special">/</phrase><phrase role="identifier">adapt_assoc_struct</phrase><phrase role="special">.</phrase><phrase role="identifier">hpp</phrase><phrase role="special">&gt;</phrase>
+<phrase role="preprocessor">#include</phrase> <phrase role="special">&lt;</phrase><phrase role="identifier">boost</phrase><phrase role="special">/</phrase><phrase role="identifier">fusion</phrase><phrase role="special">/</phrase><phrase role="identifier">include</phrase><phrase role="special">/</phrase><phrase role="identifier">adapt_assoc_struct</phrase><phrase role="special">.</phrase><phrase role="identifier">hpp</phrase><phrase role="special">&gt;</phrase>
+
+<phrase role="preprocessor">#include</phrase> <phrase role="special">&lt;</phrase><phrase role="identifier">backbone</phrase><phrase role="special">++/</phrase><phrase role="identifier">model</phrase><phrase role="special">.</phrase><phrase role="identifier">hpp</phrase><phrase role="special">&gt;</phrase>
+</programlisting>
+      <para>
+        Now, we're ready to create our Person class. This consists of a class with
+        the appropriate member values that need to be stored, and the appropriate
+        keys to access these values.
+      </para>
+<programlisting xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="keyword">struct</phrase> <phrase role="identifier">person</phrase> <phrase role="special">:</phrase> <phrase role="keyword">public</phrase> <phrase role="identifier">backbone</phrase><phrase role="special">::</phrase><phrase role="identifier">model</phrase><phrase role="special">&lt;</phrase><phrase role="identifier">person</phrase><phrase role="special">&gt;</phrase>
+<phrase role="special">{</phrase>
+   <phrase role="identifier">std</phrase><phrase role="special">::</phrase><phrase role="identifier">string</phrase>  <phrase role="identifier">name</phrase><phrase role="special">;</phrase>
+   <phrase role="identifier">int16_t</phrase>      <phrase role="identifier">age</phrase><phrase role="special">;</phrase>
+
+   <phrase role="keyword">struct</phrase> <phrase role="identifier">keys</phrase>
+   <phrase role="special">{</phrase>
+      <phrase role="keyword">struct</phrase> <phrase role="identifier">name</phrase><phrase role="special">;</phrase>
+      <phrase role="keyword">struct</phrase> <phrase role="identifier">age</phrase><phrase role="special">;</phrase>
+   <phrase role="special">};</phrase>
+<phrase role="special">};</phrase>
+</programlisting>
+      <para>
+        You can notice two things in the code above:
+      </para>
+      <itemizedlist>
+        <listitem>
+          <simpara>
+            Backbone uses <ulink url="http://en.wikipedia.org/wiki/Curiously_recurring_template_pattern">CRTP</ulink>;
+            this allows Backbone to access the member values of the Person class;
+          </simpara>
+        </listitem>
+        <listitem>
+          <simpara>
+            the keys are purely struct types and contain no real value; it will be
+            clear later on why this is necessary.
+          </simpara>
+        </listitem>
+      </itemizedlist>
+      <para>
+        We are now going to Fusion-adapt this structure. Specifically, we are going
+        to use <ulink url="http://www.boost.org/doc/libs/1_52_0/libs/fusion/doc/html/fusion/adapted/adapt_assoc.html">BOOST_FUSION_ADAPT_ASSOC_STRUCT</ulink>
+        to transform this into a <ulink url="http://www.boost.org/doc/libs/1_52_0/libs/fusion/doc/html/fusion/sequence/concepts/associative_sequence.html">Associative
+        Sequence</ulink>.
+      </para>
+<programlisting xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="identifier">BOOST_FUSION_ADAPT_ASSOC_STRUCT</phrase><phrase role="special">(</phrase>
+   <phrase role="identifier">person</phrase><phrase role="special">,</phrase>
+   <phrase role="special">(</phrase><phrase role="identifier">std</phrase><phrase role="special">::</phrase><phrase role="identifier">string</phrase><phrase role="special">,</phrase>  <phrase role="identifier">name</phrase><phrase role="special">,</phrase> <phrase role="identifier">person</phrase><phrase role="special">::</phrase><phrase role="identifier">keys</phrase><phrase role="special">::</phrase><phrase role="identifier">name</phrase><phrase role="special">)</phrase>
+   <phrase role="special">(</phrase><phrase role="identifier">int16_t</phrase><phrase role="special">,</phrase>      <phrase role="identifier">age</phrase><phrase role="special">,</phrase>  <phrase role="identifier">person</phrase><phrase role="special">::</phrase><phrase role="identifier">keys</phrase><phrase role="special">::</phrase><phrase role="identifier">age</phrase><phrase role="special">))</phrase>
+</programlisting>
+      <para>
+        As you can see, we're essentially telling Boost.Fusion to generate all meta-code
+        to tell Backbone what member values are contained by this model.
+      </para>
+      <note>
+        <para>
+          You are free to ignore the details of Boost.Fusion, but you are encouraged
+          to look into this library a bit. In a nutshell, Boost.Fusion provides wrapper
+          macro's and functions to use C++ structures as if they supported introspection.
+          In our context, it allows Backbone to know exactly what member values a
+          Model contains, iterate over these values and provide a wrapper get() and
+          set() function for these member values.
+        </para>
+      </note>
+      <para>
+        We now have a completely valid Backbone.Model! Let's see some use cases on
+        how we can use this model:
+      </para>
+<programlisting xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="keyword">int</phrase> <phrase role="identifier">main</phrase> <phrase role="special">()</phrase>
+<phrase role="special">{</phrase>
+   <phrase role="identifier">person</phrase>     <phrase role="identifier">person</phrase><phrase role="special">;</phrase>
+
+   <phrase role="identifier">assert</phrase> <phrase role="special">(</phrase><phrase role="identifier">person</phrase><phrase role="special">.</phrase><phrase role="identifier">get</phrase> <phrase role="special">&lt;</phrase><phrase role="identifier">person</phrase><phrase role="special">::</phrase><phrase role="identifier">keys</phrase><phrase role="special">::</phrase><phrase role="identifier">name</phrase><phrase role="special">&gt;</phrase> <phrase role="special">().</phrase><phrase role="identifier">empty</phrase> <phrase role="special">()</phrase> <phrase role="special">==</phrase> <phrase role="keyword">true</phrase><phrase role="special">);</phrase>
+
+   <phrase role="identifier">person</phrase><phrase role="special">.</phrase><phrase role="identifier">set</phrase> <phrase role="special">&lt;</phrase><phrase role="identifier">person</phrase><phrase role="special">::</phrase><phrase role="identifier">keys</phrase><phrase role="special">::</phrase><phrase role="identifier">name</phrase><phrase role="special">&gt;</phrase> <phrase role="special">(</phrase><phrase role="string">"Bill Gates"</phrase><phrase role="special">);</phrase>
+   <phrase role="identifier">person</phrase><phrase role="special">.</phrase><phrase role="identifier">set</phrase> <phrase role="special">&lt;</phrase><phrase role="identifier">person</phrase><phrase role="special">::</phrase><phrase role="identifier">keys</phrase><phrase role="special">::</phrase><phrase role="identifier">age</phrase><phrase role="special">&gt;</phrase> <phrase role="special">(</phrase><phrase role="number">57</phrase><phrase role="special">);</phrase>
+
+   <phrase role="identifier">assert</phrase> <phrase role="special">(</phrase><phrase role="identifier">person</phrase><phrase role="special">.</phrase><phrase role="identifier">get</phrase> <phrase role="special">&lt;</phrase><phrase role="identifier">person</phrase><phrase role="special">::</phrase><phrase role="identifier">keys</phrase><phrase role="special">::</phrase><phrase role="identifier">name</phrase><phrase role="special">&gt;</phrase> <phrase role="special">()</phrase> <phrase role="special">==</phrase> <phrase role="string">"Bill Gates"</phrase><phrase role="special">);</phrase>
+   <phrase role="identifier">assert</phrase> <phrase role="special">(</phrase><phrase role="identifier">person</phrase><phrase role="special">.</phrase><phrase role="identifier">get</phrase> <phrase role="special">&lt;</phrase><phrase role="identifier">person</phrase><phrase role="special">::</phrase><phrase role="identifier">keys</phrase><phrase role="special">::</phrase><phrase role="identifier">age</phrase><phrase role="special">&gt;</phrase> <phrase role="special">()</phrase> <phrase role="special">==</phrase> <phrase role="number">57</phrase><phrase role="special">);</phrase>
+
+   <phrase role="identifier">person</phrase><phrase role="special">.</phrase><phrase role="identifier">set</phrase> <phrase role="special">&lt;</phrase><phrase role="identifier">person</phrase><phrase role="special">::</phrase><phrase role="identifier">keys</phrase><phrase role="special">::</phrase><phrase role="identifier">name</phrase><phrase role="special">&gt;</phrase> <phrase role="special">(</phrase><phrase role="number">123</phrase><phrase role="special">);</phrase> <phrase role="comment">//! Fails, backbone is strongly typed</phrase>
+<phrase role="special">}</phrase>
+</programlisting>
+      <para>
+        I hope this gives you an impression of the basic usage of a Backbone model.
+        In the next examples, we're going to use more complex examples.
+      </para>
+      <para>
+        See the <link linkend="libbackbone_cpp.tutorial.your_first_model.a00001">full
+        source listing</link>
+      </para>
+      <section id="libbackbone_cpp.tutorial.your_first_model.a00001">
+        <title><link linkend="libbackbone_cpp.tutorial.your_first_model.a00001">Source
+        listing for Your first model</link></title>
+<programlisting xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="preprocessor">#include</phrase> <phrase role="special">&lt;</phrase><phrase role="identifier">stdint</phrase><phrase role="special">.</phrase><phrase role="identifier">h</phrase><phrase role="special">&gt;</phrase>
+<phrase role="preprocessor">#include</phrase> <phrase role="special">&lt;</phrase><phrase role="identifier">string</phrase><phrase role="special">&gt;</phrase>
+
+<phrase role="preprocessor">#include</phrase> <phrase role="special">&lt;</phrase><phrase role="identifier">boost</phrase><phrase role="special">/</phrase><phrase role="identifier">fusion</phrase><phrase role="special">/</phrase><phrase role="identifier">adapted</phrase><phrase role="special">/</phrase><phrase role="keyword">struct</phrase><phrase role="special">/</phrase><phrase role="identifier">adapt_assoc_struct</phrase><phrase role="special">.</phrase><phrase role="identifier">hpp</phrase><phrase role="special">&gt;</phrase>
+<phrase role="preprocessor">#include</phrase> <phrase role="special">&lt;</phrase><phrase role="identifier">boost</phrase><phrase role="special">/</phrase><phrase role="identifier">fusion</phrase><phrase role="special">/</phrase><phrase role="identifier">include</phrase><phrase role="special">/</phrase><phrase role="identifier">adapt_assoc_struct</phrase><phrase role="special">.</phrase><phrase role="identifier">hpp</phrase><phrase role="special">&gt;</phrase>
+
+<phrase role="preprocessor">#include</phrase> <phrase role="special">&lt;</phrase><phrase role="identifier">backbone</phrase><phrase role="special">++/</phrase><phrase role="identifier">model</phrase><phrase role="special">.</phrase><phrase role="identifier">hpp</phrase><phrase role="special">&gt;</phrase>
+
+<phrase role="keyword">struct</phrase> <phrase role="identifier">person</phrase> <phrase role="special">:</phrase> <phrase role="keyword">public</phrase> <phrase role="identifier">backbone</phrase><phrase role="special">::</phrase><phrase role="identifier">model</phrase><phrase role="special">&lt;</phrase><phrase role="identifier">person</phrase><phrase role="special">&gt;</phrase>
+<phrase role="special">{</phrase>
+   <phrase role="identifier">std</phrase><phrase role="special">::</phrase><phrase role="identifier">string</phrase>  <phrase role="identifier">name</phrase><phrase role="special">;</phrase>
+   <phrase role="identifier">int16_t</phrase>      <phrase role="identifier">age</phrase><phrase role="special">;</phrase>
+
+   <phrase role="keyword">struct</phrase> <phrase role="identifier">keys</phrase>
+   <phrase role="special">{</phrase>
+      <phrase role="keyword">struct</phrase> <phrase role="identifier">name</phrase><phrase role="special">;</phrase>
+      <phrase role="keyword">struct</phrase> <phrase role="identifier">age</phrase><phrase role="special">;</phrase>
+   <phrase role="special">};</phrase>
+<phrase role="special">};</phrase>
+
+<phrase role="identifier">BOOST_FUSION_ADAPT_ASSOC_STRUCT</phrase><phrase role="special">(</phrase>
+   <phrase role="identifier">person</phrase><phrase role="special">,</phrase>
+   <phrase role="special">(</phrase><phrase role="identifier">std</phrase><phrase role="special">::</phrase><phrase role="identifier">string</phrase><phrase role="special">,</phrase>  <phrase role="identifier">name</phrase><phrase role="special">,</phrase> <phrase role="identifier">person</phrase><phrase role="special">::</phrase><phrase role="identifier">keys</phrase><phrase role="special">::</phrase><phrase role="identifier">name</phrase><phrase role="special">)</phrase>
+   <phrase role="special">(</phrase><phrase role="identifier">int16_t</phrase><phrase role="special">,</phrase>      <phrase role="identifier">age</phrase><phrase role="special">,</phrase>  <phrase role="identifier">person</phrase><phrase role="special">::</phrase><phrase role="identifier">keys</phrase><phrase role="special">::</phrase><phrase role="identifier">age</phrase><phrase role="special">))</phrase>
+
+<phrase role="keyword">int</phrase> <phrase role="identifier">main</phrase> <phrase role="special">()</phrase>
+<phrase role="special">{</phrase>
+   <phrase role="identifier">person</phrase>     <phrase role="identifier">person</phrase><phrase role="special">;</phrase>
+
+   <phrase role="identifier">assert</phrase> <phrase role="special">(</phrase><phrase role="identifier">person</phrase><phrase role="special">.</phrase><phrase role="identifier">get</phrase> <phrase role="special">&lt;</phrase><phrase role="identifier">person</phrase><phrase role="special">::</phrase><phrase role="identifier">keys</phrase><phrase role="special">::</phrase><phrase role="identifier">name</phrase><phrase role="special">&gt;</phrase> <phrase role="special">().</phrase><phrase role="identifier">empty</phrase> <phrase role="special">()</phrase> <phrase role="special">==</phrase> <phrase role="keyword">true</phrase><phrase role="special">);</phrase>
+
+   <phrase role="identifier">person</phrase><phrase role="special">.</phrase><phrase role="identifier">set</phrase> <phrase role="special">&lt;</phrase><phrase role="identifier">person</phrase><phrase role="special">::</phrase><phrase role="identifier">keys</phrase><phrase role="special">::</phrase><phrase role="identifier">name</phrase><phrase role="special">&gt;</phrase> <phrase role="special">(</phrase><phrase role="string">"Bill Gates"</phrase><phrase role="special">);</phrase>
+   <phrase role="identifier">person</phrase><phrase role="special">.</phrase><phrase role="identifier">set</phrase> <phrase role="special">&lt;</phrase><phrase role="identifier">person</phrase><phrase role="special">::</phrase><phrase role="identifier">keys</phrase><phrase role="special">::</phrase><phrase role="identifier">age</phrase><phrase role="special">&gt;</phrase> <phrase role="special">(</phrase><phrase role="number">57</phrase><phrase role="special">);</phrase>
+
+   <phrase role="identifier">assert</phrase> <phrase role="special">(</phrase><phrase role="identifier">person</phrase><phrase role="special">.</phrase><phrase role="identifier">get</phrase> <phrase role="special">&lt;</phrase><phrase role="identifier">person</phrase><phrase role="special">::</phrase><phrase role="identifier">keys</phrase><phrase role="special">::</phrase><phrase role="identifier">name</phrase><phrase role="special">&gt;</phrase> <phrase role="special">()</phrase> <phrase role="special">==</phrase> <phrase role="string">"Bill Gates"</phrase><phrase role="special">);</phrase>
+   <phrase role="identifier">assert</phrase> <phrase role="special">(</phrase><phrase role="identifier">person</phrase><phrase role="special">.</phrase><phrase role="identifier">get</phrase> <phrase role="special">&lt;</phrase><phrase role="identifier">person</phrase><phrase role="special">::</phrase><phrase role="identifier">keys</phrase><phrase role="special">::</phrase><phrase role="identifier">age</phrase><phrase role="special">&gt;</phrase> <phrase role="special">()</phrase> <phrase role="special">==</phrase> <phrase role="number">57</phrase><phrase role="special">);</phrase>
+
+   <phrase role="identifier">person</phrase><phrase role="special">.</phrase><phrase role="identifier">set</phrase> <phrase role="special">&lt;</phrase><phrase role="identifier">person</phrase><phrase role="special">::</phrase><phrase role="identifier">keys</phrase><phrase role="special">::</phrase><phrase role="identifier">name</phrase><phrase role="special">&gt;</phrase> <phrase role="special">(</phrase><phrase role="number">123</phrase><phrase role="special">);</phrase> <phrase role="comment">//! Fails, backbone is strongly typed</phrase>
+<phrase role="special">}</phrase>
+</programlisting>
+      </section>
+    </section>
+    <bridgehead renderas="sect3" id="libbackbone_cpp.tutorial.h0">
+      <phrase id="libbackbone_cpp.tutorial.basic_introduction"/><link linkend="libbackbone_cpp.tutorial.basic_introduction">Basic
+      introduction</link>
+    </bridgehead>
+    <para>
+      The tutorial programs in this section introduce the fundamental concepts required
+      to use the Backbone library. Keep in mind that in these examples, we focus
+      on proving you with the basic working tools to convert your model to a Backbone
+      model.
+    </para>
+    <itemizedlist>
+      <listitem>
+        <simpara>
+          <link linkend="libbackbone_cpp.tutorial.your_first_model">Introduction.1
+          - Your first model</link>
+        </simpara>
+      </listitem>
+      <listitem>
+        <simpara>
+          <link linkend="libpaxos_cpp.tutorial.basic_map">Introduction.2 - Basic
+          map</link>
+        </simpara>
+      </listitem>
+      <listitem>
+        <simpara>
+          <link linkend="libpaxos_cpp.tutorial.basic_collection">Introduction.3 -
+          Basic collection</link>
+        </simpara>
+      </listitem>
+    </itemizedlist>
+    <bridgehead renderas="sect3" id="libbackbone_cpp.tutorial.h1">
+      <phrase id="libbackbone_cpp.tutorial.fetching_data_using_a_proxy"/><link linkend="libbackbone_cpp.tutorial.fetching_data_using_a_proxy">Fetching
+      data using a proxy</link>
+    </bridgehead>
+    <para>
+      The tutorial programs in this section implement a distributed locking service.
+      The examples build up in complexity and eventually introduce to you a production-ready
+      distributed lock service.
+    </para>
+    <itemizedlist>
+      <listitem>
+        <simpara>
+          <link linkend="libpaxos_cpp.tutorial.basic_lock_service_server">Lock service.1
+          - Basic server</link>
+        </simpara>
+      </listitem>
+      <listitem>
+        <simpara>
+          <link linkend="libpaxos_cpp.tutorial.basic_lock_service_client">Lock service.1
+          - Basic client</link>
+        </simpara>
+      </listitem>
+      <listitem>
+        <simpara>
+          <link linkend="libpaxos_cpp.tutorial.durable_lock_service_server">Lock
+          service.2 - Durable server</link>
+        </simpara>
+      </listitem>
+    </itemizedlist>
+  </section>
+  <section id="libbackbone_cpp.reference">
+    <title><link linkend="libbackbone_cpp.reference">Reference</link></title>
+    <informaltable frame="all">
+  <tgroup cols="3">
+    <colspec colname="a"/>
+    <colspec colname="b"/>
+    <colspec colname="c"/>
+    <thead>
+      <row>
+        <entry valign="center" namest="a" nameend="c">
+          <bridgehead renderas="sect2">Backbone</bridgehead>
+        </entry>
+      </row>
+    </thead>
+    <tbody>
+      <row>
+        <entry valign="top">
+          <bridgehead renderas="sect3">Classes</bridgehead>
+          <simplelist type="vert" columns="1">
+            <member><link linkend="libbackbone_cpp.reference.model">model</link></member>
+            <member><link linkend="libbackbone_cpp.reference.map">map</link></member>
+            <member><link linkend="libbackbone_cpp.reference.collection">collection</link></member>
+          </simplelist>
+        </entry>
+        <entry valign="top">
+          <bridgehead renderas="sect3">Proxy</bridgehead>
+          <simplelist type="vert" columns="1">
+            <member><link linkend="libbackbone_cpp.reference.proxy__prefetch">prefetch</link></member>
+            <member><link linkend="libbackbone_cpp.reference.proxy__jitfetch">jitfetch</link></member>
+          </simplelist>
+        </entry>
+        <entry valign="top">
+          <bridgehead renderas="sect3">Json</bridgehead>
+          <simplelist type="vert" columns="1">
+            <member><link linkend="libbackbone_cpp.reference.to_json">to_json</link></member>
+          </simplelist>
+        </entry>
+      </row>
+    </tbody>
+  </tgroup>
+</informaltable>
+    <section id="libbackbone_cpp.reference.collection">
+      <title><link linkend="libbackbone_cpp.reference.collection">collection</link></title>
+      <para>
+        Provides interface to a model.
+      </para>
+<programlisting xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="keyword">template</phrase><phrase role="special">&lt;</phrase>
+    <phrase role="keyword">typename</phrase> <phrase role="identifier">Value</phrase> <phrase role="special">,</phrase>
+    <phrase role="keyword">typename</phrase> <phrase role="identifier">Signals</phrase>  <phrase role="special">=</phrase> <phrase role="identifier">detail</phrase><phrase role="special">::</phrase><phrase role="identifier">collection</phrase><phrase role="special">::</phrase><phrase role="identifier">signals</phrase> <phrase role="special">&lt;</phrase><phrase role="identifier">Value</phrase><phrase role="special">&gt;&gt;</phrase>
+<phrase role="keyword">struct</phrase> <phrase role="identifier">collection</phrase>
+</programlisting>
+      <bridgehead renderas="sect4" id="libbackbone_cpp.reference.collection.h0">
+        <phrase id="libbackbone_cpp.reference.collection.types"/><link linkend="libbackbone_cpp.reference.collection.types">Types</link>
+      </bridgehead>
+      <informaltable frame="all">
+        <tgroup cols="2">
+          <thead>
+            <row>
+              <entry>
+                <para>
+                  Name
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  Description
+                </para>
+              </entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry>
+                <para>
+                  <link linkend="libbackbone_cpp.reference.collection.base_type">base_type</link>
+                </para>
+              </entry>
+              <entry>
+              </entry>
+            </row>
+            <row>
+              <entry>
+                <para>
+                  <link linkend="libbackbone_cpp.reference.collection.collection_type">collection_type</link>
+                </para>
+              </entry>
+              <entry>
+              </entry>
+            </row>
+            <row>
+              <entry>
+                <para>
+                  <link linkend="libbackbone_cpp.reference.collection.const_iterator">const_iterator</link>
+                </para>
+              </entry>
+              <entry>
+              </entry>
+            </row>
+            <row>
+              <entry>
+                <para>
+                  <link linkend="libbackbone_cpp.reference.collection.iterator">iterator</link>
+                </para>
+              </entry>
+              <entry>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </informaltable>
+      <bridgehead renderas="sect4" id="libbackbone_cpp.reference.collection.h1">
+        <phrase id="libbackbone_cpp.reference.collection.member_functions"/><link linkend="libbackbone_cpp.reference.collection.member_functions">Member Functions</link>
+      </bridgehead>
+      <informaltable frame="all">
+        <tgroup cols="2">
+          <thead>
+            <row>
+              <entry>
+                <para>
+                  Name
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  Description
+                </para>
+              </entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry>
+                <para>
+                  <link linkend="libbackbone_cpp.reference.collection.add">add</link>
+                </para>
+              </entry>
+              <entry>
+              </entry>
+            </row>
+            <row>
+              <entry>
+                <para>
+                  <link linkend="libbackbone_cpp.reference.collection.begin">begin</link>
+                </para>
+              </entry>
+              <entry>
+              </entry>
+            </row>
+            <row>
+              <entry>
+                <para>
+                  <link linkend="libbackbone_cpp.reference.collection.collection">collection</link>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  Constructor.
+                </para>
+              </entry>
+            </row>
+            <row>
+              <entry>
+                <para>
+                  <link linkend="libbackbone_cpp.reference.collection.end">end</link>
+                </para>
+              </entry>
+              <entry>
+              </entry>
+            </row>
+            <row>
+              <entry>
+                <para>
+                  <link linkend="libbackbone_cpp.reference.collection.erase">erase</link>
+                </para>
+              </entry>
+              <entry>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </informaltable>
+      <bridgehead renderas="sect4" id="libbackbone_cpp.reference.collection.h2">
+        <phrase id="libbackbone_cpp.reference.collection.data_members"/><link linkend="libbackbone_cpp.reference.collection.data_members">Data
+        Members</link>
+      </bridgehead>
+      <informaltable frame="all">
+        <tgroup cols="2">
+          <thead>
+            <row>
+              <entry>
+                <para>
+                  Name
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  Description
+                </para>
+              </entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry>
+                <para>
+                  <link linkend="libbackbone_cpp.reference.collection.collection_">collection_</link>
+                </para>
+              </entry>
+              <entry>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </informaltable>
+      <bridgehead renderas="sect4" id="libbackbone_cpp.reference.collection.h3">
+        <phrase id="libbackbone_cpp.reference.collection.requirements"/><link linkend="libbackbone_cpp.reference.collection.requirements">Requirements</link>
+      </bridgehead>
+      <para>
+        <emphasis role="bold">Header: </emphasis><literal moreinfo="none">backbone++/collection.hpp</literal>
+      </para>
+      <section id="libbackbone_cpp.reference.collection.add">
+        <title><link linkend="libbackbone_cpp.reference.collection.add">collection::add</link></title>
+        <para>
+          <indexterm significance="normal"><primary>add</primary><secondary>collection</secondary></indexterm>
+        </para>
+<programlisting xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="identifier">Value</phrase> <phrase role="special">&amp;</phrase> <phrase role="identifier">add</phrase><phrase role="special">(</phrase>
+    <phrase role="identifier">Value</phrase> <phrase role="special">&amp;&amp;</phrase> <phrase role="identifier">value</phrase><phrase role="special">);</phrase>
+</programlisting>
+      </section>
+      <section id="libbackbone_cpp.reference.collection.base_type">
+        <title><link linkend="libbackbone_cpp.reference.collection.base_type">collection::base_type</link></title>
+        <para>
+          <indexterm significance="normal"><primary>base_type</primary><secondary>collection</secondary></indexterm>
+        </para>
+<programlisting xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="keyword">typedef</phrase> <phrase role="identifier">collection</phrase><phrase role="special">&lt;</phrase> <phrase role="identifier">Value</phrase><phrase role="special">,</phrase> <phrase role="identifier">Signals</phrase> <phrase role="special">&gt;</phrase> <phrase role="identifier">base_type</phrase><phrase role="special">;</phrase>
+</programlisting>
+        <bridgehead renderas="sect5" id="libbackbone_cpp.reference.collection.base_type.h0">
+          <phrase id="libbackbone_cpp.reference.collection.base_type.types"/><link linkend="libbackbone_cpp.reference.collection.base_type.types">Types</link>
+        </bridgehead>
+        <informaltable frame="all">
+          <tgroup cols="2">
+            <thead>
+              <row>
+                <entry>
+                  <para>
+                    Name
+                  </para>
+                </entry>
+                <entry>
+                  <para>
+                    Description
+                  </para>
+                </entry>
+              </row>
+            </thead>
+            <tbody>
+              <row>
+                <entry>
+                  <para>
+                    <link linkend="libbackbone_cpp.reference.collection.base_type">base_type</link>
+                  </para>
+                </entry>
+                <entry>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para>
+                    <link linkend="libbackbone_cpp.reference.collection.collection_type">collection_type</link>
+                  </para>
+                </entry>
+                <entry>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para>
+                    <link linkend="libbackbone_cpp.reference.collection.const_iterator">const_iterator</link>
+                  </para>
+                </entry>
+                <entry>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para>
+                    <link linkend="libbackbone_cpp.reference.collection.iterator">iterator</link>
+                  </para>
+                </entry>
+                <entry>
+                </entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </informaltable>
+        <bridgehead renderas="sect5" id="libbackbone_cpp.reference.collection.base_type.h1">
+          <phrase id="libbackbone_cpp.reference.collection.base_type.member_functions"/><link linkend="libbackbone_cpp.reference.collection.base_type.member_functions">Member
+          Functions</link>
+        </bridgehead>
+        <informaltable frame="all">
+          <tgroup cols="2">
+            <thead>
+              <row>
+                <entry>
+                  <para>
+                    Name
+                  </para>
+                </entry>
+                <entry>
+                  <para>
+                    Description
+                  </para>
+                </entry>
+              </row>
+            </thead>
+            <tbody>
+              <row>
+                <entry>
+                  <para>
+                    <link linkend="libbackbone_cpp.reference.collection.add">add</link>
+                  </para>
+                </entry>
+                <entry>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para>
+                    <link linkend="libbackbone_cpp.reference.collection.begin">begin</link>
+                  </para>
+                </entry>
+                <entry>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para>
+                    <link linkend="libbackbone_cpp.reference.collection.collection">collection</link>
+                  </para>
+                </entry>
+                <entry>
+                  <para>
+                    Constructor.
+                  </para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para>
+                    <link linkend="libbackbone_cpp.reference.collection.end">end</link>
+                  </para>
+                </entry>
+                <entry>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para>
+                    <link linkend="libbackbone_cpp.reference.collection.erase">erase</link>
+                  </para>
+                </entry>
+                <entry>
+                </entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </informaltable>
+        <bridgehead renderas="sect5" id="libbackbone_cpp.reference.collection.base_type.h2">
+          <phrase id="libbackbone_cpp.reference.collection.base_type.data_members"/><link linkend="libbackbone_cpp.reference.collection.base_type.data_members">Data
+          Members</link>
+        </bridgehead>
+        <informaltable frame="all">
+          <tgroup cols="2">
+            <thead>
+              <row>
+                <entry>
+                  <para>
+                    Name
+                  </para>
+                </entry>
+                <entry>
+                  <para>
+                    Description
+                  </para>
+                </entry>
+              </row>
+            </thead>
+            <tbody>
+              <row>
+                <entry>
+                  <para>
+                    <link linkend="libbackbone_cpp.reference.collection.collection_">collection_</link>
+                  </para>
+                </entry>
+                <entry>
+                </entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </informaltable>
+        <bridgehead renderas="sect5" id="libbackbone_cpp.reference.collection.base_type.h3">
+          <phrase id="libbackbone_cpp.reference.collection.base_type.requirements"/><link linkend="libbackbone_cpp.reference.collection.base_type.requirements">Requirements</link>
+        </bridgehead>
+        <para>
+          <emphasis role="bold">Header: </emphasis><literal moreinfo="none">backbone++/collection.hpp</literal>
+        </para>
+      </section>
+      <section id="libbackbone_cpp.reference.collection.begin">
+        <title><link linkend="libbackbone_cpp.reference.collection.begin">collection::begin</link></title>
+        <para>
+          <indexterm significance="normal"><primary>begin</primary><secondary>collection</secondary></indexterm>
+        </para>
+<programlisting xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="identifier">collection_type</phrase><phrase role="special">::</phrase><phrase role="identifier">iterator</phrase> <phrase role="identifier">begin</phrase><phrase role="special">();</phrase>
+</programlisting>
+      </section>
+      <section id="libbackbone_cpp.reference.collection.collection">
+        <title><link linkend="libbackbone_cpp.reference.collection.collection">collection::collection</link></title>
+        <para>
+          <indexterm significance="normal"><primary>collection</primary><secondary>collection</secondary></indexterm> 
+Constructor.
+        </para>
+<programlisting xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="identifier">collection</phrase><phrase role="special">();</phrase>
+</programlisting>
+      </section>
+      <section id="libbackbone_cpp.reference.collection.collection_">
+        <title><link linkend="libbackbone_cpp.reference.collection.collection_">collection::collection_</link></title>
+        <para>
+          <indexterm significance="normal"><primary>collection_</primary><secondary>collection</secondary></indexterm>
+        </para>
+<programlisting xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="identifier">collection_type</phrase> <phrase role="identifier">collection_</phrase><phrase role="special">;</phrase>
+</programlisting>
+      </section>
+      <section id="libbackbone_cpp.reference.collection.collection_type">
+        <title><link linkend="libbackbone_cpp.reference.collection.collection_type">collection::collection_type</link></title>
+        <para>
+          <indexterm significance="normal"><primary>collection_type</primary><secondary>collection</secondary></indexterm>
+        </para>
+<programlisting xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="keyword">typedef</phrase> <phrase role="identifier">std</phrase><phrase role="special">::</phrase><phrase role="identifier">vector</phrase><phrase role="special">&lt;</phrase> <phrase role="identifier">Value</phrase> <phrase role="special">&gt;</phrase> <phrase role="identifier">collection_type</phrase><phrase role="special">;</phrase>
+</programlisting>
+        <bridgehead renderas="sect5" id="libbackbone_cpp.reference.collection.collection_type.h0">
+          <phrase id="libbackbone_cpp.reference.collection.collection_type.requirements"/><link linkend="libbackbone_cpp.reference.collection.collection_type.requirements">Requirements</link>
+        </bridgehead>
+        <para>
+          <emphasis role="bold">Header: </emphasis><literal moreinfo="none">backbone++/collection.hpp</literal>
+        </para>
+      </section>
+      <section id="libbackbone_cpp.reference.collection.const_iterator">
+        <title><link linkend="libbackbone_cpp.reference.collection.const_iterator">collection::const_iterator</link></title>
+        <para>
+          <indexterm significance="normal"><primary>const_iterator</primary><secondary>collection</secondary></indexterm>
+        </para>
+<programlisting xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="keyword">typedef</phrase> <phrase role="identifier">collection_type</phrase><phrase role="special">::</phrase><phrase role="identifier">const_iterator</phrase> <phrase role="identifier">const_iterator</phrase><phrase role="special">;</phrase>
+</programlisting>
+        <bridgehead renderas="sect5" id="libbackbone_cpp.reference.collection.const_iterator.h0">
+          <phrase id="libbackbone_cpp.reference.collection.const_iterator.requirements"/><link linkend="libbackbone_cpp.reference.collection.const_iterator.requirements">Requirements</link>
+        </bridgehead>
+        <para>
+          <emphasis role="bold">Header: </emphasis><literal moreinfo="none">backbone++/collection.hpp</literal>
+        </para>
+      </section>
+      <section id="libbackbone_cpp.reference.collection.end">
+        <title><link linkend="libbackbone_cpp.reference.collection.end">collection::end</link></title>
+        <para>
+          <indexterm significance="normal"><primary>end</primary><secondary>collection</secondary></indexterm>
+        </para>
+<programlisting xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="identifier">collection_type</phrase><phrase role="special">::</phrase><phrase role="identifier">iterator</phrase> <phrase role="identifier">end</phrase><phrase role="special">();</phrase>
+</programlisting>
+      </section>
+      <section id="libbackbone_cpp.reference.collection.erase">
+        <title><link linkend="libbackbone_cpp.reference.collection.erase">collection::erase</link></title>
+        <para>
+          <indexterm significance="normal"><primary>erase</primary><secondary>collection</secondary></indexterm>
+        </para>
+<programlisting xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="keyword">void</phrase> <phrase role="identifier">erase</phrase><phrase role="special">(</phrase>
+    <phrase role="identifier">iterator</phrase> <phrase role="identifier">pos</phrase><phrase role="special">);</phrase>
+</programlisting>
+      </section>
+      <section id="libbackbone_cpp.reference.collection.iterator">
+        <title><link linkend="libbackbone_cpp.reference.collection.iterator">collection::iterator</link></title>
+        <para>
+          <indexterm significance="normal"><primary>iterator</primary><secondary>collection</secondary></indexterm>
+        </para>
+<programlisting xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="keyword">typedef</phrase> <phrase role="identifier">collection_type</phrase><phrase role="special">::</phrase><phrase role="identifier">iterator</phrase> <phrase role="identifier">iterator</phrase><phrase role="special">;</phrase>
+</programlisting>
+        <bridgehead renderas="sect5" id="libbackbone_cpp.reference.collection.iterator.h0">
+          <phrase id="libbackbone_cpp.reference.collection.iterator.requirements"/><link linkend="libbackbone_cpp.reference.collection.iterator.requirements">Requirements</link>
+        </bridgehead>
+        <para>
+          <emphasis role="bold">Header: </emphasis><literal moreinfo="none">backbone++/collection.hpp</literal>
+        </para>
+      </section>
+    </section>
+    <section id="libbackbone_cpp.reference.map">
+      <title><link linkend="libbackbone_cpp.reference.map">map</link></title>
+      <para>
+        Provides interface to a map.
+      </para>
+<programlisting xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="keyword">template</phrase><phrase role="special">&lt;</phrase>
+    <phrase role="keyword">typename</phrase> <phrase role="identifier">Key</phrase> <phrase role="special">,</phrase>
+    <phrase role="keyword">typename</phrase> <phrase role="identifier">Value</phrase> <phrase role="special">,</phrase>
+    <phrase role="keyword">typename</phrase> <phrase role="identifier">Signals</phrase>  <phrase role="special">=</phrase> <phrase role="identifier">detail</phrase><phrase role="special">::</phrase><phrase role="identifier">map</phrase><phrase role="special">::</phrase><phrase role="identifier">signals</phrase> <phrase role="special">&lt;</phrase><phrase role="identifier">Key</phrase><phrase role="special">,</phrase> <phrase role="identifier">Value</phrase><phrase role="special">&gt;&gt;</phrase>
+<phrase role="keyword">struct</phrase> <phrase role="identifier">map</phrase>
+</programlisting>
+      <bridgehead renderas="sect4" id="libbackbone_cpp.reference.map.h0">
+        <phrase id="libbackbone_cpp.reference.map.types"/><link linkend="libbackbone_cpp.reference.map.types">Types</link>
+      </bridgehead>
+      <informaltable frame="all">
+        <tgroup cols="2">
+          <thead>
+            <row>
+              <entry>
+                <para>
+                  Name
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  Description
+                </para>
+              </entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry>
+                <para>
+                  <link linkend="libbackbone_cpp.reference.map.base_type">base_type</link>
+                </para>
+              </entry>
+              <entry>
+              </entry>
+            </row>
+            <row>
+              <entry>
+                <para>
+                  <link linkend="libbackbone_cpp.reference.map.iterator">iterator</link>
+                </para>
+              </entry>
+              <entry>
+              </entry>
+            </row>
+            <row>
+              <entry>
+                <para>
+                  <link linkend="libbackbone_cpp.reference.map.map_type">map_type</link>
+                </para>
+              </entry>
+              <entry>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </informaltable>
+      <bridgehead renderas="sect4" id="libbackbone_cpp.reference.map.h1">
+        <phrase id="libbackbone_cpp.reference.map.member_functions"/><link linkend="libbackbone_cpp.reference.map.member_functions">Member
+        Functions</link>
+      </bridgehead>
+      <informaltable frame="all">
+        <tgroup cols="2">
+          <thead>
+            <row>
+              <entry>
+                <para>
+                  Name
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  Description
+                </para>
+              </entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry>
+                <para>
+                  <link linkend="libbackbone_cpp.reference.map.add">add</link>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  Adds new key/value pair to the map.
+                </para>
+              </entry>
+            </row>
+            <row>
+              <entry>
+                <para>
+                  <link linkend="libbackbone_cpp.reference.map.begin">begin</link>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  Provides iterator access to map.
+                </para>
+              </entry>
+            </row>
+            <row>
+              <entry>
+                <para>
+                  <link linkend="libbackbone_cpp.reference.map.end">end</link>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  Provides iterator access to map.
+                </para>
+              </entry>
+            </row>
+            <row>
+              <entry>
+                <para>
+                  <link linkend="libbackbone_cpp.reference.map.erase">erase</link>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  Erases a key from the map.
+                </para>
+              </entry>
+            </row>
+            <row>
+              <entry>
+                <para>
+                  <link linkend="libbackbone_cpp.reference.map.get">get</link>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  Provides access to a value by key.
+                </para>
+              </entry>
+            </row>
+            <row>
+              <entry>
+                <para>
+                  <link linkend="libbackbone_cpp.reference.map.map">map</link>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  Constructor.
+                </para>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </informaltable>
+      <bridgehead renderas="sect4" id="libbackbone_cpp.reference.map.h2">
+        <phrase id="libbackbone_cpp.reference.map.data_members"/><link linkend="libbackbone_cpp.reference.map.data_members">Data
+        Members</link>
+      </bridgehead>
+      <informaltable frame="all">
+        <tgroup cols="2">
+          <thead>
+            <row>
+              <entry>
+                <para>
+                  Name
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  Description
+                </para>
+              </entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry>
+                <para>
+                  <link linkend="libbackbone_cpp.reference.map.map_">map_</link>
+                </para>
+              </entry>
+              <entry>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </informaltable>
+      <bridgehead renderas="sect4" id="libbackbone_cpp.reference.map.h3">
+        <phrase id="libbackbone_cpp.reference.map.requirements"/><link linkend="libbackbone_cpp.reference.map.requirements">Requirements</link>
+      </bridgehead>
+      <para>
+        <emphasis role="bold">Header: </emphasis><literal moreinfo="none">backbone++/map.hpp</literal>
+      </para>
+      <section id="libbackbone_cpp.reference.map.add">
+        <title><link linkend="libbackbone_cpp.reference.map.add">map::add</link></title>
+        <para>
+          <indexterm significance="normal"><primary>add</primary><secondary>map</secondary></indexterm> 
+Adds new key/value pair to the map.
+        </para>
+<programlisting xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="identifier">Value</phrase> <phrase role="special">&amp;</phrase> <phrase role="identifier">add</phrase><phrase role="special">(</phrase>
+    <phrase role="identifier">Key</phrase> <phrase role="keyword">const</phrase> <phrase role="special">&amp;</phrase> <phrase role="identifier">key</phrase><phrase role="special">,</phrase>
+    <phrase role="identifier">Value</phrase> <phrase role="special">&amp;&amp;</phrase> <phrase role="identifier">value</phrase><phrase role="special">);</phrase>
+</programlisting>
+        <bridgehead renderas="sect5" id="libbackbone_cpp.reference.map.add.h0">
+          <phrase id="libbackbone_cpp.reference.map.add.parameters"/><link linkend="libbackbone_cpp.reference.map.add.parameters">Parameters</link>
+        </bridgehead>
+        <variablelist>
+          <title/>
+          <varlistentry>
+            <term>key</term>
+            <listitem>
+              <para>
+                The key to add
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>value</term>
+            <listitem>
+              <para>
+                The value to add
+              </para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+        <bridgehead renderas="sect5" id="libbackbone_cpp.reference.map.add.h1">
+          <phrase id="libbackbone_cpp.reference.map.add.return_value"/><link linkend="libbackbone_cpp.reference.map.add.return_value">Return
+          Value</link>
+        </bridgehead>
+        <para>
+          Reference to the added value inside the map
+        </para>
+      </section>
+      <section id="libbackbone_cpp.reference.map.base_type">
+        <title><link linkend="libbackbone_cpp.reference.map.base_type">map::base_type</link></title>
+        <para>
+          <indexterm significance="normal"><primary>base_type</primary><secondary>map</secondary></indexterm>
+        </para>
+<programlisting xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="keyword">typedef</phrase> <phrase role="identifier">map</phrase><phrase role="special">&lt;</phrase> <phrase role="identifier">Key</phrase><phrase role="special">,</phrase> <phrase role="identifier">Value</phrase><phrase role="special">,</phrase> <phrase role="identifier">Signals</phrase> <phrase role="special">&gt;</phrase> <phrase role="identifier">base_type</phrase><phrase role="special">;</phrase>
+</programlisting>
+        <bridgehead renderas="sect5" id="libbackbone_cpp.reference.map.base_type.h0">
+          <phrase id="libbackbone_cpp.reference.map.base_type.types"/><link linkend="libbackbone_cpp.reference.map.base_type.types">Types</link>
+        </bridgehead>
+        <informaltable frame="all">
+          <tgroup cols="2">
+            <thead>
+              <row>
+                <entry>
+                  <para>
+                    Name
+                  </para>
+                </entry>
+                <entry>
+                  <para>
+                    Description
+                  </para>
+                </entry>
+              </row>
+            </thead>
+            <tbody>
+              <row>
+                <entry>
+                  <para>
+                    <link linkend="libbackbone_cpp.reference.map.base_type">base_type</link>
+                  </para>
+                </entry>
+                <entry>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para>
+                    <link linkend="libbackbone_cpp.reference.map.iterator">iterator</link>
+                  </para>
+                </entry>
+                <entry>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para>
+                    <link linkend="libbackbone_cpp.reference.map.map_type">map_type</link>
+                  </para>
+                </entry>
+                <entry>
+                </entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </informaltable>
+        <bridgehead renderas="sect5" id="libbackbone_cpp.reference.map.base_type.h1">
+          <phrase id="libbackbone_cpp.reference.map.base_type.member_functions"/><link linkend="libbackbone_cpp.reference.map.base_type.member_functions">Member
+          Functions</link>
+        </bridgehead>
+        <informaltable frame="all">
+          <tgroup cols="2">
+            <thead>
+              <row>
+                <entry>
+                  <para>
+                    Name
+                  </para>
+                </entry>
+                <entry>
+                  <para>
+                    Description
+                  </para>
+                </entry>
+              </row>
+            </thead>
+            <tbody>
+              <row>
+                <entry>
+                  <para>
+                    <link linkend="libbackbone_cpp.reference.map.add">add</link>
+                  </para>
+                </entry>
+                <entry>
+                  <para>
+                    Adds new key/value pair to the map.
+                  </para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para>
+                    <link linkend="libbackbone_cpp.reference.map.begin">begin</link>
+                  </para>
+                </entry>
+                <entry>
+                  <para>
+                    Provides iterator access to map.
+                  </para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para>
+                    <link linkend="libbackbone_cpp.reference.map.end">end</link>
+                  </para>
+                </entry>
+                <entry>
+                  <para>
+                    Provides iterator access to map.
+                  </para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para>
+                    <link linkend="libbackbone_cpp.reference.map.erase">erase</link>
+                  </para>
+                </entry>
+                <entry>
+                  <para>
+                    Erases a key from the map.
+                  </para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para>
+                    <link linkend="libbackbone_cpp.reference.map.get">get</link>
+                  </para>
+                </entry>
+                <entry>
+                  <para>
+                    Provides access to a value by key.
+                  </para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para>
+                    <link linkend="libbackbone_cpp.reference.map.map">map</link>
+                  </para>
+                </entry>
+                <entry>
+                  <para>
+                    Constructor.
+                  </para>
+                </entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </informaltable>
+        <bridgehead renderas="sect5" id="libbackbone_cpp.reference.map.base_type.h2">
+          <phrase id="libbackbone_cpp.reference.map.base_type.data_members"/><link linkend="libbackbone_cpp.reference.map.base_type.data_members">Data Members</link>
+        </bridgehead>
+        <informaltable frame="all">
+          <tgroup cols="2">
+            <thead>
+              <row>
+                <entry>
+                  <para>
+                    Name
+                  </para>
+                </entry>
+                <entry>
+                  <para>
+                    Description
+                  </para>
+                </entry>
+              </row>
+            </thead>
+            <tbody>
+              <row>
+                <entry>
+                  <para>
+                    <link linkend="libbackbone_cpp.reference.map.map_">map_</link>
+                  </para>
+                </entry>
+                <entry>
+                </entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </informaltable>
+        <bridgehead renderas="sect5" id="libbackbone_cpp.reference.map.base_type.h3">
+          <phrase id="libbackbone_cpp.reference.map.base_type.requirements"/><link linkend="libbackbone_cpp.reference.map.base_type.requirements">Requirements</link>
+        </bridgehead>
+        <para>
+          <emphasis role="bold">Header: </emphasis><literal moreinfo="none">backbone++/map.hpp</literal>
+        </para>
+      </section>
+      <section id="libbackbone_cpp.reference.map.begin">
+        <title><link linkend="libbackbone_cpp.reference.map.begin">map::begin</link></title>
+        <para>
+          <indexterm significance="normal"><primary>begin</primary><secondary>map</secondary></indexterm> 
+Provides iterator access to map.
+        </para>
+<programlisting xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="identifier">iterator</phrase> <phrase role="identifier">begin</phrase><phrase role="special">();</phrase>
+</programlisting>
+      </section>
+      <section id="libbackbone_cpp.reference.map.end">
+        <title><link linkend="libbackbone_cpp.reference.map.end">map::end</link></title>
+        <para>
+          <indexterm significance="normal"><primary>end</primary><secondary>map</secondary></indexterm> 
+Provides iterator access to map.
+        </para>
+<programlisting xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="identifier">iterator</phrase> <phrase role="identifier">end</phrase><phrase role="special">();</phrase>
+</programlisting>
+      </section>
+      <section id="libbackbone_cpp.reference.map.erase">
+        <title><link linkend="libbackbone_cpp.reference.map.erase">map::erase</link></title>
+        <para>
+          <indexterm significance="normal"><primary>erase</primary><secondary>map</secondary></indexterm> 
+Erases a key from the map.
+        </para>
+<programlisting xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="keyword">void</phrase> <phrase role="identifier">erase</phrase><phrase role="special">(</phrase>
+    <phrase role="identifier">Key</phrase> <phrase role="keyword">const</phrase> <phrase role="special">&amp;</phrase> <phrase role="identifier">key</phrase><phrase role="special">);</phrase>
+</programlisting>
+        <bridgehead renderas="sect5" id="libbackbone_cpp.reference.map.erase.h0">
+          <phrase id="libbackbone_cpp.reference.map.erase.parameters"/><link linkend="libbackbone_cpp.reference.map.erase.parameters">Parameters</link>
+        </bridgehead>
+        <variablelist>
+          <title/>
+          <varlistentry>
+            <term>key</term>
+            <listitem>
+              <para>
+                The key to erase
+              </para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+      </section>
+      <section id="libbackbone_cpp.reference.map.get">
+        <title><link linkend="libbackbone_cpp.reference.map.get">map::get</link></title>
+        <para>
+          <indexterm significance="normal"><primary>get</primary><secondary>map</secondary></indexterm> 
+Provides access to a value by key.
+        </para>
+<programlisting xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="identifier">Value</phrase> <phrase role="special">&amp;</phrase> <phrase role="identifier">get</phrase><phrase role="special">(</phrase>
+    <phrase role="identifier">Key</phrase> <phrase role="keyword">const</phrase> <phrase role="special">&amp;</phrase> <phrase role="identifier">key</phrase><phrase role="special">);</phrase>
+</programlisting>
+        <bridgehead renderas="sect5" id="libbackbone_cpp.reference.map.get.h0">
+          <phrase id="libbackbone_cpp.reference.map.get.parameters"/><link linkend="libbackbone_cpp.reference.map.get.parameters">Parameters</link>
+        </bridgehead>
+        <variablelist>
+          <title/>
+          <varlistentry>
+            <term>key</term>
+            <listitem>
+              <para>
+                The key to look up
+              </para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+        <bridgehead renderas="sect5" id="libbackbone_cpp.reference.map.get.h1">
+          <phrase id="libbackbone_cpp.reference.map.get.return_value"/><link linkend="libbackbone_cpp.reference.map.get.return_value">Return
+          Value</link>
+        </bridgehead>
+        <para>
+          Reference to the
+        </para>
+      </section>
+      <section id="libbackbone_cpp.reference.map.iterator">
+        <title><link linkend="libbackbone_cpp.reference.map.iterator">map::iterator</link></title>
+        <para>
+          <indexterm significance="normal"><primary>iterator</primary><secondary>map</secondary></indexterm>
+        </para>
+<programlisting xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="keyword">typedef</phrase> <phrase role="identifier">map_type</phrase><phrase role="special">::</phrase><phrase role="identifier">iterator</phrase> <phrase role="identifier">iterator</phrase><phrase role="special">;</phrase>
+</programlisting>
+        <bridgehead renderas="sect5" id="libbackbone_cpp.reference.map.iterator.h0">
+          <phrase id="libbackbone_cpp.reference.map.iterator.requirements"/><link linkend="libbackbone_cpp.reference.map.iterator.requirements">Requirements</link>
+        </bridgehead>
+        <para>
+          <emphasis role="bold">Header: </emphasis><literal moreinfo="none">backbone++/map.hpp</literal>
+        </para>
+      </section>
+      <section id="libbackbone_cpp.reference.map.map">
+        <title><link linkend="libbackbone_cpp.reference.map.map">map::map</link></title>
+        <para>
+          <indexterm significance="normal"><primary>map</primary><secondary>map</secondary></indexterm> 
+Constructor.
+        </para>
+<programlisting xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="identifier">map</phrase><phrase role="special">();</phrase>
+</programlisting>
+      </section>
+      <section id="libbackbone_cpp.reference.map.map_">
+        <title><link linkend="libbackbone_cpp.reference.map.map_">map::map_</link></title>
+        <para>
+          <indexterm significance="normal"><primary>map_</primary><secondary>map</secondary></indexterm>
+        </para>
+<programlisting xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="identifier">map_type</phrase> <phrase role="identifier">map_</phrase><phrase role="special">;</phrase>
+</programlisting>
+      </section>
+      <section id="libbackbone_cpp.reference.map.map_type">
+        <title><link linkend="libbackbone_cpp.reference.map.map_type">map::map_type</link></title>
+        <para>
+          <indexterm significance="normal"><primary>map_type</primary><secondary>map</secondary></indexterm>
+        </para>
+<programlisting xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="keyword">typedef</phrase> <phrase role="identifier">std</phrase><phrase role="special">::</phrase><phrase role="identifier">map</phrase><phrase role="special">&lt;</phrase> <phrase role="identifier">Key</phrase><phrase role="special">,</phrase> <phrase role="identifier">Value</phrase> <phrase role="special">&gt;</phrase> <phrase role="identifier">map_type</phrase><phrase role="special">;</phrase>
+</programlisting>
+        <bridgehead renderas="sect5" id="libbackbone_cpp.reference.map.map_type.h0">
+          <phrase id="libbackbone_cpp.reference.map.map_type.requirements"/><link linkend="libbackbone_cpp.reference.map.map_type.requirements">Requirements</link>
+        </bridgehead>
+        <para>
+          <emphasis role="bold">Header: </emphasis><literal moreinfo="none">backbone++/map.hpp</literal>
+        </para>
+      </section>
+    </section>
+    <section id="libbackbone_cpp.reference.model">
+      <title><link linkend="libbackbone_cpp.reference.model">model</link></title>
+      <para>
+        Provides interface to a model.
+      </para>
+<programlisting xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="keyword">template</phrase><phrase role="special">&lt;</phrase>
+    <phrase role="keyword">typename</phrase> <phrase role="identifier">Derived</phrase> <phrase role="special">,</phrase>
+    <phrase role="keyword">typename</phrase> <phrase role="identifier">Signals</phrase>  <phrase role="special">=</phrase> <phrase role="identifier">detail</phrase><phrase role="special">::</phrase><phrase role="identifier">model</phrase><phrase role="special">::</phrase><phrase role="identifier">signals</phrase><phrase role="special">&gt;</phrase>
+<phrase role="keyword">struct</phrase> <phrase role="identifier">model</phrase>
+</programlisting>
+      <bridgehead renderas="sect4" id="libbackbone_cpp.reference.model.h0">
+        <phrase id="libbackbone_cpp.reference.model.types"/><link linkend="libbackbone_cpp.reference.model.types">Types</link>
+      </bridgehead>
+      <informaltable frame="all">
+        <tgroup cols="2">
+          <thead>
+            <row>
+              <entry>
+                <para>
+                  Name
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  Description
+                </para>
+              </entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry>
+                <para>
+                  <link linkend="libbackbone_cpp.reference.model.base_type">base_type</link>
+                </para>
+              </entry>
+              <entry>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </informaltable>
+      <bridgehead renderas="sect4" id="libbackbone_cpp.reference.model.h1">
+        <phrase id="libbackbone_cpp.reference.model.member_functions"/><link linkend="libbackbone_cpp.reference.model.member_functions">Member
+        Functions</link>
+      </bridgehead>
+      <informaltable frame="all">
+        <tgroup cols="2">
+          <thead>
+            <row>
+              <entry>
+                <para>
+                  Name
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  Description
+                </para>
+              </entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry>
+                <para>
+                  <link linkend="libbackbone_cpp.reference.model.get">get</link>
+                </para>
+              </entry>
+              <entry>
+              </entry>
+            </row>
+            <row>
+              <entry>
+                <para>
+                  <link linkend="libbackbone_cpp.reference.model.model">model</link>
+                </para>
+              </entry>
+              <entry>
+              </entry>
+            </row>
+            <row>
+              <entry>
+                <para>
+                  <link linkend="libbackbone_cpp.reference.model.set">set</link>
+                </para>
+              </entry>
+              <entry>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </informaltable>
+      <bridgehead renderas="sect4" id="libbackbone_cpp.reference.model.h2">
+        <phrase id="libbackbone_cpp.reference.model.requirements"/><link linkend="libbackbone_cpp.reference.model.requirements">Requirements</link>
+      </bridgehead>
+      <para>
+        <emphasis role="bold">Header: </emphasis><literal moreinfo="none">backbone++/model.hpp</literal>
+      </para>
+      <section id="libbackbone_cpp.reference.model.base_type">
+        <title><link linkend="libbackbone_cpp.reference.model.base_type">model::base_type</link></title>
+        <para>
+          <indexterm significance="normal"><primary>base_type</primary><secondary>model</secondary></indexterm>
+        </para>
+<programlisting xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="keyword">typedef</phrase> <phrase role="identifier">model</phrase><phrase role="special">&lt;</phrase> <phrase role="identifier">Derived</phrase><phrase role="special">,</phrase> <phrase role="identifier">Signals</phrase> <phrase role="special">&gt;</phrase> <phrase role="identifier">base_type</phrase><phrase role="special">;</phrase>
+</programlisting>
+        <bridgehead renderas="sect5" id="libbackbone_cpp.reference.model.base_type.h0">
+          <phrase id="libbackbone_cpp.reference.model.base_type.types"/><link linkend="libbackbone_cpp.reference.model.base_type.types">Types</link>
+        </bridgehead>
+        <informaltable frame="all">
+          <tgroup cols="2">
+            <thead>
+              <row>
+                <entry>
+                  <para>
+                    Name
+                  </para>
+                </entry>
+                <entry>
+                  <para>
+                    Description
+                  </para>
+                </entry>
+              </row>
+            </thead>
+            <tbody>
+              <row>
+                <entry>
+                  <para>
+                    <link linkend="libbackbone_cpp.reference.model.base_type">base_type</link>
+                  </para>
+                </entry>
+                <entry>
+                </entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </informaltable>
+        <bridgehead renderas="sect5" id="libbackbone_cpp.reference.model.base_type.h1">
+          <phrase id="libbackbone_cpp.reference.model.base_type.member_functions"/><link linkend="libbackbone_cpp.reference.model.base_type.member_functions">Member
+          Functions</link>
+        </bridgehead>
+        <informaltable frame="all">
+          <tgroup cols="2">
+            <thead>
+              <row>
+                <entry>
+                  <para>
+                    Name
+                  </para>
+                </entry>
+                <entry>
+                  <para>
+                    Description
+                  </para>
+                </entry>
+              </row>
+            </thead>
+            <tbody>
+              <row>
+                <entry>
+                  <para>
+                    <link linkend="libbackbone_cpp.reference.model.get">get</link>
+                  </para>
+                </entry>
+                <entry>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para>
+                    <link linkend="libbackbone_cpp.reference.model.model">model</link>
+                  </para>
+                </entry>
+                <entry>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para>
+                    <link linkend="libbackbone_cpp.reference.model.set">set</link>
+                  </para>
+                </entry>
+                <entry>
+                </entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </informaltable>
+        <bridgehead renderas="sect5" id="libbackbone_cpp.reference.model.base_type.h2">
+          <phrase id="libbackbone_cpp.reference.model.base_type.requirements"/><link linkend="libbackbone_cpp.reference.model.base_type.requirements">Requirements</link>
+        </bridgehead>
+        <para>
+          <emphasis role="bold">Header: </emphasis><literal moreinfo="none">backbone++/model.hpp</literal>
+        </para>
+      </section>
+      <section id="libbackbone_cpp.reference.model.get">
+        <title><link linkend="libbackbone_cpp.reference.model.get">model::get</link></title>
+        <para>
+          <indexterm significance="normal"><primary>get</primary><secondary>model</secondary></indexterm>
+        </para>
+<programlisting xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="keyword">template</phrase><phrase role="special">&lt;</phrase>
+    <phrase role="keyword">typename</phrase> <phrase role="identifier">Key</phrase> <phrase role="special">&gt;</phrase>
+<phrase role="identifier">boost</phrase><phrase role="special">::</phrase><phrase role="identifier">fusion</phrase><phrase role="special">::</phrase><phrase role="identifier">result_of</phrase><phrase role="special">::</phrase><phrase role="identifier">at_key</phrase><phrase role="special">&lt;</phrase> <phrase role="identifier">Derived</phrase><phrase role="special">,</phrase> <phrase role="identifier">Key</phrase> <phrase role="special">&gt;::</phrase><phrase role="identifier">type</phrase> <phrase role="special">&amp;</phrase> <phrase role="identifier">get</phrase><phrase role="special">();</phrase>
+</programlisting>
+      </section>
+      <section id="libbackbone_cpp.reference.model.model">
+        <title><link linkend="libbackbone_cpp.reference.model.model">model::model</link></title>
+        <para>
+          <indexterm significance="normal"><primary>model</primary><secondary>model</secondary></indexterm>
+        </para>
+<programlisting xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="identifier">model</phrase><phrase role="special">();</phrase>
+</programlisting>
+      </section>
+      <section id="libbackbone_cpp.reference.model.set">
+        <title><link linkend="libbackbone_cpp.reference.model.set">model::set</link></title>
+        <para>
+          <indexterm significance="normal"><primary>set</primary><secondary>model</secondary></indexterm>
+        </para>
+<programlisting xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="keyword">template</phrase><phrase role="special">&lt;</phrase>
+    <phrase role="keyword">typename</phrase> <phrase role="identifier">Key</phrase> <phrase role="special">,</phrase>
+    <phrase role="keyword">typename</phrase> <phrase role="identifier">Value</phrase> <phrase role="special">&gt;</phrase>
+<phrase role="keyword">void</phrase> <phrase role="identifier">set</phrase><phrase role="special">(</phrase>
+    <phrase role="identifier">Value</phrase> <phrase role="special">&amp;&amp;</phrase> <phrase role="identifier">value</phrase><phrase role="special">);</phrase>
+</programlisting>
+      </section>
+    </section>
+    <section id="libbackbone_cpp.reference.proxy__jitfetch">
+      <title><link linkend="libbackbone_cpp.reference.proxy__jitfetch">proxy::jitfetch</link></title>
+      <para>
+        Provides proxy interface to fetch model data Just-In-Time.
+      </para>
+<programlisting xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="keyword">template</phrase><phrase role="special">&lt;</phrase>
+    <phrase role="keyword">typename</phrase> <phrase role="identifier">Base</phrase> <phrase role="special">,</phrase>
+    <phrase role="keyword">typename</phrase> <phrase role="identifier">Type</phrase>  <phrase role="special">=</phrase> <phrase role="keyword">typename</phrase> <phrase role="identifier">Base</phrase><phrase role="special">::</phrase><phrase role="identifier">base_type</phrase><phrase role="special">&gt;</phrase>
+<phrase role="keyword">struct</phrase> <phrase role="identifier">jitfetch</phrase>
+</programlisting>
+      <bridgehead renderas="sect4" id="libbackbone_cpp.reference.proxy__jitfetch.h0">
+        <phrase id="libbackbone_cpp.reference.proxy__jitfetch.concepts"/><link linkend="libbackbone_cpp.reference.proxy__jitfetch.concepts">Concepts</link>
+      </bridgehead>
+      <para>
+        Base
+      </para>
+      <bridgehead renderas="sect4" id="libbackbone_cpp.reference.proxy__jitfetch.h1">
+        <phrase id="libbackbone_cpp.reference.proxy__jitfetch.requirements"/><link linkend="libbackbone_cpp.reference.proxy__jitfetch.requirements">Requirements</link>
+      </bridgehead>
+      <para>
+        <emphasis role="bold">Header: </emphasis><literal moreinfo="none">backbone++/proxy/jitfetch.hpp</literal>
+      </para>
+    </section>
+    <section id="libbackbone_cpp.reference.proxy__prefetch">
+      <title><link linkend="libbackbone_cpp.reference.proxy__prefetch">proxy::prefetch</link></title>
+      <para>
+        Provides a proxy interface to prefetch model data as soon as an object is
+        created.
+      </para>
+<programlisting xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="keyword">template</phrase><phrase role="special">&lt;</phrase>
+    <phrase role="keyword">typename</phrase> <phrase role="identifier">Base</phrase> <phrase role="special">,</phrase>
+    <phrase role="keyword">typename</phrase> <phrase role="identifier">Type</phrase>  <phrase role="special">=</phrase> <phrase role="keyword">typename</phrase> <phrase role="identifier">Base</phrase><phrase role="special">::</phrase><phrase role="identifier">base_type</phrase><phrase role="special">&gt;</phrase>
+<phrase role="keyword">struct</phrase> <phrase role="identifier">prefetch</phrase>
+</programlisting>
+      <bridgehead renderas="sect4" id="libbackbone_cpp.reference.proxy__prefetch.h0">
+        <phrase id="libbackbone_cpp.reference.proxy__prefetch.concepts"/><link linkend="libbackbone_cpp.reference.proxy__prefetch.concepts">Concepts</link>
+      </bridgehead>
+      <para>
+        <emphasis role="bold">Base:</emphasis> a specialization of either a <link linkend="libbackbone_cpp.reference.model"><computeroutput xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="identifier">model</phrase></computeroutput></link>,
+        <link linkend="libbackbone_cpp.reference.map"><computeroutput xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="identifier">map</phrase></computeroutput></link>
+        or <link linkend="libbackbone_cpp.reference.collection"><computeroutput xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="identifier">collection</phrase></computeroutput></link>,
+        and requires operator() to be defined and to fetch all member data.
+      </para>
+      <bridgehead renderas="sect4" id="libbackbone_cpp.reference.proxy__prefetch.h1">
+        <phrase id="libbackbone_cpp.reference.proxy__prefetch.examples"/><link linkend="libbackbone_cpp.reference.proxy__prefetch.examples">Examples</link>
+      </bridgehead>
+      <para>
+        Initialize a model and let its members be fetched as soon as the get () function
+        is called.
+      </para>
+      <bridgehead renderas="sect4" id="libbackbone_cpp.reference.proxy__prefetch.h2">
+        <phrase id="libbackbone_cpp.reference.proxy__prefetch.requirements"/><link linkend="libbackbone_cpp.reference.proxy__prefetch.requirements">Requirements</link>
+      </bridgehead>
+      <para>
+        <emphasis role="bold">Header: </emphasis><literal moreinfo="none">backbone++/proxy/prefetch.hpp</literal>
+      </para>
+    </section>
+    <section id="libbackbone_cpp.reference.to_json">
+      <title><link linkend="libbackbone_cpp.reference.to_json">to_json</link></title>
+      <para>
+        <indexterm significance="normal"><primary>to_json</primary></indexterm> 
+Converts a backbone data structure to JSON.
+      </para>
+<programlisting xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="keyword">template</phrase><phrase role="special">&lt;</phrase>
+    <phrase role="keyword">typename</phrase> <phrase role="identifier">Model</phrase> <phrase role="special">&gt;</phrase>
+<phrase role="identifier">ciere</phrase><phrase role="special">::</phrase><phrase role="identifier">json</phrase><phrase role="special">::</phrase><phrase role="identifier">value</phrase> <link linkend="libbackbone_cpp.reference.to_json.overload1">to_json</link><phrase role="special">(</phrase>
+    <phrase role="identifier">Model</phrase> <phrase role="keyword">const</phrase> <phrase role="special">&amp;</phrase> <phrase role="identifier">model</phrase><phrase role="special">);</phrase>
+  <emphasis>» <link linkend="libbackbone_cpp.reference.to_json.overload1">more...</link></emphasis>
+
+<phrase role="keyword">template</phrase><phrase role="special">&lt;</phrase>
+    <phrase role="keyword">typename</phrase> <phrase role="identifier">Key</phrase> <phrase role="special">,</phrase>
+    <phrase role="keyword">typename</phrase> <phrase role="identifier">Value</phrase> <phrase role="special">,</phrase>
+    <phrase role="keyword">typename</phrase> <phrase role="identifier">Signals</phrase> <phrase role="special">&gt;</phrase>
+<phrase role="identifier">ciere</phrase><phrase role="special">::</phrase><phrase role="identifier">json</phrase><phrase role="special">::</phrase><phrase role="identifier">value</phrase> <link linkend="libbackbone_cpp.reference.to_json.overload2">to_json</link><phrase role="special">(</phrase>
+    <phrase role="identifier">backbone</phrase><phrase role="special">::</phrase><phrase role="identifier">map</phrase><phrase role="special">&lt;</phrase> <phrase role="identifier">Key</phrase><phrase role="special">,</phrase> <phrase role="identifier">Value</phrase><phrase role="special">,</phrase> <phrase role="identifier">Signals</phrase> <phrase role="special">&gt;</phrase> <phrase role="keyword">const</phrase> <phrase role="special">&amp;</phrase> <phrase role="identifier">map</phrase><phrase role="special">);</phrase>
+  <emphasis>» <link linkend="libbackbone_cpp.reference.to_json.overload2">more...</link></emphasis>
+
+<phrase role="keyword">template</phrase><phrase role="special">&lt;</phrase>
+    <phrase role="keyword">typename</phrase> <phrase role="identifier">Value</phrase> <phrase role="special">,</phrase>
+    <phrase role="keyword">typename</phrase> <phrase role="identifier">Signals</phrase> <phrase role="special">&gt;</phrase>
+<phrase role="identifier">ciere</phrase><phrase role="special">::</phrase><phrase role="identifier">json</phrase><phrase role="special">::</phrase><phrase role="identifier">value</phrase> <link linkend="libbackbone_cpp.reference.to_json.overload3">to_json</link><phrase role="special">(</phrase>
+    <phrase role="identifier">backbone</phrase><phrase role="special">::</phrase><phrase role="identifier">collection</phrase><phrase role="special">&lt;</phrase> <phrase role="identifier">Value</phrase><phrase role="special">,</phrase> <phrase role="identifier">Signals</phrase> <phrase role="special">&gt;</phrase> <phrase role="keyword">const</phrase> <phrase role="special">&amp;</phrase> <phrase role="identifier">collection</phrase><phrase role="special">);</phrase>
+  <emphasis>» <link linkend="libbackbone_cpp.reference.to_json.overload3">more...</link></emphasis>
+</programlisting>
+      <bridgehead renderas="sect4" id="libbackbone_cpp.reference.to_json.h0">
+        <phrase id="libbackbone_cpp.reference.to_json.requirements"/><link linkend="libbackbone_cpp.reference.to_json.requirements">Requirements</link>
+      </bridgehead>
+      <para>
+        <emphasis role="bold">Header: </emphasis><literal moreinfo="none">backbone++/json.hpp</literal>
+      </para>
+      <section id="libbackbone_cpp.reference.to_json.overload1">
+        <title><link linkend="libbackbone_cpp.reference.to_json.overload1">to_json
+        (1 of 3 overloads)</link></title>
+        <para>
+          Converts a backbone data structure to JSON.
+        </para>
+<programlisting xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="keyword">template</phrase><phrase role="special">&lt;</phrase>
+    <phrase role="keyword">typename</phrase> <phrase role="identifier">Model</phrase> <phrase role="special">&gt;</phrase>
+<phrase role="keyword">static</phrase> <phrase role="identifier">ciere</phrase><phrase role="special">::</phrase><phrase role="identifier">json</phrase><phrase role="special">::</phrase><phrase role="identifier">value</phrase> <phrase role="identifier">to_json</phrase><phrase role="special">(</phrase>
+    <phrase role="identifier">Model</phrase> <phrase role="keyword">const</phrase> <phrase role="special">&amp;</phrase> <phrase role="identifier">model</phrase><phrase role="special">);</phrase>
+</programlisting>
+        <bridgehead renderas="sect5" id="libbackbone_cpp.reference.to_json.overload1.h0">
+          <phrase id="libbackbone_cpp.reference.to_json.overload1.parameters"/><link linkend="libbackbone_cpp.reference.to_json.overload1.parameters">Parameters</link>
+        </bridgehead>
+        <variablelist>
+          <title/>
+          <varlistentry>
+            <term>model</term>
+            <listitem>
+              <para>
+                Properly Fusion-adapted <link linkend="libbackbone_cpp.reference.model"><computeroutput xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="identifier">model</phrase></computeroutput></link> structure
+              </para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+      </section>
+      <section id="libbackbone_cpp.reference.to_json.overload2">
+        <title><link linkend="libbackbone_cpp.reference.to_json.overload2">to_json
+        (2 of 3 overloads)</link></title>
+        <para>
+          Converts a backbone data structure to JSON.
+        </para>
+<programlisting xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="keyword">template</phrase><phrase role="special">&lt;</phrase>
+    <phrase role="keyword">typename</phrase> <phrase role="identifier">Key</phrase> <phrase role="special">,</phrase>
+    <phrase role="keyword">typename</phrase> <phrase role="identifier">Value</phrase> <phrase role="special">,</phrase>
+    <phrase role="keyword">typename</phrase> <phrase role="identifier">Signals</phrase> <phrase role="special">&gt;</phrase>
+<phrase role="keyword">static</phrase> <phrase role="identifier">ciere</phrase><phrase role="special">::</phrase><phrase role="identifier">json</phrase><phrase role="special">::</phrase><phrase role="identifier">value</phrase> <phrase role="identifier">to_json</phrase><phrase role="special">(</phrase>
+    <phrase role="identifier">backbone</phrase><phrase role="special">::</phrase><phrase role="identifier">map</phrase><phrase role="special">&lt;</phrase> <phrase role="identifier">Key</phrase><phrase role="special">,</phrase> <phrase role="identifier">Value</phrase><phrase role="special">,</phrase> <phrase role="identifier">Signals</phrase> <phrase role="special">&gt;</phrase> <phrase role="keyword">const</phrase> <phrase role="special">&amp;</phrase> <phrase role="identifier">map</phrase><phrase role="special">);</phrase>
+</programlisting>
+        <bridgehead renderas="sect5" id="libbackbone_cpp.reference.to_json.overload2.h0">
+          <phrase id="libbackbone_cpp.reference.to_json.overload2.parameters"/><link linkend="libbackbone_cpp.reference.to_json.overload2.parameters">Parameters</link>
+        </bridgehead>
+        <variablelist>
+          <title/>
+          <varlistentry>
+            <term>map</term>
+            <listitem>
+              <para>
+                <link linkend="libbackbone_cpp.reference.map"><computeroutput xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="identifier">map</phrase></computeroutput></link>
+                instance
+              </para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+      </section>
+      <section id="libbackbone_cpp.reference.to_json.overload3">
+        <title><link linkend="libbackbone_cpp.reference.to_json.overload3">to_json
+        (3 of 3 overloads)</link></title>
+        <para>
+          Converts a backbone data structure to JSON.
+        </para>
+<programlisting xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="keyword">template</phrase><phrase role="special">&lt;</phrase>
+    <phrase role="keyword">typename</phrase> <phrase role="identifier">Value</phrase> <phrase role="special">,</phrase>
+    <phrase role="keyword">typename</phrase> <phrase role="identifier">Signals</phrase> <phrase role="special">&gt;</phrase>
+<phrase role="keyword">static</phrase> <phrase role="identifier">ciere</phrase><phrase role="special">::</phrase><phrase role="identifier">json</phrase><phrase role="special">::</phrase><phrase role="identifier">value</phrase> <phrase role="identifier">to_json</phrase><phrase role="special">(</phrase>
+    <phrase role="identifier">backbone</phrase><phrase role="special">::</phrase><phrase role="identifier">collection</phrase><phrase role="special">&lt;</phrase> <phrase role="identifier">Value</phrase><phrase role="special">,</phrase> <phrase role="identifier">Signals</phrase> <phrase role="special">&gt;</phrase> <phrase role="keyword">const</phrase> <phrase role="special">&amp;</phrase> <phrase role="identifier">collection</phrase><phrase role="special">);</phrase>
+</programlisting>
+        <bridgehead renderas="sect5" id="libbackbone_cpp.reference.to_json.overload3.h0">
+          <phrase id="libbackbone_cpp.reference.to_json.overload3.parameters"/><link linkend="libbackbone_cpp.reference.to_json.overload3.parameters">Parameters</link>
+        </bridgehead>
+        <variablelist>
+          <title/>
+          <varlistentry>
+            <term>collection</term>
+            <listitem>
+              <para>
+                <link linkend="libbackbone_cpp.reference.collection"><computeroutput xmlns:xi="http://www.w3.org/2001/XInclude"><phrase role="identifier">collection</phrase></computeroutput></link> instance
+              </para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+      </section>
+    </section>
+  </section>
+  <section id="libbackbone_cpp.revision_history">
+    <title><link linkend="libbackbone_cpp.revision_history">Revision history</link></title>
+    <bridgehead renderas="sect3" id="libbackbone_cpp.revision_history.h0">
+      <phrase id="libbackbone_cpp.revision_history.libbackbone_cpp_0_1_0"/><link linkend="libbackbone_cpp.revision_history.libbackbone_cpp_0_1_0">libbackbone-cpp
+      0.1.0</link>
+    </bridgehead>
+    <para>
+      Releases version 0.1.0 of libbackbone-cpp, which is the first official version.
+      Currently, it implements:
+    </para>
+    <itemizedlist>
+      <listitem>
+        <simpara>
+          a model based on Boost.Fusion;
+        </simpara>
+      </listitem>
+      <listitem>
+        <simpara>
+          events that can be triggered on that model based on Boost.Signals;
+        </simpara>
+      </listitem>
+      <listitem>
+        <simpara>
+          a json conversion tool based on Ciere.Json;
+        </simpara>
+      </listitem>
+      <listitem>
+        <simpara>
+          a retrieval proxy mechanism built on top of the model using the event triggering
+          mechanism.
+        </simpara>
+      </listitem>
+    </itemizedlist>
+  </section>
+  <bridgehead renderas="sect2" id="libbackbone_cpp.h0">
+    <phrase id="libbackbone_cpp.introduction"/><link linkend="libbackbone_cpp.introduction">Introduction</link>
+  </bridgehead>
+  <para>
+    libbackbone-cpp is a C++ implementation of a minimalist MVC framework inspired
+    by Backbone.JS, and is distributed under the 3-clause BSD license. While Backbone.JS
+    aims to provide a client-side MVC framework, libbackbone-cpp implements the server-side
+    of the same concepts.
+  </para>
+  <para>
+    The library itself is written by me because I felt myself needing a flexible
+    MVC framework for C++ without all the overhead using such a framework might cause.
+    I needed a framework that solved the following problems for me:
+  </para>
+  <itemizedlist>
+    <listitem>
+      <simpara>
+        Build and retrieve the Model-part of a MVC architecture, without the code
+        that uses the model being aware of how and when the model is retrieved;
+      </simpara>
+    </listitem>
+    <listitem>
+      <simpara>
+        Store anything I want inside a model, but do not lose type information of
+        properties stored inside the model;
+      </simpara>
+    </listitem>
+    <listitem>
+      <simpara>
+        Detect changes in a Model and automatically update my Views;
+      </simpara>
+    </listitem>
+    <listitem>
+      <simpara>
+        Convert my Model to a JSON representation;
+      </simpara>
+    </listitem>
+    <listitem>
+      <simpara>
+        Route incoming HTTP requests to the appropriate handlers.
+      </simpara>
+    </listitem>
+  </itemizedlist>
+  <para>
+    As such, it currently provides the following functionality:
+  </para>
+  <itemizedlist>
+    <listitem>
+      <simpara>
+        Extremely minimal and works as a wrapper around existing data structures;
+      </simpara>
+    </listitem>
+    <listitem>
+      <simpara>
+        Just-In-Time fetching of Model data;
+      </simpara>
+    </listitem>
+    <listitem>
+      <simpara>
+        Event listening / triggering;
+      </simpara>
+    </listitem>
+    <listitem>
+      <simpara>
+        Custom event definitions;
+      </simpara>
+    </listitem>
+    <listitem>
+      <simpara>
+        JSON conversion functions based on Ciere.Json;
+      </simpara>
+    </listitem>
+    <listitem>
+      <simpara>
+        A HTTP routing framework.
+      </simpara>
+    </listitem>
+  </itemizedlist>
+  <para>
+    Since this library tries to do the things it does with as minimal code as possible,
+    I chose not to hide the components it uses. For example, it is based on <ulink url="http://www.boost.org/libs/fusion">Boost.Fusion</ulink> and <ulink url="http://www.boost.org/libs/signals2/">Boost.Signals</ulink>,
+    and makes no effort to wrap these libraries. As such, I also expect you to at
+    least study these libraries a bit so you know what they do and how to use them
+    in the context this library provides.
+  </para>
+  <bridgehead renderas="sect2" id="libbackbone_cpp.h1">
+    <phrase id="libbackbone_cpp.support"/><link linkend="libbackbone_cpp.support">Support</link>
+  </bridgehead>
+  <para>
+    There is a Google Groups mailinglist for libbackbone-cpp to which you can subscribe
+    and ask your questions:
+  </para>
+  <itemizedlist>
+    <listitem>
+      <simpara>
+        <ulink url="http://groups.google.com/group/libbackbone-cpp">http://groups.google.com/group/libbackbone-cpp</ulink>
+      </simpara>
+    </listitem>
+  </itemizedlist>
+</article>

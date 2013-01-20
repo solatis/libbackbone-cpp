@@ -1,0 +1,68 @@
+<html>
+<head>
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>Source listing for Basic client</title>
+<link rel="stylesheet" href="../../../boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
+<link rel="home" href="../../../index.html" title="libbackbone-cpp 0.1.0">
+<link rel="up" href="../basic_lock_service_client.html" title="Lock service.1 - Basic client">
+<link rel="prev" href="../basic_lock_service_client.html" title="Lock service.1 - Basic client">
+<link rel="next" href="../durable_lock_service_server.html" title="Lock service.2 - Durable server">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="spirit-nav">
+<a accesskey="p" href="../basic_lock_service_client.html"><img src="../../../images/prev.png" alt="Prev"></a><a accesskey="u" href="../basic_lock_service_client.html"><img src="../../../images/up.png" alt="Up"></a><a accesskey="h" href="../../../index.html"><img src="../../../images/home.png" alt="Home"></a><a accesskey="n" href="../durable_lock_service_server.html"><img src="../../../images/next.png" alt="Next"></a>
+</div>
+<div class="section">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="libbackbone_cpp.tutorial.basic_lock_service_client.a00001"></a><a class="link" href="a00001.html" title="Source listing for Basic client">Source
+        listing for Basic client</a>
+</h4></div></div></div>
+<pre class="programlisting"><span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">paxos</span><span class="special">++/</span><span class="identifier">client</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
+
+<span class="keyword">int</span> <span class="identifier">main</span> <span class="special">()</span>
+<span class="special">{</span>
+   <span class="identifier">paxos</span><span class="special">::</span><span class="identifier">client</span> <span class="identifier">client</span><span class="special">;</span>
+   <span class="identifier">client</span><span class="special">.</span><span class="identifier">add</span> <span class="special">(</span><span class="string">"127.0.0.1"</span><span class="special">,</span> <span class="number">1337</span><span class="special">);</span>
+
+   <span class="identifier">assert</span> <span class="special">(</span><span class="identifier">client</span><span class="special">.</span><span class="identifier">send</span> <span class="special">(</span><span class="string">"lock foo"</span><span class="special">).</span><span class="identifier">get</span> <span class="special">()</span> <span class="special">==</span> <span class="string">"success"</span><span class="special">);</span>
+   <span class="identifier">assert</span> <span class="special">(</span><span class="identifier">client</span><span class="special">.</span><span class="identifier">send</span> <span class="special">(</span><span class="string">"lock foo"</span><span class="special">).</span><span class="identifier">get</span> <span class="special">()</span> <span class="special">==</span> <span class="string">"fail"</span><span class="special">);</span>
+
+   <span class="identifier">assert</span> <span class="special">(</span><span class="identifier">client</span><span class="special">.</span><span class="identifier">send</span> <span class="special">(</span><span class="string">"lock bar"</span><span class="special">).</span><span class="identifier">get</span> <span class="special">()</span> <span class="special">==</span> <span class="string">"success"</span><span class="special">);</span>
+   <span class="identifier">assert</span> <span class="special">(</span><span class="identifier">client</span><span class="special">.</span><span class="identifier">send</span> <span class="special">(</span><span class="string">"lock bar"</span><span class="special">).</span><span class="identifier">get</span> <span class="special">()</span> <span class="special">==</span> <span class="string">"fail"</span><span class="special">);</span>
+
+   <span class="identifier">assert</span> <span class="special">(</span><span class="identifier">client</span><span class="special">.</span><span class="identifier">send</span> <span class="special">(</span><span class="string">"unlock foo"</span><span class="special">).</span><span class="identifier">get</span> <span class="special">()</span> <span class="special">==</span> <span class="string">"success"</span><span class="special">);</span>
+   <span class="identifier">assert</span> <span class="special">(</span><span class="identifier">client</span><span class="special">.</span><span class="identifier">send</span> <span class="special">(</span><span class="string">"unlock bar"</span><span class="special">).</span><span class="identifier">get</span> <span class="special">()</span> <span class="special">==</span> <span class="string">"success"</span><span class="special">);</span>
+
+   <span class="identifier">assert</span> <span class="special">(</span><span class="identifier">client</span><span class="special">.</span><span class="identifier">send</span> <span class="special">(</span><span class="string">"unlock foo"</span><span class="special">).</span><span class="identifier">get</span> <span class="special">()</span> <span class="special">==</span> <span class="string">"fail"</span><span class="special">);</span>
+   <span class="identifier">assert</span> <span class="special">(</span><span class="identifier">client</span><span class="special">.</span><span class="identifier">send</span> <span class="special">(</span><span class="string">"unlock bar"</span><span class="special">).</span><span class="identifier">get</span> <span class="special">()</span> <span class="special">==</span> <span class="string">"fail"</span><span class="special">);</span>
+<span class="special">}</span>
+</pre>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"></td>
+<td align="right"><div class="copyright-footer">Copyright &#169; 2012 Leon Mergen<p>
+        Distributed under the 3-Clause BSD License. (See accompanying file COPYING
+        or copy at <a href="http://opensource.org/licenses/BSD-3-Clause" target="_top">http://opensource.org/licenses/BSD-3-Clause</a>)
+      </p>
+</div></td>
+</tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="../basic_lock_service_client.html"><img src="../../../images/prev.png" alt="Prev"></a><a accesskey="u" href="../basic_lock_service_client.html"><img src="../../../images/up.png" alt="Up"></a><a accesskey="h" href="../../../index.html"><img src="../../../images/home.png" alt="Home"></a><a accesskey="n" href="../durable_lock_service_server.html"><img src="../../../images/next.png" alt="Next"></a>
+</div>
+</body>
+</html>

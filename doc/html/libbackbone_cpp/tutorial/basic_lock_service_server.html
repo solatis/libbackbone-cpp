@@ -1,0 +1,142 @@
+<html>
+<head>
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>Lock service.1 - Basic server</title>
+<link rel="stylesheet" href="../../boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
+<link rel="home" href="../../index.html" title="libbackbone-cpp 0.1.0">
+<link rel="up" href="../tutorial.html" title="Tutorial">
+<link rel="prev" href="basic_client/a00002.html" title="Source listing for Basic client">
+<link rel="next" href="basic_lock_service_server/a00001.html" title="Source listing for Basic server">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="spirit-nav">
+<a accesskey="p" href="basic_client/a00002.html"><img src="../../images/prev.png" alt="Prev"></a><a accesskey="u" href="../tutorial.html"><img src="../../images/up.png" alt="Up"></a><a accesskey="h" href="../../index.html"><img src="../../images/home.png" alt="Home"></a><a accesskey="n" href="basic_lock_service_server/a00001.html"><img src="../../images/next.png" alt="Next"></a>
+</div>
+<div class="section">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="libbackbone_cpp.tutorial.basic_lock_service_server"></a><a class="link" href="basic_lock_service_server.html" title="Lock service.1 - Basic server">Lock
+      service.1 - Basic server</a>
+</h3></div></div></div>
+<p>
+        This section builds upon the knowledge we acquired in the basic introduction,
+        and introduces a first, real-world practical example of the paxos library:
+        a distributed locking service. The service we will develop here will be an
+        in-memory lock service, and the data will be volatile: once one of the servers
+        is shut down, it will be impossible to recover.
+      </p>
+<p>
+        First, let's include the headers this example will use.
+      </p>
+<pre class="programlisting"><span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">set</span><span class="special">&gt;</span>
+<span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">vector</span><span class="special">&gt;</span>
+<span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">string</span><span class="special">&gt;</span>
+
+<span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">boost</span><span class="special">/</span><span class="identifier">algorithm</span><span class="special">/</span><span class="identifier">string</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
+
+<span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">paxos</span><span class="special">++/</span><span class="identifier">server</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
+
+<span class="keyword">int</span> <span class="identifier">main</span> <span class="special">()</span>
+<span class="special">{</span>
+</pre>
+<p>
+        We will associate a lock with an id and a state. A certain id is locked when
+        it appears in a set, and unlocked if otherwise. Let's declare the container
+        that holds these locks.
+      </p>
+<pre class="programlisting"><span class="identifier">std</span><span class="special">::</span><span class="identifier">set</span> <span class="special">&lt;</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">&gt;</span> <span class="identifier">locks</span><span class="special">;</span>
+</pre>
+<p>
+        Next, we will define the callback function that maintains these locks. It
+        will accept a command with the following definition:
+      </p>
+<pre class="programlisting"><span class="identifier">command</span>       <span class="special">::=</span> <span class="identifier">action</span> <span class="char">' '</span> <span class="identifier">lock_id</span>
+<span class="identifier">action</span>        <span class="special">::=</span> <span class="char">'lock'</span> <span class="special">|</span> <span class="char">'unlock'</span>
+<span class="identifier">lock_id</span>       <span class="special">::=</span> <span class="identifier">string</span>
+</pre>
+<p>
+        As you can see from this definition, we will need to split the string to
+        separate the action from the lock id.
+      </p>
+<pre class="programlisting"><span class="identifier">paxos</span><span class="special">::</span><span class="identifier">server</span><span class="special">::</span><span class="identifier">callback_type</span> <span class="identifier">callback</span> <span class="special">=</span>
+    <span class="special">[&amp;</span> <span class="identifier">locks</span><span class="special">](</span><span class="identifier">int64_t</span> <span class="identifier">proposal_id</span><span class="special">,</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span> <span class="keyword">const</span> <span class="special">&amp;</span> <span class="identifier">command</span><span class="special">)</span> <span class="special">-&gt;</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span>
+    <span class="special">{</span>
+      <span class="identifier">std</span><span class="special">::</span><span class="identifier">vector</span> <span class="special">&lt;</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">&gt;</span> <span class="identifier">tokens</span><span class="special">;</span>
+      <span class="identifier">boost</span><span class="special">::</span><span class="identifier">split</span> <span class="special">(</span><span class="identifier">tokens</span><span class="special">,</span> <span class="identifier">command</span><span class="special">,</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">is_any_of</span> <span class="special">(</span><span class="string">" "</span><span class="special">));</span>
+
+      <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span> <span class="keyword">const</span> <span class="special">&amp;</span> <span class="identifier">type</span>    <span class="special">=</span> <span class="identifier">tokens</span><span class="special">.</span><span class="identifier">at</span> <span class="special">(</span><span class="number">0</span><span class="special">);</span>
+      <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span> <span class="keyword">const</span> <span class="special">&amp;</span> <span class="identifier">lock_id</span> <span class="special">=</span> <span class="identifier">tokens</span><span class="special">.</span><span class="identifier">at</span> <span class="special">(</span><span class="number">1</span><span class="special">);</span>
+
+      <span class="keyword">if</span> <span class="special">(</span><span class="identifier">type</span> <span class="special">==</span> <span class="string">"lock"</span><span class="special">)</span>
+      <span class="special">{</span>
+        <span class="keyword">if</span> <span class="special">(</span><span class="identifier">locks</span><span class="special">.</span><span class="identifier">find</span> <span class="special">(</span><span class="identifier">lock_id</span><span class="special">)</span> <span class="special">==</span> <span class="identifier">locks</span><span class="special">.</span><span class="identifier">end</span> <span class="special">())</span>
+        <span class="special">{</span>
+          <span class="identifier">locks</span><span class="special">.</span><span class="identifier">insert</span> <span class="special">(</span><span class="identifier">lock_id</span><span class="special">);</span>
+          <span class="keyword">return</span> <span class="string">"success"</span><span class="special">;</span>
+        <span class="special">}</span>
+        <span class="keyword">else</span>
+        <span class="special">{</span>
+          <span class="keyword">return</span> <span class="string">"fail"</span><span class="special">;</span>
+        <span class="special">}</span>
+      <span class="special">}</span>
+      <span class="keyword">else</span> <span class="keyword">if</span> <span class="special">(</span><span class="identifier">type</span> <span class="special">==</span> <span class="string">"unlock"</span><span class="special">)</span>
+      <span class="special">{</span>
+        <span class="keyword">if</span> <span class="special">(</span><span class="identifier">locks</span><span class="special">.</span><span class="identifier">find</span> <span class="special">(</span><span class="identifier">lock_id</span><span class="special">)</span> <span class="special">!=</span> <span class="identifier">locks</span><span class="special">.</span><span class="identifier">end</span> <span class="special">())</span>
+        <span class="special">{</span>
+          <span class="identifier">locks</span><span class="special">.</span><span class="identifier">erase</span> <span class="special">(</span><span class="identifier">lock_id</span><span class="special">);</span>
+          <span class="keyword">return</span> <span class="string">"success"</span><span class="special">;</span>
+        <span class="special">}</span>
+        <span class="keyword">else</span>
+        <span class="special">{</span>
+          <span class="keyword">return</span> <span class="string">"fail"</span><span class="special">;</span>
+        <span class="special">}</span>
+      <span class="special">}</span>
+    <span class="special">};</span>
+</pre>
+<p>
+        As you can see, this is a very crude example on how to perform different
+        actions on different command inputs, and returns "success" or "fail"
+        based on the state of the locks container.
+      </p>
+<p>
+        Next, all we need to do is the same thing we did in our first basic example,
+        which is to launch our server and block until the server shuts down.
+      </p>
+<pre class="programlisting">  <span class="identifier">paxos</span><span class="special">::</span><span class="identifier">server</span> <span class="identifier">server</span> <span class="special">(</span><span class="string">"127.0.0.1"</span><span class="special">,</span> <span class="number">1337</span><span class="special">,</span> <span class="identifier">callback</span><span class="special">);</span>
+  <span class="identifier">server</span><span class="special">.</span><span class="identifier">add</span> <span class="special">(</span><span class="string">"127.0.0.1"</span><span class="special">,</span> <span class="number">1337</span><span class="special">);</span>
+
+  <span class="identifier">server</span><span class="special">.</span><span class="identifier">wait</span> <span class="special">();</span>
+<span class="special">}</span>
+</pre>
+<p>
+        See the <a class="link" href="../../">full
+        source listing</a>
+      </p>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"></td>
+<td align="right"><div class="copyright-footer">Copyright &#169; 2012 Leon Mergen<p>
+        Distributed under the 3-Clause BSD License. (See accompanying file COPYING
+        or copy at <a href="http://opensource.org/licenses/BSD-3-Clause" target="_top">http://opensource.org/licenses/BSD-3-Clause</a>)
+      </p>
+</div></td>
+</tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="basic_client/a00002.html"><img src="../../images/prev.png" alt="Prev"></a><a accesskey="u" href="../tutorial.html"><img src="../../images/up.png" alt="Up"></a><a accesskey="h" href="../../index.html"><img src="../../images/home.png" alt="Home"></a><a accesskey="n" href="basic_lock_service_server/a00001.html"><img src="../../images/next.png" alt="Next"></a>
+</div>
+</body>
+</html>

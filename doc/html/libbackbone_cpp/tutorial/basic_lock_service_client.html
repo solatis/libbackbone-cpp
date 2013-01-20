@@ -1,0 +1,100 @@
+<html>
+<head>
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>Lock service.1 - Basic client</title>
+<link rel="stylesheet" href="../../boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
+<link rel="home" href="../../index.html" title="libbackbone-cpp 0.1.0">
+<link rel="up" href="../tutorial.html" title="Tutorial">
+<link rel="prev" href="basic_lock_service_server/a00001.html" title="Source listing for Basic server">
+<link rel="next" href="basic_lock_service_client/a00001.html" title="Source listing for Basic client">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="spirit-nav">
+<a accesskey="p" href="basic_lock_service_server/a00001.html"><img src="../../images/prev.png" alt="Prev"></a><a accesskey="u" href="../tutorial.html"><img src="../../images/up.png" alt="Up"></a><a accesskey="h" href="../../index.html"><img src="../../images/home.png" alt="Home"></a><a accesskey="n" href="basic_lock_service_client/a00001.html"><img src="../../images/next.png" alt="Next"></a>
+</div>
+<div class="section">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="libbackbone_cpp.tutorial.basic_lock_service_client"></a><a class="link" href="basic_lock_service_client.html" title="Lock service.1 - Basic client">Lock
+      service.1 - Basic client</a>
+</h3></div></div></div>
+<p>
+        This section describes the client that connects to our distributed lock service's
+        server. It describes a trivial client that executes a few lock commands and
+        verifies the correct result.
+      </p>
+<p>
+        First, let's include our headers and define the client object.
+      </p>
+<pre class="programlisting"><span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">paxos</span><span class="special">++/</span><span class="identifier">client</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
+
+<span class="keyword">int</span> <span class="identifier">main</span> <span class="special">()</span>
+<span class="special">{</span>
+   <span class="identifier">paxos</span><span class="special">::</span><span class="identifier">client</span> <span class="identifier">client</span><span class="special">;</span>
+   <span class="identifier">client</span><span class="special">.</span><span class="identifier">add</span> <span class="special">(</span><span class="string">"127.0.0.1"</span><span class="special">,</span> <span class="number">1337</span><span class="special">);</span>
+</pre>
+<p>
+        Now that we have this client, let's attempt to lock the lock with id "foo"
+        and verify that it results in the proper command:
+      </p>
+<pre class="programlisting"><span class="identifier">assert</span> <span class="special">(</span><span class="identifier">client</span><span class="special">.</span><span class="identifier">send</span> <span class="special">(</span><span class="string">"lock foo"</span><span class="special">).</span><span class="identifier">get</span> <span class="special">()</span> <span class="special">==</span> <span class="string">"success"</span><span class="special">);</span>
+</pre>
+<p>
+        Now, let's try to re-acquire this lock and expect a failure:
+      </p>
+<pre class="programlisting"><span class="identifier">assert</span> <span class="special">(</span><span class="identifier">client</span><span class="special">.</span><span class="identifier">send</span> <span class="special">(</span><span class="string">"lock foo"</span><span class="special">).</span><span class="identifier">get</span> <span class="special">()</span> <span class="special">==</span> <span class="string">"fail"</span><span class="special">);</span>
+</pre>
+<p>
+        However, acquiring a lock with another id should succeed:
+      </p>
+<pre class="programlisting"><span class="identifier">assert</span> <span class="special">(</span><span class="identifier">client</span><span class="special">.</span><span class="identifier">send</span> <span class="special">(</span><span class="string">"lock bar"</span><span class="special">).</span><span class="identifier">get</span> <span class="special">()</span> <span class="special">==</span> <span class="string">"success"</span><span class="special">);</span>
+</pre>
+<p>
+        And re-acquiring that lock should fail:
+      </p>
+<pre class="programlisting"><span class="identifier">assert</span> <span class="special">(</span><span class="identifier">client</span><span class="special">.</span><span class="identifier">send</span> <span class="special">(</span><span class="string">"lock bar"</span><span class="special">).</span><span class="identifier">get</span> <span class="special">()</span> <span class="special">==</span> <span class="string">"fail"</span><span class="special">);</span>
+</pre>
+<p>
+        Now, let's release both locks and verify it succeeds:
+      </p>
+<pre class="programlisting"><span class="identifier">assert</span> <span class="special">(</span><span class="identifier">client</span><span class="special">.</span><span class="identifier">send</span> <span class="special">(</span><span class="string">"unlock foo"</span><span class="special">).</span><span class="identifier">get</span> <span class="special">()</span> <span class="special">==</span> <span class="string">"success"</span><span class="special">);</span>
+<span class="identifier">assert</span> <span class="special">(</span><span class="identifier">client</span><span class="special">.</span><span class="identifier">send</span> <span class="special">(</span><span class="string">"unlock bar"</span><span class="special">).</span><span class="identifier">get</span> <span class="special">()</span> <span class="special">==</span> <span class="string">"success"</span><span class="special">);</span>
+</pre>
+<p>
+        And verify re-releasing those locks fails:
+      </p>
+<pre class="programlisting"><span class="identifier">assert</span> <span class="special">(</span><span class="identifier">client</span><span class="special">.</span><span class="identifier">send</span> <span class="special">(</span><span class="string">"unlock foo"</span><span class="special">).</span><span class="identifier">get</span> <span class="special">()</span> <span class="special">==</span> <span class="string">"fail"</span><span class="special">);</span>
+<span class="identifier">assert</span> <span class="special">(</span><span class="identifier">client</span><span class="special">.</span><span class="identifier">send</span> <span class="special">(</span><span class="string">"unlock bar"</span><span class="special">).</span><span class="identifier">get</span> <span class="special">()</span> <span class="special">==</span> <span class="string">"fail"</span><span class="special">);</span>
+</pre>
+<p>
+        See the <a class="link" href="../../">full
+        source listing</a>
+      </p>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"></td>
+<td align="right"><div class="copyright-footer">Copyright &#169; 2012 Leon Mergen<p>
+        Distributed under the 3-Clause BSD License. (See accompanying file COPYING
+        or copy at <a href="http://opensource.org/licenses/BSD-3-Clause" target="_top">http://opensource.org/licenses/BSD-3-Clause</a>)
+      </p>
+</div></td>
+</tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="basic_lock_service_server/a00001.html"><img src="../../images/prev.png" alt="Prev"></a><a accesskey="u" href="../tutorial.html"><img src="../../images/up.png" alt="Up"></a><a accesskey="h" href="../../index.html"><img src="../../images/home.png" alt="Home"></a><a accesskey="n" href="basic_lock_service_client/a00001.html"><img src="../../images/next.png" alt="Next"></a>
+</div>
+</body>
+</html>

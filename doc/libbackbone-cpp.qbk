@@ -1,0 +1,53 @@
+[/              
+  Copyright (c) 2013, Leon Mergen, all rights reserved.
+]
+
+[article libbackbone-cpp
+    [quickbook 1.5]
+    [authors [Mergen, Leon]]
+    [copyright 2013 Leon Mergen]
+    [license
+        Distributed under the 3-Clause BSD License.
+        (See accompanying file COPYING or copy at
+            [@http://opensource.org/licenses/BSD-3-Clause])
+    ]
+    [version 0.1.0]
+]
+
+[template indexterm1[term1] '''<indexterm><primary>'''[term1]'''</primary></indexterm>''']
+[template indexterm2[term1 term2] '''<indexterm><primary>'''[term1]'''</primary><secondary>'''[term2]'''</secondary></indexterm>''']
+
+[include getting_started.qbk]
+[include tutorial.qbk]
+[include reference.qbk]
+[include revision_history.qbk]
+
+[heading Introduction]
+
+libbackbone-cpp is a C++ implementation of a minimalist MVC framework inspired by Backbone.JS, and is distributed under the 3-clause BSD license. While Backbone.JS aims to provide a client-side MVC framework, libbackbone-cpp implements the server-side of the same concepts. 
+
+The library itself is written by me because I felt myself needing a flexible MVC framework for C++ without all the overhead using such a framework might cause. I needed a framework that solved the following problems for me:
+
+* Build and retrieve the Model-part of a MVC architecture, without the code that uses the model being aware of how and when the model is retrieved;
+* Store anything I want inside a model, but do not lose type information of properties stored inside the model;
+* Detect changes in a Model and automatically update my Views;
+* Convert my Model to a JSON representation;
+* Route incoming HTTP requests to the appropriate handlers.
+
+As such, it currently provides the following functionality:
+
+* Extremely minimal and works as a wrapper around existing data structures;
+* Just-In-Time fetching of Model data;
+* Event listening / triggering;
+* Custom event definitions;
+* JSON conversion functions based on Ciere.Json;
+* A HTTP routing framework.
+
+Since this library tries to do the things it does with as minimal code as possible, I chose not to hide the components it uses. For example, it is based on [@http://www.boost.org/libs/fusion Boost.Fusion] and [@http://www.boost.org/libs/signals2/ Boost.Signals], and makes no effort to wrap these libraries. As such, I also expect you to at least study these libraries a bit so you know what they do and how to use them in the context this library provides.
+
+[heading Support]
+
+There is a Google Groups mailinglist for libbackbone-cpp to which you can subscribe and ask your questions: 
+
+* [@http://groups.google.com/group/libbackbone-cpp]
+

@@ -1,0 +1,324 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
+<tagfile>
+  <compound kind="file">
+    <name>collection.hpp</name>
+    <path>/home/lmergen/git/libbackbone-cpp/backbone++/</path>
+    <filename>collection_8hpp</filename>
+    <class kind="struct">backbone::collection</class>
+    <namespace>backbone</namespace>
+  </compound>
+  <compound kind="file">
+    <name>json.hpp</name>
+    <path>/home/lmergen/git/libbackbone-cpp/backbone++/</path>
+    <filename>json_8hpp</filename>
+    <namespace>backbone</namespace>
+    <member kind="function" static="yes">
+      <type>static ciere::json::value</type>
+      <name>to_json</name>
+      <anchorfile>namespacebackbone.html</anchorfile>
+      <anchor>a4afa8bd28e00ff6ca5222e971d367829</anchor>
+      <arglist>(Model const &amp;model)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static ciere::json::value</type>
+      <name>to_json</name>
+      <anchorfile>namespacebackbone.html</anchorfile>
+      <anchor>a443c78da0f16adc98e84cecfe986735b</anchor>
+      <arglist>(backbone::map&lt; Key, Value, Signals &gt; const &amp;map)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static ciere::json::value</type>
+      <name>to_json</name>
+      <anchorfile>namespacebackbone.html</anchorfile>
+      <anchor>af05f92bb4b8fc45f716665e72777163f</anchor>
+      <arglist>(backbone::collection&lt; Value, Signals &gt; const &amp;collection)</arglist>
+    </member>
+  </compound>
+  <compound kind="file">
+    <name>map.hpp</name>
+    <path>/home/lmergen/git/libbackbone-cpp/backbone++/</path>
+    <filename>map_8hpp</filename>
+    <class kind="struct">backbone::map</class>
+    <namespace>backbone</namespace>
+  </compound>
+  <compound kind="file">
+    <name>model.hpp</name>
+    <path>/home/lmergen/git/libbackbone-cpp/backbone++/</path>
+    <filename>model_8hpp</filename>
+    <class kind="struct">backbone::model</class>
+    <namespace>backbone</namespace>
+  </compound>
+  <compound kind="file">
+    <name>jitfetch.hpp</name>
+    <path>/home/lmergen/git/libbackbone-cpp/backbone++/proxy/</path>
+    <filename>jitfetch_8hpp</filename>
+    <class kind="struct">backbone::proxy::jitfetch</class>
+    <namespace>backbone</namespace>
+    <namespace>backbone::proxy</namespace>
+  </compound>
+  <compound kind="file">
+    <name>prefetch.hpp</name>
+    <path>/home/lmergen/git/libbackbone-cpp/backbone++/proxy/</path>
+    <filename>prefetch_8hpp</filename>
+    <class kind="struct">backbone::proxy::prefetch</class>
+    <namespace>backbone</namespace>
+    <namespace>backbone::proxy</namespace>
+  </compound>
+  <compound kind="namespace">
+    <name>backbone</name>
+    <filename>namespacebackbone.html</filename>
+    <namespace>backbone::proxy</namespace>
+    <class kind="struct">backbone::model</class>
+    <class kind="struct">backbone::map</class>
+    <class kind="struct">backbone::collection</class>
+    <member kind="function" static="yes">
+      <type>static ciere::json::value</type>
+      <name>to_json</name>
+      <anchorfile>namespacebackbone.html</anchorfile>
+      <anchor>a4afa8bd28e00ff6ca5222e971d367829</anchor>
+      <arglist>(Model const &amp;model)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static ciere::json::value</type>
+      <name>to_json</name>
+      <anchorfile>namespacebackbone.html</anchorfile>
+      <anchor>a443c78da0f16adc98e84cecfe986735b</anchor>
+      <arglist>(backbone::map&lt; Key, Value, Signals &gt; const &amp;map)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static ciere::json::value</type>
+      <name>to_json</name>
+      <anchorfile>namespacebackbone.html</anchorfile>
+      <anchor>af05f92bb4b8fc45f716665e72777163f</anchor>
+      <arglist>(backbone::collection&lt; Value, Signals &gt; const &amp;collection)</arglist>
+    </member>
+  </compound>
+  <compound kind="struct">
+    <name>backbone::model</name>
+    <filename>structbackbone_1_1model.html</filename>
+    <templarg></templarg>
+    <templarg></templarg>
+    <member kind="typedef">
+      <type>model&lt; Derived, Signals &gt;</type>
+      <name>base_type</name>
+      <anchorfile>structbackbone_1_1model.html</anchorfile>
+      <anchor>a9a6b267873ede8a2d198a931187ef335</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>model</name>
+      <anchorfile>structbackbone_1_1model.html</anchorfile>
+      <anchor>a9dd631cefe835f702dd3487f743b06b7</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>set</name>
+      <anchorfile>structbackbone_1_1model.html</anchorfile>
+      <anchor>aab5865112abe3ef195452cd8e43f9460</anchor>
+      <arglist>(Value &amp;&amp;value)</arglist>
+    </member>
+    <member kind="function">
+      <type>boost::fusion::result_of::at_key&lt; Derived, Key &gt;::type &amp;</type>
+      <name>get</name>
+      <anchorfile>structbackbone_1_1model.html</anchorfile>
+      <anchor>a7770305b8d585991f2f1ab1637d6b262</anchor>
+      <arglist>()</arglist>
+    </member>
+  </compound>
+  <compound kind="struct">
+    <name>backbone::map</name>
+    <filename>structbackbone_1_1map.html</filename>
+    <templarg></templarg>
+    <templarg></templarg>
+    <templarg></templarg>
+    <member kind="typedef">
+      <type>map&lt; Key, Value, Signals &gt;</type>
+      <name>base_type</name>
+      <anchorfile>structbackbone_1_1map.html</anchorfile>
+      <anchor>adaa9974ff3c452fc3fd8721de9ca3ff1</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>std::map&lt; Key, Value &gt;</type>
+      <name>map_type</name>
+      <anchorfile>structbackbone_1_1map.html</anchorfile>
+      <anchor>a7033648d59871263e888c87fa48b7ffc</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>map_type::iterator</type>
+      <name>iterator</name>
+      <anchorfile>structbackbone_1_1map.html</anchorfile>
+      <anchor>a6e265763240ebebaa6807865df4217e8</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>map</name>
+      <anchorfile>structbackbone_1_1map.html</anchorfile>
+      <anchor>aa64f325c633b9d4b5616fb782c673ed8</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>Value &amp;</type>
+      <name>add</name>
+      <anchorfile>structbackbone_1_1map.html</anchorfile>
+      <anchor>abe0d7291a38ece443ea9a198a3f868c5</anchor>
+      <arglist>(Key const &amp;key, Value &amp;&amp;value)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>erase</name>
+      <anchorfile>structbackbone_1_1map.html</anchorfile>
+      <anchor>ad156d9f155ad4284460c682eeff3b352</anchor>
+      <arglist>(Key const &amp;key)</arglist>
+    </member>
+    <member kind="function">
+      <type>Value &amp;</type>
+      <name>get</name>
+      <anchorfile>structbackbone_1_1map.html</anchorfile>
+      <anchor>af471e1f743720a069d7e0c8c4f6da8c3</anchor>
+      <arglist>(Key const &amp;key)</arglist>
+    </member>
+    <member kind="function">
+      <type>iterator</type>
+      <name>begin</name>
+      <anchorfile>structbackbone_1_1map.html</anchorfile>
+      <anchor>ab7465bd5ba390448e86b1e75359041fc</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>iterator</type>
+      <name>end</name>
+      <anchorfile>structbackbone_1_1map.html</anchorfile>
+      <anchor>a93a1fb81969612c7679747b53a391dec</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="variable">
+      <type>map_type</type>
+      <name>map_</name>
+      <anchorfile>structbackbone_1_1map.html</anchorfile>
+      <anchor>a34a90533802c56396c651f820ee1cf12</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="struct">
+    <name>backbone::collection</name>
+    <filename>structbackbone_1_1collection.html</filename>
+    <templarg></templarg>
+    <templarg></templarg>
+    <member kind="typedef">
+      <type>collection&lt; Value, Signals &gt;</type>
+      <name>base_type</name>
+      <anchorfile>structbackbone_1_1collection.html</anchorfile>
+      <anchor>a8a267d99627862f889e8292592594856</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>std::vector&lt; Value &gt;</type>
+      <name>collection_type</name>
+      <anchorfile>structbackbone_1_1collection.html</anchorfile>
+      <anchor>a27def73ec7c13e9e48db57a9c740da6e</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>collection_type::iterator</type>
+      <name>iterator</name>
+      <anchorfile>structbackbone_1_1collection.html</anchorfile>
+      <anchor>a13d4c432f8bf8a5fd65945110c0fd6a9</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>collection_type::const_iterator</type>
+      <name>const_iterator</name>
+      <anchorfile>structbackbone_1_1collection.html</anchorfile>
+      <anchor>ad759ee176dbb4c091d71a9c63dcb43b5</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>collection</name>
+      <anchorfile>structbackbone_1_1collection.html</anchorfile>
+      <anchor>ac5c97a7876196a8e00f89ceea76dfb09</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>Value &amp;</type>
+      <name>add</name>
+      <anchorfile>structbackbone_1_1collection.html</anchorfile>
+      <anchor>a3a30b6c7f54e3c5439dcc34526a0231c</anchor>
+      <arglist>(Value &amp;&amp;value)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>erase</name>
+      <anchorfile>structbackbone_1_1collection.html</anchorfile>
+      <anchor>a7134682e717fe211d6774b388bc776b4</anchor>
+      <arglist>(iterator pos)</arglist>
+    </member>
+    <member kind="function">
+      <type>collection_type::iterator</type>
+      <name>begin</name>
+      <anchorfile>structbackbone_1_1collection.html</anchorfile>
+      <anchor>a844bf2ec44d84d80922b0f39f40faec2</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>collection_type::iterator</type>
+      <name>end</name>
+      <anchorfile>structbackbone_1_1collection.html</anchorfile>
+      <anchor>a1a62f7846b7a506b463f15a34754fb8d</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="variable">
+      <type>collection_type</type>
+      <name>collection_</name>
+      <anchorfile>structbackbone_1_1collection.html</anchorfile>
+      <anchor>acdf8c5eec99dbc20b64e5ad038fabae0</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="namespace">
+    <name>backbone::proxy</name>
+    <filename>namespacebackbone_1_1proxy.html</filename>
+    <class kind="struct">backbone::proxy::prefetch</class>
+    <class kind="struct">backbone::proxy::jitfetch</class>
+  </compound>
+  <compound kind="struct">
+    <name>backbone::proxy::prefetch</name>
+    <filename>structbackbone_1_1proxy_1_1prefetch.html</filename>
+    <templarg></templarg>
+    <templarg></templarg>
+  </compound>
+  <compound kind="struct">
+    <name>backbone::proxy::jitfetch</name>
+    <filename>structbackbone_1_1proxy_1_1jitfetch.html</filename>
+    <templarg></templarg>
+    <templarg></templarg>
+  </compound>
+  <compound kind="dir">
+    <name>libbackbone-cpp/backbone++/</name>
+    <path>/home/lmergen/git/libbackbone-cpp/backbone++/</path>
+    <filename>dir_068131330540bd44679896f9f6d728b3.html</filename>
+    <dir>libbackbone-cpp/backbone++/proxy/</dir>
+    <file>collection.hpp</file>
+    <file>json.hpp</file>
+    <file>map.hpp</file>
+    <file>model.hpp</file>
+  </compound>
+  <compound kind="dir">
+    <name>libbackbone-cpp/</name>
+    <path>/home/lmergen/git/libbackbone-cpp/</path>
+    <filename>dir_f717ec3acf9373a9507babeff8d1b396.html</filename>
+    <dir>libbackbone-cpp/backbone++/</dir>
+  </compound>
+  <compound kind="dir">
+    <name>libbackbone-cpp/backbone++/proxy/</name>
+    <path>/home/lmergen/git/libbackbone-cpp/backbone++/proxy/</path>
+    <filename>dir_03f9aaa25059a70c8b57b2e45d2516fc.html</filename>
+    <file>jitfetch.hpp</file>
+    <file>prefetch.hpp</file>
+  </compound>
+</tagfile>

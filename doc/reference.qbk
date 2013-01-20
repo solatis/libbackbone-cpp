@@ -1,0 +1,1017 @@
+[/
+ /]
+
+[section:reference Reference]
+
+[xinclude quickref.xml]
+
+
+[section:collection collection]
+
+
+Provides interface to a model. 
+
+
+  template<
+      typename Value ,
+      typename Signals  = detail::collection::signals <Value>>
+  struct collection
+
+
+[heading Types]
+[table
+  [[Name][Description]]
+
+  [
+
+    [[link libbackbone_cpp.reference.collection.base_type base_type]]
+    []
+  
+  ]
+
+  [
+
+    [[link libbackbone_cpp.reference.collection.collection_type collection_type]]
+    []
+  
+  ]
+
+  [
+
+    [[link libbackbone_cpp.reference.collection.const_iterator const_iterator]]
+    []
+  
+  ]
+
+  [
+
+    [[link libbackbone_cpp.reference.collection.iterator iterator]]
+    []
+  
+  ]
+
+]
+
+[heading Member Functions]
+[table
+  [[Name][Description]]
+
+  [
+    [[link libbackbone_cpp.reference.collection.add add]]
+    []
+  ]
+  
+  [
+    [[link libbackbone_cpp.reference.collection.begin begin]]
+    []
+  ]
+  
+  [
+    [[link libbackbone_cpp.reference.collection.collection collection]]
+    [Constructor. ]
+  ]
+  
+  [
+    [[link libbackbone_cpp.reference.collection.end end]]
+    []
+  ]
+  
+  [
+    [[link libbackbone_cpp.reference.collection.erase erase]]
+    []
+  ]
+  
+]
+
+[heading Data Members]
+[table
+  [[Name][Description]]
+
+  [
+    [[link libbackbone_cpp.reference.collection.collection_ collection_]]
+    []
+  ]
+
+]
+
+[heading Requirements]
+
+[*Header: ][^backbone++/collection.hpp]
+
+
+[section:add collection::add]
+
+[indexterm2 add..collection] 
+
+  Value & add(
+      Value && value);
+
+
+
+[endsect]
+
+
+
+[section:base_type collection::base_type]
+
+[indexterm2 base_type..collection] 
+
+  typedef collection< Value, Signals > base_type;
+
+
+[heading Types]
+[table
+  [[Name][Description]]
+
+  [
+
+    [[link libbackbone_cpp.reference.collection.base_type base_type]]
+    []
+  
+  ]
+
+  [
+
+    [[link libbackbone_cpp.reference.collection.collection_type collection_type]]
+    []
+  
+  ]
+
+  [
+
+    [[link libbackbone_cpp.reference.collection.const_iterator const_iterator]]
+    []
+  
+  ]
+
+  [
+
+    [[link libbackbone_cpp.reference.collection.iterator iterator]]
+    []
+  
+  ]
+
+]
+
+[heading Member Functions]
+[table
+  [[Name][Description]]
+
+  [
+    [[link libbackbone_cpp.reference.collection.add add]]
+    []
+  ]
+  
+  [
+    [[link libbackbone_cpp.reference.collection.begin begin]]
+    []
+  ]
+  
+  [
+    [[link libbackbone_cpp.reference.collection.collection collection]]
+    [Constructor. ]
+  ]
+  
+  [
+    [[link libbackbone_cpp.reference.collection.end end]]
+    []
+  ]
+  
+  [
+    [[link libbackbone_cpp.reference.collection.erase erase]]
+    []
+  ]
+  
+]
+
+[heading Data Members]
+[table
+  [[Name][Description]]
+
+  [
+    [[link libbackbone_cpp.reference.collection.collection_ collection_]]
+    []
+  ]
+
+]
+
+
+[heading Requirements]
+
+[*Header: ][^backbone++/collection.hpp]
+
+
+[endsect]
+
+
+
+[section:begin collection::begin]
+
+[indexterm2 begin..collection] 
+
+  collection_type::iterator begin();
+
+
+
+[endsect]
+
+
+
+[section:collection collection::collection]
+
+[indexterm2 collection..collection] 
+Constructor. 
+
+
+  collection();
+
+
+
+[endsect]
+
+
+
+[section:collection_ collection::collection_]
+
+[indexterm2 collection_..collection] 
+
+  collection_type collection_;
+
+
+
+[endsect]
+
+
+
+[section:collection_type collection::collection_type]
+
+[indexterm2 collection_type..collection] 
+
+  typedef std::vector< Value > collection_type;
+
+
+
+[heading Requirements]
+
+[*Header: ][^backbone++/collection.hpp]
+
+
+[endsect]
+
+
+
+[section:const_iterator collection::const_iterator]
+
+[indexterm2 const_iterator..collection] 
+
+  typedef collection_type::const_iterator const_iterator;
+
+
+
+[heading Requirements]
+
+[*Header: ][^backbone++/collection.hpp]
+
+
+[endsect]
+
+
+
+[section:end collection::end]
+
+[indexterm2 end..collection] 
+
+  collection_type::iterator end();
+
+
+
+[endsect]
+
+
+
+[section:erase collection::erase]
+
+[indexterm2 erase..collection] 
+
+  void erase(
+      iterator pos);
+
+
+
+[endsect]
+
+
+
+[section:iterator collection::iterator]
+
+[indexterm2 iterator..collection] 
+
+  typedef collection_type::iterator iterator;
+
+
+
+[heading Requirements]
+
+[*Header: ][^backbone++/collection.hpp]
+
+
+[endsect]
+
+
+
+[endsect]
+
+[section:map map]
+
+
+Provides interface to a map. 
+
+
+  template<
+      typename Key ,
+      typename Value ,
+      typename Signals  = detail::map::signals <Key, Value>>
+  struct map
+
+
+[heading Types]
+[table
+  [[Name][Description]]
+
+  [
+
+    [[link libbackbone_cpp.reference.map.base_type base_type]]
+    []
+  
+  ]
+
+  [
+
+    [[link libbackbone_cpp.reference.map.iterator iterator]]
+    []
+  
+  ]
+
+  [
+
+    [[link libbackbone_cpp.reference.map.map_type map_type]]
+    []
+  
+  ]
+
+]
+
+[heading Member Functions]
+[table
+  [[Name][Description]]
+
+  [
+    [[link libbackbone_cpp.reference.map.add add]]
+    [Adds new key/value pair to the map. ]
+  ]
+  
+  [
+    [[link libbackbone_cpp.reference.map.begin begin]]
+    [Provides iterator access to map. ]
+  ]
+  
+  [
+    [[link libbackbone_cpp.reference.map.end end]]
+    [Provides iterator access to map. ]
+  ]
+  
+  [
+    [[link libbackbone_cpp.reference.map.erase erase]]
+    [Erases a key from the map. ]
+  ]
+  
+  [
+    [[link libbackbone_cpp.reference.map.get get]]
+    [Provides access to a value by key. ]
+  ]
+  
+  [
+    [[link libbackbone_cpp.reference.map.map map]]
+    [Constructor. ]
+  ]
+  
+]
+
+[heading Data Members]
+[table
+  [[Name][Description]]
+
+  [
+    [[link libbackbone_cpp.reference.map.map_ map_]]
+    []
+  ]
+
+]
+
+[heading Requirements]
+
+[*Header: ][^backbone++/map.hpp]
+
+
+[section:add map::add]
+
+[indexterm2 add..map] 
+Adds new key/value pair to the map. 
+
+
+  Value & add(
+      Key const & key,
+      Value && value);
+
+
+
+[heading Parameters]
+    
+
+[variablelist
+  
+[[key][The key to add ]]
+
+[[value][The value to add ]]
+
+]
+
+
+[heading Return Value]
+      
+Reference to the added value inside the map 
+
+
+
+
+[endsect]
+
+
+
+[section:base_type map::base_type]
+
+[indexterm2 base_type..map] 
+
+  typedef map< Key, Value, Signals > base_type;
+
+
+[heading Types]
+[table
+  [[Name][Description]]
+
+  [
+
+    [[link libbackbone_cpp.reference.map.base_type base_type]]
+    []
+  
+  ]
+
+  [
+
+    [[link libbackbone_cpp.reference.map.iterator iterator]]
+    []
+  
+  ]
+
+  [
+
+    [[link libbackbone_cpp.reference.map.map_type map_type]]
+    []
+  
+  ]
+
+]
+
+[heading Member Functions]
+[table
+  [[Name][Description]]
+
+  [
+    [[link libbackbone_cpp.reference.map.add add]]
+    [Adds new key/value pair to the map. ]
+  ]
+  
+  [
+    [[link libbackbone_cpp.reference.map.begin begin]]
+    [Provides iterator access to map. ]
+  ]
+  
+  [
+    [[link libbackbone_cpp.reference.map.end end]]
+    [Provides iterator access to map. ]
+  ]
+  
+  [
+    [[link libbackbone_cpp.reference.map.erase erase]]
+    [Erases a key from the map. ]
+  ]
+  
+  [
+    [[link libbackbone_cpp.reference.map.get get]]
+    [Provides access to a value by key. ]
+  ]
+  
+  [
+    [[link libbackbone_cpp.reference.map.map map]]
+    [Constructor. ]
+  ]
+  
+]
+
+[heading Data Members]
+[table
+  [[Name][Description]]
+
+  [
+    [[link libbackbone_cpp.reference.map.map_ map_]]
+    []
+  ]
+
+]
+
+
+[heading Requirements]
+
+[*Header: ][^backbone++/map.hpp]
+
+
+[endsect]
+
+
+
+[section:begin map::begin]
+
+[indexterm2 begin..map] 
+Provides iterator access to map. 
+
+
+  iterator begin();
+
+
+
+[endsect]
+
+
+
+[section:end map::end]
+
+[indexterm2 end..map] 
+Provides iterator access to map. 
+
+
+  iterator end();
+
+
+
+[endsect]
+
+
+
+[section:erase map::erase]
+
+[indexterm2 erase..map] 
+Erases a key from the map. 
+
+
+  void erase(
+      Key const & key);
+
+
+
+[heading Parameters]
+    
+
+[variablelist
+  
+[[key][The key to erase ]]
+
+]
+
+
+
+
+[endsect]
+
+
+
+[section:get map::get]
+
+[indexterm2 get..map] 
+Provides access to a value by key. 
+
+
+  Value & get(
+      Key const & key);
+
+
+
+[heading Parameters]
+    
+
+[variablelist
+  
+[[key][The key to look up ]]
+
+]
+
+
+[heading Return Value]
+      
+Reference to the 
+
+
+
+
+[endsect]
+
+
+
+[section:iterator map::iterator]
+
+[indexterm2 iterator..map] 
+
+  typedef map_type::iterator iterator;
+
+
+
+[heading Requirements]
+
+[*Header: ][^backbone++/map.hpp]
+
+
+[endsect]
+
+
+
+[section:map map::map]
+
+[indexterm2 map..map] 
+Constructor. 
+
+
+  map();
+
+
+
+[endsect]
+
+
+
+[section:map_ map::map_]
+
+[indexterm2 map_..map] 
+
+  map_type map_;
+
+
+
+[endsect]
+
+
+
+[section:map_type map::map_type]
+
+[indexterm2 map_type..map] 
+
+  typedef std::map< Key, Value > map_type;
+
+
+
+[heading Requirements]
+
+[*Header: ][^backbone++/map.hpp]
+
+
+[endsect]
+
+
+
+[endsect]
+
+[section:model model]
+
+
+Provides interface to a model. 
+
+
+  template<
+      typename Derived ,
+      typename Signals  = detail::model::signals>
+  struct model
+
+
+[heading Types]
+[table
+  [[Name][Description]]
+
+  [
+
+    [[link libbackbone_cpp.reference.model.base_type base_type]]
+    []
+  
+  ]
+
+]
+
+[heading Member Functions]
+[table
+  [[Name][Description]]
+
+  [
+    [[link libbackbone_cpp.reference.model.get get]]
+    []
+  ]
+  
+  [
+    [[link libbackbone_cpp.reference.model.model model]]
+    []
+  ]
+  
+  [
+    [[link libbackbone_cpp.reference.model.set set]]
+    []
+  ]
+  
+]
+
+[heading Requirements]
+
+[*Header: ][^backbone++/model.hpp]
+
+
+[section:base_type model::base_type]
+
+[indexterm2 base_type..model] 
+
+  typedef model< Derived, Signals > base_type;
+
+
+[heading Types]
+[table
+  [[Name][Description]]
+
+  [
+
+    [[link libbackbone_cpp.reference.model.base_type base_type]]
+    []
+  
+  ]
+
+]
+
+[heading Member Functions]
+[table
+  [[Name][Description]]
+
+  [
+    [[link libbackbone_cpp.reference.model.get get]]
+    []
+  ]
+  
+  [
+    [[link libbackbone_cpp.reference.model.model model]]
+    []
+  ]
+  
+  [
+    [[link libbackbone_cpp.reference.model.set set]]
+    []
+  ]
+  
+]
+
+
+[heading Requirements]
+
+[*Header: ][^backbone++/model.hpp]
+
+
+[endsect]
+
+
+
+[section:get model::get]
+
+[indexterm2 get..model] 
+
+  template<
+      typename Key >
+  boost::fusion::result_of::at_key< Derived, Key >::type & get();
+
+
+
+[endsect]
+
+
+
+[section:model model::model]
+
+[indexterm2 model..model] 
+
+  model();
+
+
+
+[endsect]
+
+
+
+[section:set model::set]
+
+[indexterm2 set..model] 
+
+  template<
+      typename Key ,
+      typename Value >
+  void set(
+      Value && value);
+
+
+
+[endsect]
+
+
+
+[endsect]
+
+[section:proxy__jitfetch proxy::jitfetch]
+
+
+Provides proxy interface to fetch model data Just-In-Time. 
+
+
+  template<
+      typename Base ,
+      typename Type  = typename Base::base_type>
+  struct jitfetch
+
+
+
+[heading Concepts]
+  
+Base 
+
+
+
+[heading Requirements]
+
+[*Header: ][^backbone++/proxy/jitfetch.hpp]
+
+
+[endsect]
+
+[section:proxy__prefetch proxy::prefetch]
+
+
+Provides a proxy interface to prefetch model data as soon as an object is created. 
+
+
+  template<
+      typename Base ,
+      typename Type  = typename Base::base_type>
+  struct prefetch
+
+
+
+[heading Concepts]
+  
+[*Base:] a specialization of either a [link libbackbone_cpp.reference.model `model`], [link libbackbone_cpp.reference.map `map`] or [link libbackbone_cpp.reference.collection `collection`], and requires operator() to be defined and to fetch all member data.
+
+
+[heading Examples]
+  
+
+
+Initialize a model and let its members be fetched as soon as the get () function is called. 
+
+[heading Requirements]
+
+[*Header: ][^backbone++/proxy/prefetch.hpp]
+
+
+[endsect]
+
+[section:to_json to_json]
+
+[indexterm1 to_json] 
+Converts a backbone data structure to JSON. 
+
+    
+  template<
+      typename Model >
+  ciere::json::value ``[link libbackbone_cpp.reference.to_json.overload1 to_json]``(
+      Model const & model);
+  ``  [''''&raquo;''' [link libbackbone_cpp.reference.to_json.overload1 more...]]``
+
+  template<
+      typename Key ,
+      typename Value ,
+      typename Signals >
+  ciere::json::value ``[link libbackbone_cpp.reference.to_json.overload2 to_json]``(
+      backbone::map< Key, Value, Signals > const & map);
+  ``  [''''&raquo;''' [link libbackbone_cpp.reference.to_json.overload2 more...]]``
+
+  template<
+      typename Value ,
+      typename Signals >
+  ciere::json::value ``[link libbackbone_cpp.reference.to_json.overload3 to_json]``(
+      backbone::collection< Value, Signals > const & collection);
+  ``  [''''&raquo;''' [link libbackbone_cpp.reference.to_json.overload3 more...]]``
+
+[heading Requirements]
+
+[*Header: ][^backbone++/json.hpp]
+
+
+[section:overload1 to_json (1 of 3 overloads)]
+
+
+Converts a backbone data structure to JSON. 
+
+
+  template<
+      typename Model >
+  static ciere::json::value to_json(
+      Model const & model);
+
+
+
+[heading Parameters]
+    
+
+[variablelist
+  
+[[model][Properly Fusion-adapted [link libbackbone_cpp.reference.model `model`] structure ]]
+
+]
+
+
+
+
+[endsect]
+
+
+
+[section:overload2 to_json (2 of 3 overloads)]
+
+
+Converts a backbone data structure to JSON. 
+
+
+  template<
+      typename Key ,
+      typename Value ,
+      typename Signals >
+  static ciere::json::value to_json(
+      backbone::map< Key, Value, Signals > const & map);
+
+
+
+[heading Parameters]
+    
+
+[variablelist
+  
+[[map][[link libbackbone_cpp.reference.map `map`] instance ]]
+
+]
+
+
+
+
+[endsect]
+
+
+
+[section:overload3 to_json (3 of 3 overloads)]
+
+
+Converts a backbone data structure to JSON. 
+
+
+  template<
+      typename Value ,
+      typename Signals >
+  static ciere::json::value to_json(
+      backbone::collection< Value, Signals > const & collection);
+
+
+
+[heading Parameters]
+    
+
+[variablelist
+  
+[[collection][[link libbackbone_cpp.reference.collection `collection`] instance ]]
+
+]
+
+
+
+
+[endsect]
+
+
+[endsect]
+
+[endsect]

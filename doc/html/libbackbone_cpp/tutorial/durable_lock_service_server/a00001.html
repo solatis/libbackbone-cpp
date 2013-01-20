@@ -1,0 +1,412 @@
+<html>
+<head>
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="paxos,c++">
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>Source listing for Durable server</title>
+<link rel="stylesheet" href="../../../boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
+<link rel="home" href="../../../index.html" title="libbackbone-cpp 0.1.0">
+<link rel="up" href="../durable_lock_service_server.html" title="Lock service.2 - Durable server">
+<link rel="prev" href="../durable_lock_service_server.html" title="Lock service.2 - Durable server">
+<link rel="next" href="../../reference.html" title="Reference">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="spirit-nav">
+<a accesskey="p" href="../durable_lock_service_server.html"><img src="../../../images/prev.png" alt="Prev"></a><a accesskey="u" href="../durable_lock_service_server.html"><img src="../../../images/up.png" alt="Up"></a><a accesskey="h" href="../../../index.html"><img src="../../../images/home.png" alt="Home"></a><a accesskey="n" href="../../reference.html"><img src="../../../images/next.png" alt="Next"></a>
+</div>
+<div class="section">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="libbackbone_cpp.tutorial.durable_lock_service_server.a00001"></a><a class="link" href="a00001.html" title="Source listing for Durable server">Source
+        listing for Durable server</a>
+</h4></div></div></div>
+<h6>
+<a name="libbackbone_cpp.tutorial.durable_lock_service_server.a00001.h0"></a>
+          <span><a name="libbackbone_cpp.tutorial.durable_lock_service_server.a00001.server_cpp"></a></span><a class="link" href="a00001.html#libbackbone_cpp.tutorial.durable_lock_service_server.a00001.server_cpp">server.cpp</a>
+        </h6>
+<pre class="programlisting"><span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">vector</span><span class="special">&gt;</span>
+<span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">string</span><span class="special">&gt;</span>
+
+<span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">boost</span><span class="special">/</span><span class="identifier">algorithm</span><span class="special">/</span><span class="identifier">string</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
+
+<span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">paxos</span><span class="special">++/</span><span class="identifier">server</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
+<span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">paxos</span><span class="special">++/</span><span class="identifier">configuration</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
+<span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">paxos</span><span class="special">++/</span><span class="identifier">durable</span><span class="special">/</span><span class="identifier">sqlite</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
+
+<span class="preprocessor">#include</span> <span class="string">"datastore.hpp"</span>
+
+<span class="keyword">int</span> <span class="identifier">main</span> <span class="special">()</span>
+<span class="special">{</span>
+  <span class="identifier">datastore</span> <span class="identifier">store</span><span class="special">;</span>
+
+  <span class="identifier">paxos</span><span class="special">::</span><span class="identifier">server</span><span class="special">::</span><span class="identifier">callback_type</span> <span class="identifier">callback</span> <span class="special">=</span>
+     <span class="special">[&amp;</span> <span class="identifier">store</span><span class="special">](</span><span class="identifier">int64_t</span> <span class="identifier">proposal_id</span><span class="special">,</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span> <span class="keyword">const</span> <span class="special">&amp;</span> <span class="identifier">command</span><span class="special">)</span> <span class="special">-&gt;</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span>
+     <span class="special">{</span>
+        <span class="keyword">if</span> <span class="special">(</span><span class="identifier">proposal_id</span> <span class="special">&lt;</span> <span class="identifier">store</span><span class="special">.</span><span class="identifier">most_recent_proposal_id</span> <span class="special">())</span>
+        <span class="special">{</span>
+           <span class="keyword">return</span> <span class="string">"success"</span><span class="special">;</span>
+        <span class="special">}</span>
+
+        <span class="identifier">std</span><span class="special">::</span><span class="identifier">vector</span> <span class="special">&lt;</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">&gt;</span> <span class="identifier">tokens</span><span class="special">;</span>
+        <span class="identifier">boost</span><span class="special">::</span><span class="identifier">split</span> <span class="special">(</span><span class="identifier">tokens</span><span class="special">,</span> <span class="identifier">command</span><span class="special">,</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">is_any_of</span> <span class="special">(</span><span class="string">" "</span><span class="special">));</span>
+
+        <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span> <span class="keyword">const</span> <span class="special">&amp;</span> <span class="identifier">type</span>    <span class="special">=</span> <span class="identifier">tokens</span><span class="special">.</span><span class="identifier">at</span> <span class="special">(</span><span class="number">0</span><span class="special">);</span>
+        <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span> <span class="keyword">const</span> <span class="special">&amp;</span> <span class="identifier">lock_id</span> <span class="special">=</span> <span class="identifier">tokens</span><span class="special">.</span><span class="identifier">at</span> <span class="special">(</span><span class="number">1</span><span class="special">);</span>
+
+        <span class="keyword">if</span> <span class="special">(</span><span class="identifier">type</span> <span class="special">==</span> <span class="string">"lock"</span><span class="special">)</span>
+        <span class="special">{</span>
+           <span class="keyword">if</span> <span class="special">(</span><span class="identifier">store</span><span class="special">.</span><span class="identifier">has_lock</span> <span class="special">(</span><span class="identifier">lock_id</span><span class="special">)</span> <span class="special">==</span> <span class="keyword">false</span><span class="special">)</span>
+           <span class="special">{</span>
+              <span class="identifier">store</span><span class="special">.</span><span class="identifier">acquire_lock</span> <span class="special">(</span><span class="identifier">proposal_id</span><span class="special">,</span>
+                                  <span class="identifier">lock_id</span><span class="special">);</span>
+              <span class="keyword">return</span> <span class="string">"success"</span><span class="special">;</span>
+           <span class="special">}</span>
+           <span class="keyword">else</span>
+           <span class="special">{</span>
+              <span class="keyword">return</span> <span class="string">"fail"</span><span class="special">;</span>
+           <span class="special">}</span>
+        <span class="special">}</span>
+        <span class="keyword">else</span> <span class="keyword">if</span> <span class="special">(</span><span class="identifier">type</span> <span class="special">==</span> <span class="string">"unlock"</span><span class="special">)</span>
+        <span class="special">{</span>
+           <span class="keyword">if</span> <span class="special">(</span><span class="identifier">store</span><span class="special">.</span><span class="identifier">has_lock</span> <span class="special">(</span><span class="identifier">lock_id</span><span class="special">)</span> <span class="special">==</span> <span class="keyword">true</span><span class="special">)</span>
+           <span class="special">{</span>
+              <span class="identifier">store</span><span class="special">.</span><span class="identifier">release_lock</span> <span class="special">(</span><span class="identifier">proposal_id</span><span class="special">,</span>
+                                  <span class="identifier">lock_id</span><span class="special">);</span>
+              <span class="keyword">return</span> <span class="string">"success"</span><span class="special">;</span>
+           <span class="special">}</span>
+           <span class="keyword">else</span>
+           <span class="special">{</span>
+              <span class="keyword">return</span> <span class="string">"fail"</span><span class="special">;</span>
+           <span class="special">}</span>
+        <span class="special">}</span>
+
+        <span class="keyword">return</span> <span class="string">"fail"</span><span class="special">;</span>
+     <span class="special">};</span>
+
+
+  <span class="identifier">paxos</span><span class="special">::</span><span class="identifier">configuration</span> <span class="identifier">configuration</span><span class="special">;</span>
+
+  <span class="identifier">configuration</span><span class="special">.</span><span class="identifier">set_durable_storage</span> <span class="special">(</span>
+     <span class="keyword">new</span> <span class="identifier">paxos</span><span class="special">::</span><span class="identifier">durable</span><span class="special">::</span><span class="identifier">sqlite</span> <span class="special">(</span><span class="string">"paxos.sqlite"</span><span class="special">));</span>
+
+  <span class="identifier">paxos</span><span class="special">::</span><span class="identifier">server</span> <span class="identifier">server</span> <span class="special">(</span><span class="string">"127.0.0.1"</span><span class="special">,</span> <span class="number">1337</span><span class="special">,</span> <span class="identifier">callback</span><span class="special">,</span> <span class="identifier">configuration</span><span class="special">);</span>
+  <span class="identifier">server</span><span class="special">.</span><span class="identifier">add</span> <span class="special">(</span><span class="string">"127.0.0.1"</span><span class="special">,</span> <span class="number">1337</span><span class="special">);</span>
+
+  <span class="identifier">server</span><span class="special">.</span><span class="identifier">wait</span> <span class="special">();</span>
+<span class="special">}</span>
+</pre>
+<h6>
+<a name="libbackbone_cpp.tutorial.durable_lock_service_server.a00001.h1"></a>
+          <span><a name="libbackbone_cpp.tutorial.durable_lock_service_server.a00001.datastore_hpp"></a></span><a class="link" href="a00001.html#libbackbone_cpp.tutorial.durable_lock_service_server.a00001.datastore_hpp">datastore.hpp</a>
+        </h6>
+<pre class="programlisting"><span class="preprocessor">#ifndef</span> <span class="identifier">DATASTORE_HPP</span>
+<span class="preprocessor">#define</span> <span class="identifier">DATASTORE_HPP</span>
+
+<span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">stdint</span><span class="special">.</span><span class="identifier">h</span><span class="special">&gt;</span>
+<span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">string</span><span class="special">&gt;</span>
+
+<span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">sqlite3</span><span class="special">.</span><span class="identifier">h</span><span class="special">&gt;</span>
+
+<span class="keyword">class</span> <span class="identifier">datastore</span>
+<span class="special">{</span>
+<span class="keyword">public</span><span class="special">:</span>
+
+   <span class="identifier">datastore</span> <span class="special">();</span>
+
+   <span class="special">~</span><span class="identifier">datastore</span> <span class="special">();</span>
+
+   <span class="identifier">int64_t</span>
+   <span class="identifier">most_recent_proposal_id</span> <span class="special">();</span>
+
+   <span class="keyword">bool</span>
+   <span class="identifier">has_lock</span> <span class="special">(</span>
+      <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span> <span class="keyword">const</span> <span class="special">&amp;</span>       <span class="identifier">lock_id</span><span class="special">);</span>
+
+   <span class="keyword">void</span>
+   <span class="identifier">acquire_lock</span> <span class="special">(</span>
+      <span class="identifier">int64_t</span>                   <span class="identifier">proposal_id</span><span class="special">,</span>
+      <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span> <span class="keyword">const</span> <span class="special">&amp;</span>       <span class="identifier">lock_id</span><span class="special">);</span>
+
+   <span class="keyword">void</span>
+   <span class="identifier">release_lock</span> <span class="special">(</span>
+      <span class="identifier">int64_t</span>                   <span class="identifier">proposal_id</span><span class="special">,</span>
+      <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span> <span class="keyword">const</span> <span class="special">&amp;</span>       <span class="identifier">lock_id</span><span class="special">);</span>
+
+<span class="keyword">private</span><span class="special">:</span>
+
+   <span class="keyword">void</span>
+   <span class="identifier">create_tables</span> <span class="special">();</span>
+
+   <span class="keyword">bool</span>
+   <span class="identifier">has_table</span> <span class="special">();</span>
+
+<span class="keyword">private</span><span class="special">:</span>
+
+   <span class="identifier">sqlite3</span> <span class="special">*</span>    <span class="identifier">db_</span><span class="special">;</span>
+<span class="special">};</span>
+
+<span class="preprocessor">#endif</span>
+</pre>
+<h6>
+<a name="libbackbone_cpp.tutorial.durable_lock_service_server.a00001.h2"></a>
+          <span><a name="libbackbone_cpp.tutorial.durable_lock_service_server.a00001.datastore_cpp"></a></span><a class="link" href="a00001.html#libbackbone_cpp.tutorial.durable_lock_service_server.a00001.datastore_cpp">datastore.cpp</a>
+        </h6>
+<pre class="programlisting"><span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">iostream</span><span class="special">&gt;</span>
+<span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">assert</span><span class="special">.</span><span class="identifier">h</span><span class="special">&gt;</span>
+
+<span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">boost</span><span class="special">/</span><span class="identifier">lexical_cast</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
+
+<span class="preprocessor">#include</span> <span class="string">"datastore.hpp"</span>
+
+<span class="identifier">datastore</span><span class="special">::</span><span class="identifier">datastore</span> <span class="special">()</span>
+<span class="special">{</span>
+   <span class="identifier">assert</span> <span class="special">(</span><span class="identifier">sqlite3_open</span> <span class="special">(</span><span class="string">"locks.sqlite"</span><span class="special">,</span> <span class="special">&amp;</span><span class="identifier">db_</span><span class="special">)</span> <span class="special">==</span> <span class="identifier">SQLITE_OK</span><span class="special">);</span>
+   <span class="identifier">assert</span> <span class="special">(</span><span class="identifier">db_</span> <span class="special">!=</span> <span class="identifier">NULL</span><span class="special">);</span>
+
+   <span class="keyword">if</span> <span class="special">(</span><span class="keyword">this</span><span class="special">-&gt;</span><span class="identifier">has_table</span> <span class="special">()</span> <span class="special">==</span> <span class="keyword">false</span><span class="special">)</span>
+   <span class="special">{</span>
+      <span class="keyword">this</span><span class="special">-&gt;</span><span class="identifier">create_tables</span> <span class="special">();</span>
+   <span class="special">}</span>
+<span class="special">}</span>
+
+
+<span class="identifier">datastore</span><span class="special">::~</span><span class="identifier">datastore</span> <span class="special">()</span>
+<span class="special">{</span>
+   <span class="identifier">assert</span> <span class="special">(</span><span class="identifier">sqlite3_close</span> <span class="special">(</span><span class="identifier">db_</span><span class="special">)</span> <span class="special">==</span> <span class="identifier">SQLITE_OK</span><span class="special">);</span>
+<span class="special">}</span>
+
+<span class="identifier">int64_t</span>
+<span class="identifier">datastore</span><span class="special">::</span><span class="identifier">most_recent_proposal_id</span> <span class="special">()</span>
+<span class="special">{</span>
+   <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span> <span class="identifier">query</span> <span class="special">=</span>
+      <span class="string">"SELECT "</span>
+      <span class="string">"  id "</span>
+      <span class="string">"FROM "</span>
+      <span class="string">"  proposal_id "</span><span class="special">;</span>
+
+   <span class="identifier">sqlite3_stmt</span> <span class="special">*</span> <span class="identifier">prepared_statement</span> <span class="special">=</span> <span class="number">0</span><span class="special">;</span>
+   <span class="identifier">assert</span> <span class="special">(</span><span class="identifier">sqlite3_prepare</span> <span class="special">(</span><span class="identifier">db_</span><span class="special">,</span>
+                            <span class="identifier">query</span><span class="special">.</span><span class="identifier">c_str</span> <span class="special">(),</span>
+                            <span class="identifier">query</span><span class="special">.</span><span class="identifier">length</span> <span class="special">(),</span>
+                            <span class="special">&amp;</span><span class="identifier">prepared_statement</span><span class="special">,</span>
+                            <span class="identifier">NULL</span><span class="special">)</span> <span class="special">==</span> <span class="identifier">SQLITE_OK</span><span class="special">);</span>
+
+
+   <span class="identifier">int64_t</span> <span class="identifier">proposal_id</span> <span class="special">=</span> <span class="special">-</span><span class="number">1</span><span class="special">;</span>
+
+   <span class="keyword">while</span> <span class="special">(</span><span class="identifier">sqlite3_step</span> <span class="special">(</span><span class="identifier">prepared_statement</span><span class="special">)</span> <span class="special">==</span> <span class="identifier">SQLITE_ROW</span><span class="special">)</span>
+   <span class="special">{</span>
+      <span class="identifier">assert</span> <span class="special">(</span><span class="identifier">proposal_id</span> <span class="special">==</span> <span class="special">-</span><span class="number">1</span><span class="special">);</span>
+      <span class="identifier">assert</span> <span class="special">(</span><span class="identifier">sqlite3_column_count</span> <span class="special">(</span><span class="identifier">prepared_statement</span><span class="special">)</span> <span class="special">==</span> <span class="number">1</span><span class="special">);</span>
+
+      <span class="identifier">proposal_id</span> <span class="special">=</span> <span class="identifier">sqlite3_column_int64</span> <span class="special">(</span><span class="identifier">prepared_statement</span><span class="special">,</span> <span class="number">0</span><span class="special">);</span>
+   <span class="special">}</span>
+
+   <span class="identifier">assert</span> <span class="special">(</span><span class="identifier">sqlite3_finalize</span> <span class="special">(</span><span class="identifier">prepared_statement</span><span class="special">)</span> <span class="special">==</span> <span class="identifier">SQLITE_OK</span><span class="special">);</span>
+
+   <span class="keyword">return</span> <span class="identifier">proposal_id</span><span class="special">;</span>
+<span class="special">}</span>
+
+<span class="keyword">bool</span>
+<span class="identifier">datastore</span><span class="special">::</span><span class="identifier">has_lock</span> <span class="special">(</span>
+   <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span> <span class="keyword">const</span> <span class="special">&amp;</span>  <span class="identifier">lock_id</span><span class="special">)</span>
+<span class="special">{</span>
+   <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span> <span class="identifier">query</span> <span class="special">=</span>
+      <span class="string">"SELECT "</span>
+      <span class="string">"  COUNT (*) "</span>
+      <span class="string">"FROM "</span>
+      <span class="string">"  locks "</span>
+      <span class="string">"WHERE "</span>
+      <span class="string">"  id = '"</span> <span class="special">+</span> <span class="identifier">lock_id</span> <span class="special">+</span> <span class="string">"'"</span><span class="special">;</span>
+
+   <span class="identifier">sqlite3_stmt</span> <span class="special">*</span> <span class="identifier">prepared_statement</span> <span class="special">=</span> <span class="number">0</span><span class="special">;</span>
+   <span class="identifier">assert</span> <span class="special">(</span><span class="identifier">sqlite3_prepare</span> <span class="special">(</span><span class="identifier">db_</span><span class="special">,</span>
+                            <span class="identifier">query</span><span class="special">.</span><span class="identifier">c_str</span> <span class="special">(),</span>
+                            <span class="identifier">query</span><span class="special">.</span><span class="identifier">length</span> <span class="special">(),</span>
+                            <span class="special">&amp;</span><span class="identifier">prepared_statement</span><span class="special">,</span>
+                            <span class="identifier">NULL</span><span class="special">)</span> <span class="special">==</span> <span class="identifier">SQLITE_OK</span><span class="special">);</span>
+
+   <span class="identifier">int64_t</span> <span class="identifier">result</span> <span class="special">=</span> <span class="number">0</span><span class="special">;</span>
+
+   <span class="keyword">while</span> <span class="special">(</span><span class="identifier">sqlite3_step</span> <span class="special">(</span><span class="identifier">prepared_statement</span><span class="special">)</span> <span class="special">==</span> <span class="identifier">SQLITE_ROW</span><span class="special">)</span>
+   <span class="special">{</span>
+      <span class="identifier">assert</span> <span class="special">(</span><span class="identifier">result</span> <span class="special">==</span> <span class="number">0</span><span class="special">);</span>
+      <span class="identifier">assert</span> <span class="special">(</span><span class="identifier">sqlite3_column_count</span> <span class="special">(</span><span class="identifier">prepared_statement</span><span class="special">)</span> <span class="special">==</span> <span class="number">1</span><span class="special">);</span>
+
+      <span class="identifier">result</span> <span class="special">=</span> <span class="identifier">sqlite3_column_int64</span> <span class="special">(</span><span class="identifier">prepared_statement</span><span class="special">,</span> <span class="number">0</span><span class="special">);</span>
+   <span class="special">}</span>
+
+   <span class="identifier">assert</span> <span class="special">(</span><span class="number">0</span> <span class="special">&lt;=</span> <span class="identifier">result</span> <span class="special">&amp;&amp;</span> <span class="identifier">result</span> <span class="special">&lt;=</span> <span class="number">1</span><span class="special">);</span>
+   <span class="identifier">assert</span> <span class="special">(</span><span class="identifier">sqlite3_finalize</span> <span class="special">(</span><span class="identifier">prepared_statement</span><span class="special">)</span> <span class="special">==</span> <span class="identifier">SQLITE_OK</span><span class="special">);</span>
+
+   <span class="identifier">std</span><span class="special">::</span><span class="identifier">cout</span> <span class="special">&lt;&lt;</span> <span class="string">"lock_id = '"</span> <span class="special">&lt;&lt;</span> <span class="identifier">lock_id</span> <span class="special">&lt;&lt;</span> <span class="string">"', result = "</span> <span class="special">&lt;&lt;</span> <span class="identifier">result</span> <span class="special">&lt;&lt;</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">endl</span><span class="special">;</span>
+
+   <span class="keyword">return</span> <span class="identifier">result</span> <span class="special">==</span> <span class="number">1</span><span class="special">;</span>
+<span class="special">}</span>
+
+<span class="keyword">void</span>
+<span class="identifier">datastore</span><span class="special">::</span><span class="identifier">acquire_lock</span> <span class="special">(</span>
+   <span class="identifier">int64_t</span>              <span class="identifier">proposal_id</span><span class="special">,</span>
+   <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span> <span class="keyword">const</span> <span class="special">&amp;</span>  <span class="identifier">lock_id</span><span class="special">)</span>
+<span class="special">{</span>
+   <span class="identifier">assert</span> <span class="special">(</span>
+      <span class="identifier">sqlite3_exec</span> <span class="special">(</span><span class="identifier">db_</span><span class="special">,</span>
+                    <span class="string">"BEGIN"</span><span class="special">,</span>
+                    <span class="identifier">NULL</span><span class="special">,</span>
+                    <span class="identifier">NULL</span><span class="special">,</span>
+                    <span class="identifier">NULL</span><span class="special">)</span> <span class="special">==</span> <span class="identifier">SQLITE_OK</span><span class="special">);</span>
+
+   <span class="identifier">assert</span> <span class="special">(</span>
+      <span class="identifier">sqlite3_exec</span> <span class="special">(</span><span class="identifier">db_</span><span class="special">,</span>
+                    <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span> <span class="special">(</span><span class="string">"INSERT INTO locks (id) VALUES ('"</span> <span class="special">+</span> <span class="identifier">lock_id</span> <span class="special">+</span> <span class="string">"')"</span><span class="special">).</span><span class="identifier">c_str</span> <span class="special">(),</span>
+                    <span class="identifier">NULL</span><span class="special">,</span>
+                    <span class="identifier">NULL</span><span class="special">,</span>
+                    <span class="identifier">NULL</span><span class="special">)</span> <span class="special">==</span> <span class="identifier">SQLITE_OK</span><span class="special">);</span>
+
+   <span class="identifier">assert</span> <span class="special">(</span>
+      <span class="identifier">sqlite3_exec</span> <span class="special">(</span><span class="identifier">db_</span><span class="special">,</span>
+                    <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span> <span class="special">(</span><span class="string">"UPDATE "</span>
+                                 <span class="string">"  proposal_id "</span>
+                                 <span class="string">"SET "</span>
+                                 <span class="string">"  id = "</span> <span class="special">+</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span> <span class="special">&lt;</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">&gt;</span> <span class="special">(</span><span class="identifier">proposal_id</span><span class="special">)).</span><span class="identifier">c_str</span> <span class="special">(),</span>
+                    <span class="identifier">NULL</span><span class="special">,</span>
+                    <span class="identifier">NULL</span><span class="special">,</span>
+                    <span class="identifier">NULL</span><span class="special">)</span> <span class="special">==</span> <span class="identifier">SQLITE_OK</span><span class="special">);</span>
+
+   <span class="identifier">assert</span> <span class="special">(</span>
+      <span class="identifier">sqlite3_exec</span> <span class="special">(</span><span class="identifier">db_</span><span class="special">,</span>
+                    <span class="string">"COMMIT"</span><span class="special">,</span>
+                    <span class="identifier">NULL</span><span class="special">,</span>
+                    <span class="identifier">NULL</span><span class="special">,</span>
+                    <span class="identifier">NULL</span><span class="special">)</span> <span class="special">==</span> <span class="identifier">SQLITE_OK</span><span class="special">);</span>
+
+<span class="special">}</span>
+
+
+<span class="keyword">void</span>
+<span class="identifier">datastore</span><span class="special">::</span><span class="identifier">release_lock</span> <span class="special">(</span>
+   <span class="identifier">int64_t</span>              <span class="identifier">proposal_id</span><span class="special">,</span>
+   <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span> <span class="keyword">const</span> <span class="special">&amp;</span>  <span class="identifier">lock_id</span><span class="special">)</span>
+<span class="special">{</span>
+   <span class="identifier">assert</span> <span class="special">(</span>
+      <span class="identifier">sqlite3_exec</span> <span class="special">(</span><span class="identifier">db_</span><span class="special">,</span>
+                    <span class="string">"BEGIN"</span><span class="special">,</span>
+                    <span class="identifier">NULL</span><span class="special">,</span>
+                    <span class="identifier">NULL</span><span class="special">,</span>
+                    <span class="identifier">NULL</span><span class="special">)</span> <span class="special">==</span> <span class="identifier">SQLITE_OK</span><span class="special">);</span>
+
+   <span class="identifier">assert</span> <span class="special">(</span>
+      <span class="identifier">sqlite3_exec</span> <span class="special">(</span><span class="identifier">db_</span><span class="special">,</span>
+                    <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span> <span class="special">(</span><span class="string">"DELETE FROM locks WHERE id = '"</span> <span class="special">+</span> <span class="identifier">lock_id</span> <span class="special">+</span> <span class="string">"'"</span><span class="special">).</span><span class="identifier">c_str</span> <span class="special">(),</span>
+                    <span class="identifier">NULL</span><span class="special">,</span>
+                    <span class="identifier">NULL</span><span class="special">,</span>
+                    <span class="identifier">NULL</span><span class="special">)</span> <span class="special">==</span> <span class="identifier">SQLITE_OK</span><span class="special">);</span>
+
+   <span class="identifier">assert</span> <span class="special">(</span>
+      <span class="identifier">sqlite3_exec</span> <span class="special">(</span><span class="identifier">db_</span><span class="special">,</span>
+                    <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span> <span class="special">(</span><span class="string">"UPDATE "</span>
+                                 <span class="string">"  proposal_id "</span>
+                                 <span class="string">"SET "</span>
+                                 <span class="string">"  id = "</span> <span class="special">+</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span> <span class="special">&lt;</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">&gt;</span> <span class="special">(</span><span class="identifier">proposal_id</span><span class="special">)).</span><span class="identifier">c_str</span> <span class="special">(),</span>
+                    <span class="identifier">NULL</span><span class="special">,</span>
+                    <span class="identifier">NULL</span><span class="special">,</span>
+                    <span class="identifier">NULL</span><span class="special">)</span> <span class="special">==</span> <span class="identifier">SQLITE_OK</span><span class="special">);</span>
+
+   <span class="identifier">assert</span> <span class="special">(</span>
+      <span class="identifier">sqlite3_exec</span> <span class="special">(</span><span class="identifier">db_</span><span class="special">,</span>
+                    <span class="string">"COMMIT"</span><span class="special">,</span>
+                    <span class="identifier">NULL</span><span class="special">,</span>
+                    <span class="identifier">NULL</span><span class="special">,</span>
+                    <span class="identifier">NULL</span><span class="special">)</span> <span class="special">==</span> <span class="identifier">SQLITE_OK</span><span class="special">);</span>
+
+<span class="special">}</span>
+
+
+<span class="keyword">void</span>
+<span class="identifier">datastore</span><span class="special">::</span><span class="identifier">create_tables</span> <span class="special">()</span>
+<span class="special">{</span>
+   <span class="identifier">assert</span> <span class="special">(</span>
+      <span class="identifier">sqlite3_exec</span> <span class="special">(</span><span class="identifier">db_</span><span class="special">,</span>
+                    <span class="string">"CREATE TABLE locks ("</span>
+                    <span class="string">"  id TEXT PRIMARY KEY ASC) "</span><span class="special">,</span>
+                    <span class="identifier">NULL</span><span class="special">,</span>
+                    <span class="identifier">NULL</span><span class="special">,</span>
+                    <span class="identifier">NULL</span><span class="special">)</span> <span class="special">==</span> <span class="identifier">SQLITE_OK</span><span class="special">);</span>
+
+   <span class="identifier">assert</span> <span class="special">(</span>
+      <span class="identifier">sqlite3_exec</span> <span class="special">(</span><span class="identifier">db_</span><span class="special">,</span>
+                    <span class="string">"CREATE TABLE proposal_id ("</span>
+                    <span class="string">"  id INTEGER PRIMARY KEY ASC) "</span><span class="special">,</span>
+                    <span class="identifier">NULL</span><span class="special">,</span>
+                    <span class="identifier">NULL</span><span class="special">,</span>
+                    <span class="identifier">NULL</span><span class="special">)</span> <span class="special">==</span> <span class="identifier">SQLITE_OK</span><span class="special">);</span>
+
+   <span class="identifier">assert</span> <span class="special">(</span>
+      <span class="identifier">sqlite3_exec</span> <span class="special">(</span><span class="identifier">db_</span><span class="special">,</span>
+                    <span class="string">"INSERT INTO proposal_id VALUES (0)"</span><span class="special">,</span>
+                    <span class="identifier">NULL</span><span class="special">,</span>
+                    <span class="identifier">NULL</span><span class="special">,</span>
+                    <span class="identifier">NULL</span><span class="special">)</span> <span class="special">==</span> <span class="identifier">SQLITE_OK</span><span class="special">);</span>
+<span class="special">}</span>
+
+
+<span class="keyword">bool</span>
+<span class="identifier">datastore</span><span class="special">::</span><span class="identifier">has_table</span> <span class="special">()</span>
+<span class="special">{</span>
+   <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span> <span class="identifier">query</span> <span class="special">=</span>
+      <span class="string">"SELECT "</span>
+      <span class="string">"  COUNT (*) "</span>
+      <span class="string">"FROM "</span>
+      <span class="string">"  sqlite_master "</span>
+      <span class="string">"WHERE "</span>
+      <span class="string">"  type = 'table' "</span>
+      <span class="string">"  AND (name = 'locks' OR name = 'proposal_id')"</span><span class="special">;</span>
+
+   <span class="identifier">sqlite3_stmt</span> <span class="special">*</span> <span class="identifier">prepared_statement</span> <span class="special">=</span> <span class="number">0</span><span class="special">;</span>
+   <span class="identifier">assert</span> <span class="special">(</span><span class="identifier">sqlite3_prepare</span> <span class="special">(</span><span class="identifier">db_</span><span class="special">,</span>
+                            <span class="identifier">query</span><span class="special">.</span><span class="identifier">c_str</span> <span class="special">(),</span>
+                            <span class="identifier">query</span><span class="special">.</span><span class="identifier">length</span> <span class="special">(),</span>
+                            <span class="special">&amp;</span><span class="identifier">prepared_statement</span><span class="special">,</span>
+                            <span class="identifier">NULL</span><span class="special">)</span> <span class="special">==</span> <span class="identifier">SQLITE_OK</span><span class="special">);</span>
+
+   <span class="identifier">int64_t</span> <span class="identifier">result</span> <span class="special">=</span> <span class="number">0</span><span class="special">;</span>
+
+   <span class="keyword">while</span> <span class="special">(</span><span class="identifier">sqlite3_step</span> <span class="special">(</span><span class="identifier">prepared_statement</span><span class="special">)</span> <span class="special">==</span> <span class="identifier">SQLITE_ROW</span><span class="special">)</span>
+   <span class="special">{</span>
+      <span class="identifier">assert</span> <span class="special">(</span><span class="identifier">result</span> <span class="special">==</span> <span class="number">0</span><span class="special">);</span>
+      <span class="identifier">assert</span> <span class="special">(</span><span class="identifier">sqlite3_column_count</span> <span class="special">(</span><span class="identifier">prepared_statement</span><span class="special">)</span> <span class="special">==</span> <span class="number">1</span><span class="special">);</span>
+
+      <span class="identifier">result</span> <span class="special">=</span> <span class="identifier">sqlite3_column_int64</span> <span class="special">(</span><span class="identifier">prepared_statement</span><span class="special">,</span> <span class="number">0</span><span class="special">);</span>
+   <span class="special">}</span>
+
+   <span class="identifier">assert</span> <span class="special">(</span><span class="identifier">sqlite3_finalize</span> <span class="special">(</span><span class="identifier">prepared_statement</span><span class="special">)</span> <span class="special">==</span> <span class="identifier">SQLITE_OK</span><span class="special">);</span>
+
+   <span class="keyword">return</span> <span class="identifier">result</span> <span class="special">==</span> <span class="number">2</span><span class="special">;</span>
+<span class="special">}</span>
+</pre>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"></td>
+<td align="right"><div class="copyright-footer">Copyright &#169; 2012 Leon Mergen<p>
+        Distributed under the 3-Clause BSD License. (See accompanying file COPYING
+        or copy at <a href="http://opensource.org/licenses/BSD-3-Clause" target="_top">http://opensource.org/licenses/BSD-3-Clause</a>)
+      </p>
+</div></td>
+</tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="../durable_lock_service_server.html"><img src="../../../images/prev.png" alt="Prev"></a><a accesskey="u" href="../durable_lock_service_server.html"><img src="../../../images/up.png" alt="Up"></a><a accesskey="h" href="../../../index.html"><img src="../../../images/home.png" alt="Home"></a><a accesskey="n" href="../../reference.html"><img src="../../../images/next.png" alt="Next"></a>
+</div>
+</body>
+</html>

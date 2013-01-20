@@ -8,6 +8,7 @@
 
 #include "../../json_fwd.hpp"
 
+
 namespace backbone { namespace detail { namespace json { namespace writer {
 
 /*!
@@ -81,5 +82,31 @@ struct type_deduce <Value, typename std::enable_if <std::is_floating_point <Valu
          return ciere::json::double_t (data);
       }
 };
+
+
+
+
+
+
+/*!
+  \brief Redirects to our detail::json::writer::type_deduction framework
+         to convert a certain fusion key/value to json.
+ */
+struct json_writer
+{   
+   ciere::json::value json_;
+
+   template <typename Key, typename Value>
+   void
+   operator () (
+      Key const & key, 
+      Value & data)
+      {
+         json_[key] = 
+            type_deduce <Value>::call (data);
+      }
+};
+
+
 
 }; }; }; };

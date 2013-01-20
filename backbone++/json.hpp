@@ -18,36 +18,33 @@
 
 namespace backbone {
 
+
+/*!
+  \brief Converts a backbone data structure to JSON
+  \param model Properly Fusion-adapted backbone::model structure
+ */
 template <typename Model>
 static ciere::json::value
 to_json (
-   Model const & m);
+   Model const & model);
 
+/*!
+  \brief Converts a backbone data structure to JSON
+  \param map backbone::map instance
+ */
 template <typename Key, typename Value, typename Signals>
 static ciere::json::value
 to_json (
-   backbone::map <Key, Value, Signals> const & m);
+   backbone::map <Key, Value, Signals> const & map);
 
+/*!
+  \brief Converts a backbone data structure to JSON
+  \param collection backbone::collection instance
+ */
 template <typename Value, typename Signals>
 static ciere::json::value
 to_json (
-   backbone::collection <Value, Signals> const & c);
-
-
-/*!
-  \brief Redirects to our detail::json::writer::type_deduction framework
-         to convert a certain fusion key/value to json.
- */
-struct json_writer
-{   
-   ciere::json::value json_;
-
-   template <typename Key, typename Value>
-   void
-   operator () (
-      Key const & key, 
-      Value & data);
-};
+   backbone::collection <Value, Signals> const & collection);
 
 };
 

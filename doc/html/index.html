@@ -1,0 +1,123 @@
+<html>
+<head>
+<meta name="keywords" value="paxos,c++">
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>libbackbone-cpp 0.1.0</title>
+<link rel="stylesheet" href="boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
+<link rel="home" href="index.html" title="libbackbone-cpp 0.1.0">
+<link rel="next" href="libbackbone_cpp/getting_started.html" title="Getting started">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="spirit-nav"><a accesskey="n" href="libbackbone_cpp/getting_started.html"><img src="images/next.png" alt="Next"></a></div>
+<div class="article">
+<div class="titlepage">
+<div>
+<div><h2 class="title">
+<a name="libbackbone_cpp"></a>libbackbone-cpp 0.1.0</h2></div>
+<div><div class="authorgroup"><div class="author"><h3 class="author">
+<span class="firstname">Leon</span> <span class="surname">Mergen</span>
+</h3></div></div></div>
+<div><p class="copyright">Copyright &#169; 2013 Leon Mergen</p></div>
+<div><div class="legalnotice">
+<a name="libbackbone_cpp.legal"></a><p>
+        Distributed under the 3-Clause BSD License. (See accompanying file COPYING
+        or copy at <a href="http://opensource.org/licenses/BSD-3-Clause" target="_top">http://opensource.org/licenses/BSD-3-Clause</a>)
+      </p>
+</div></div>
+</div>
+<hr>
+</div>
+<div class="toc">
+<p><b>Table of Contents</b></p>
+<dl>
+<dt><span class="section"><a href="libbackbone_cpp/getting_started.html">Getting started</a></span></dt>
+<dt><span class="section"><a href="libbackbone_cpp/tutorial.html">Tutorial</a></span></dt>
+<dt><span class="section"><a href="libbackbone_cpp/reference.html">Reference</a></span></dt>
+<dt><span class="section"><a href="libbackbone_cpp/revision_history.html">Revision history</a></span></dt>
+</dl>
+</div>
+<h3>
+<a name="libbackbone_cpp.h0"></a>
+    <span><a name="libbackbone_cpp.introduction"></a></span><a class="link" href="index.html#libbackbone_cpp.introduction">Introduction</a>
+  </h3>
+<p>
+    libbackbone-cpp is a C++ implementation of a minimalist MVC framework inspired
+    by Backbone.JS, and is distributed under the 3-clause BSD license. While Backbone.JS
+    aims to provide a client-side MVC framework, libbackbone-cpp implements the server-side
+    of the same concepts.
+  </p>
+<p>
+    The library itself is written by me because I felt myself needing a flexible
+    MVC framework for C++ without all the overhead using such a framework might cause.
+    I needed a framework that solved the following problems for me:
+  </p>
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<li class="listitem">
+        Build and retrieve the Model-part of a MVC architecture, without the code
+        that uses the model being aware of how and when the model is retrieved;
+      </li>
+<li class="listitem">
+        Store anything I want inside a model, but do not lose type information of
+        properties stored inside the model;
+      </li>
+<li class="listitem">
+        Detect changes in a Model and automatically update my Views;
+      </li>
+<li class="listitem">
+        Convert my Model to a JSON representation;
+      </li>
+<li class="listitem">
+        Route incoming HTTP requests to the appropriate handlers.
+      </li>
+</ul></div>
+<p>
+    As such, it currently provides the following functionality:
+  </p>
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<li class="listitem">
+        Extremely minimal and works as a wrapper around existing data structures;
+      </li>
+<li class="listitem">
+        Just-In-Time fetching of Model data;
+      </li>
+<li class="listitem">
+        Event listening / triggering;
+      </li>
+<li class="listitem">
+        Custom event definitions;
+      </li>
+<li class="listitem">
+        JSON conversion functions based on Ciere.Json;
+      </li>
+<li class="listitem">
+        A HTTP routing framework.
+      </li>
+</ul></div>
+<p>
+    Since this library tries to do the things it does with as minimal code as possible,
+    I chose not to hide the components it uses. For example, it is based on <a href="http://www.boost.org/libs/fusion" target="_top">Boost.Fusion</a> and <a href="http://www.boost.org/libs/signals2/" target="_top">Boost.Signals</a>,
+    and makes no effort to wrap these libraries. As such, I also expect you to at
+    least study these libraries a bit so you know what they do and how to use them
+    in the context this library provides.
+  </p>
+<h3>
+<a name="libbackbone_cpp.h1"></a>
+    <span><a name="libbackbone_cpp.support"></a></span><a class="link" href="index.html#libbackbone_cpp.support">Support</a>
+  </h3>
+<p>
+    There is a Google Groups mailinglist for libbackbone-cpp to which you can subscribe
+    and ask your questions:
+  </p>
+<div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+        <a href="http://groups.google.com/group/libbackbone-cpp" target="_top">http://groups.google.com/group/libbackbone-cpp</a>
+      </li></ul></div>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"><p><small>Last revised: January 20, 2013 at 15:32:25 GMT</small></p></td>
+<td align="right"><div class="copyright-footer"></div></td>
+</tr></table>
+<hr>
+<div class="spirit-nav"><a accesskey="n" href="libbackbone_cpp/getting_started.html"><img src="images/next.png" alt="Next"></a></div>
+</body>
+</html>
