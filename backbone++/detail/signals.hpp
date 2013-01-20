@@ -11,6 +11,7 @@ namespace backbone { namespace detail {
 struct signals
 {
    boost::signal <void ()>  all;
+   boost::signal <void ()>  construct;
 };
 
 }; };

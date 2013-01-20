@@ -22,6 +22,16 @@ struct map : public detail::observable <Signals>
    typedef std::map <Key, Value>                map_type;
    typedef typename map_type::iterator          iterator;
 
+
+   /*!
+     \brief Constructor
+    */
+   map ()
+      {
+         this->trigger (
+            this->signals ().construct);
+      }
+
    /*!
      \brief Adds new key/value pair to the map
      \param key   The key to add

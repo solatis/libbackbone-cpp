@@ -22,15 +22,27 @@ struct model : public detail::observable <Signals>
 {
    typedef model <Derived, Signals>     base_type;
 
+   model ()
+      {
+         this->trigger (this->signals ().construct);
+      }
+
    template <typename Key, typename Value> 
-   void set (Value && value);
+   void set (Value && value)
+      {
+         boost::fusion::at_key <Key> (static_cast <Derived &> (*this)) = std::move (value);
+
+         this->trigger (this->signals ().change);
+      }
 
    template <typename Key>
    typename boost::fusion::result_of::at_key <Derived, Key>::type &
-   get ();
+   get ()
+      {
+         this->trigger (this->signals ().read);
 
+         return boost::fusion::at_key <Key> (static_cast <Derived &> (*this));
+      }
 };
 
 };
-
-#include "model.inl"

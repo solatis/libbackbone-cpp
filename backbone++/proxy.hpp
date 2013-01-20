@@ -5,4 +5,5 @@
 #pragma once
 
 #include "proxy/prefetch.hpp"
+#include "proxy/jitfetch.hpp"
 

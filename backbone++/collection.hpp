@@ -25,24 +25,60 @@ struct collection : public detail::observable <Signals>
    typedef typename collection_type::iterator           iterator;
    typedef typename collection_type::const_iterator     const_iterator;
 
+
+   /*!
+     \brief Constructor
+    */
+   collection ()
+      {
+         this->trigger (
+            this->signals ().construct);
+      }
+
    Value &
    add (
-      Value &&          value);
+      Value &&          value)
+      {
+         collection_.push_back (std::move (value));
+
+         this->trigger (
+            this->signals ().add, 
+            *collection_.rbegin ());
+
+         return *collection_.rbegin ();
+      }
 
    void
    erase (
-      iterator          pos);
+      iterator          pos)
+      {
+         this->trigger (
+            this->signals ().erase,
+            *pos);
+
+         collection_.erase (pos);
+      }
 
    typename collection_type::iterator
-   begin ();
+   begin ()
+      {
+         this->trigger (
+            this->signals ().read_all);
+
+         return collection_.begin ();         
+      }
 
    typename collection_type::iterator
-   end ();
+   end ()
+      {
+         this->trigger (
+            this->signals ().read_all);
+
+         return collection_.end ();
+      }
 
    collection_type     collection_;
 };
 
 };
-
-#include "collection.inl"
 
