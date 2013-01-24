@@ -1,0 +1,163 @@
+<html>
+<head>
+<meta name="keywords" value="mvc,c++">
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>Prefetching</title>
+<link rel="stylesheet" href="../../boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
+<link rel="home" href="../../index.html" title="libbackbone-cpp 0.1.0">
+<link rel="up" href="../tutorial.html" title="Tutorial">
+<link rel="prev" href="your_first_map/a00001.html" title="Source listing for Your first map">
+<link rel="next" href="prefetching/a00001.html" title="Source listing for Prefetching">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="spirit-nav">
+<a accesskey="p" href="your_first_map/a00001.html"><img src="../../images/prev.png" alt="Prev"></a><a accesskey="u" href="../tutorial.html"><img src="../../images/up.png" alt="Up"></a><a accesskey="h" href="../../index.html"><img src="../../images/home.png" alt="Home"></a><a accesskey="n" href="prefetching/a00001.html"><img src="../../images/next.png" alt="Next"></a>
+</div>
+<div class="section">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="libbackbone_cpp.tutorial.prefetching"></a><a class="link" href="prefetching.html" title="Prefetching">Prefetching</a>
+</h3></div></div></div>
+<p>
+        Prefetching your model is useful when you want the retrieval of your model
+        to be separated of the interfacing with your model. This can be useful when
+        you decide to pre-fetch your model in the background and have the functions
+        that interface with your model to be very snappy.
+      </p>
+<p>
+        We will once again use our person model, and show how to implement the retrieval
+        functions.
+      </p>
+<p>
+        First, let's import all the necessary headers again.
+      </p>
+<pre class="programlisting"><span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">stdint</span><span class="special">.</span><span class="identifier">h</span><span class="special">&gt;</span>
+<span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">string</span><span class="special">&gt;</span>
+
+<span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">boost</span><span class="special">/</span><span class="identifier">fusion</span><span class="special">/</span><span class="identifier">adapted</span><span class="special">/</span><span class="keyword">struct</span><span class="special">/</span><span class="identifier">adapt_assoc_struct</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
+<span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">boost</span><span class="special">/</span><span class="identifier">fusion</span><span class="special">/</span><span class="identifier">include</span><span class="special">/</span><span class="identifier">adapt_assoc_struct</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
+
+<span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">backbone</span><span class="special">++/</span><span class="identifier">map</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
+<span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">backbone</span><span class="special">++/</span><span class="identifier">model</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
+<span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">backbone</span><span class="special">++/</span><span class="identifier">collection</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
+<span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">backbone</span><span class="special">++/</span><span class="identifier">proxy</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
+</pre>
+<p>
+        And, let's use the same structures as in the previous example.
+      </p>
+<pre class="programlisting"><span class="keyword">struct</span> <span class="identifier">person_impl</span> <span class="special">:</span> <span class="keyword">public</span> <span class="identifier">backbone</span><span class="special">::</span><span class="identifier">model</span><span class="special">&lt;</span><span class="identifier">person_impl</span><span class="special">&gt;</span>
+<span class="special">{</span>
+   <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span>                          <span class="identifier">name</span><span class="special">;</span>
+   <span class="identifier">int16_t</span>                              <span class="identifier">age</span><span class="special">;</span>
+
+   <span class="keyword">struct</span> <span class="identifier">keys</span>
+   <span class="special">{</span>
+      <span class="keyword">struct</span> <span class="identifier">name</span><span class="special">;</span>
+      <span class="keyword">struct</span> <span class="identifier">age</span><span class="special">;</span>
+   <span class="special">};</span>
+</pre>
+<p>
+        This time, our person class has an operator() function that "retrieves"
+        the data. In our example this is just a function that sets the name and age,
+        but it would be perfectly fine to have a (blocking) database-lookup call
+        here.
+      </p>
+<pre class="programlisting">   <span class="keyword">void</span>
+   <span class="keyword">operator</span><span class="special">()</span> <span class="special">()</span>
+      <span class="special">{</span>
+         <span class="keyword">this</span><span class="special">-&gt;</span><span class="identifier">set</span> <span class="special">&lt;</span><span class="identifier">keys</span><span class="special">::</span><span class="identifier">name</span><span class="special">&gt;</span> <span class="special">(</span><span class="string">"Bill Gates"</span><span class="special">);</span>
+         <span class="keyword">this</span><span class="special">-&gt;</span><span class="identifier">set</span> <span class="special">&lt;</span><span class="identifier">keys</span><span class="special">::</span><span class="identifier">age</span><span class="special">&gt;</span> <span class="special">(</span><span class="number">57</span><span class="special">);</span>
+      <span class="special">}</span>
+   <span class="special">};</span>
+
+<span class="identifier">BOOST_FUSION_ADAPT_ASSOC_STRUCT</span><span class="special">(</span>
+   <span class="identifier">person_impl</span><span class="special">,</span>
+   <span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">,</span>                        <span class="identifier">name</span><span class="special">,</span>    <span class="identifier">person_impl</span><span class="special">::</span><span class="identifier">keys</span><span class="special">::</span><span class="identifier">name</span><span class="special">)</span>
+   <span class="special">(</span><span class="identifier">int16_t</span><span class="special">,</span>                            <span class="identifier">age</span><span class="special">,</span>     <span class="identifier">person_impl</span><span class="special">::</span><span class="identifier">keys</span><span class="special">::</span><span class="identifier">age</span><span class="special">))</span>
+</pre>
+<p>
+        Now, as you might have noticed above, we have renamed our struct from <code class="computeroutput"><span class="identifier">person</span></code> to <code class="computeroutput"><span class="identifier">person_impl</span></code>.
+        The reason for this is that the person struct that we will actually use on
+        a high-level is a proxy interface to the actual implementation of our <code class="computeroutput"><span class="identifier">person</span></code> class. Thus, we name the interface
+        the name we wish to commonly refer it to, <code class="computeroutput"><span class="identifier">person</span></code>,
+        and our implementation <code class="computeroutput"><span class="identifier">person_impl</span></code>.
+      </p>
+<pre class="programlisting"><span class="keyword">struct</span> <span class="identifier">person</span> <span class="special">:</span> <span class="keyword">public</span> <span class="identifier">backbone</span><span class="special">::</span><span class="identifier">proxy</span><span class="special">::</span><span class="identifier">prefetch</span> <span class="special">&lt;</span><span class="identifier">person_impl</span><span class="special">&gt;</span>
+<span class="special">{</span>
+<span class="special">};</span>
+</pre>
+<p>
+        This also works for any type of backbone class! To demonstrate, let's define
+        two more proxy classes, one to a collection and another to a map:
+      </p>
+<pre class="programlisting"><span class="keyword">struct</span> <span class="identifier">collection_impl</span>
+   <span class="special">:</span> <span class="keyword">public</span> <span class="identifier">backbone</span><span class="special">::</span><span class="identifier">collection</span> <span class="special">&lt;</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">&gt;</span>
+<span class="special">{</span>
+   <span class="keyword">void</span>
+   <span class="keyword">operator</span><span class="special">()</span> <span class="special">()</span>
+      <span class="special">{</span>
+         <span class="keyword">this</span><span class="special">-&gt;</span><span class="identifier">add</span> <span class="special">(</span><span class="string">"foo"</span><span class="special">);</span>
+      <span class="special">}</span>
+<span class="special">};</span>
+
+<span class="keyword">struct</span> <span class="identifier">collection</span> <span class="special">:</span> <span class="keyword">public</span> <span class="identifier">backbone</span><span class="special">::</span><span class="identifier">proxy</span><span class="special">::</span><span class="identifier">prefetch</span> <span class="special">&lt;</span><span class="identifier">collection_impl</span><span class="special">&gt;</span>
+<span class="special">{</span>
+<span class="special">};</span>
+
+<span class="keyword">struct</span> <span class="identifier">map_impl</span>
+   <span class="special">:</span> <span class="keyword">public</span> <span class="identifier">backbone</span><span class="special">::</span><span class="identifier">map</span> <span class="special">&lt;</span><span class="identifier">int64_t</span><span class="special">,</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">&gt;</span>
+<span class="special">{</span>
+   <span class="keyword">void</span>
+   <span class="keyword">operator</span><span class="special">()</span> <span class="special">()</span>
+      <span class="special">{</span>
+         <span class="keyword">this</span><span class="special">-&gt;</span><span class="identifier">add</span> <span class="special">(</span><span class="number">1</span><span class="special">,</span> <span class="string">"bar"</span><span class="special">);</span>
+      <span class="special">}</span>
+<span class="special">};</span>
+
+<span class="keyword">struct</span> <span class="identifier">map</span> <span class="special">:</span> <span class="keyword">public</span> <span class="identifier">backbone</span><span class="special">::</span><span class="identifier">proxy</span><span class="special">::</span><span class="identifier">prefetch</span> <span class="special">&lt;</span><span class="identifier">map_impl</span><span class="special">&gt;</span>
+<span class="special">{</span>
+<span class="special">};</span>
+</pre>
+<p>
+        And that's all there's to it! As you can see from the code below, the code
+        that interfaces with the model now is completely unaware of the retrieval
+        of the data.
+      </p>
+<pre class="programlisting"><span class="keyword">int</span> <span class="identifier">main</span> <span class="special">()</span>
+<span class="special">{</span>
+   <span class="identifier">person</span> <span class="identifier">person</span><span class="special">;</span>
+   <span class="identifier">assert</span> <span class="special">(</span><span class="identifier">person</span><span class="special">.</span><span class="identifier">get</span> <span class="special">&lt;</span><span class="identifier">person</span><span class="special">::</span><span class="identifier">keys</span><span class="special">::</span><span class="identifier">name</span><span class="special">&gt;</span> <span class="special">()</span> <span class="special">==</span> <span class="string">"Bill Gates"</span><span class="special">);</span>
+   <span class="identifier">assert</span> <span class="special">(</span><span class="identifier">person</span><span class="special">.</span><span class="identifier">get</span> <span class="special">&lt;</span><span class="identifier">person</span><span class="special">::</span><span class="identifier">keys</span><span class="special">::</span><span class="identifier">age</span><span class="special">&gt;</span> <span class="special">()</span> <span class="special">==</span> <span class="number">57</span><span class="special">);</span>
+
+   <span class="identifier">collection</span> <span class="identifier">collection</span><span class="special">;</span>
+   <span class="identifier">assert</span> <span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">distance</span> <span class="special">(</span><span class="identifier">collection</span><span class="special">.</span><span class="identifier">begin</span> <span class="special">(),</span>
+                          <span class="identifier">collection</span><span class="special">.</span><span class="identifier">end</span> <span class="special">())</span> <span class="special">==</span> <span class="number">1</span><span class="special">);</span>
+
+   <span class="identifier">map</span> <span class="identifier">map</span><span class="special">;</span>
+   <span class="identifier">assert</span> <span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">distance</span> <span class="special">(</span><span class="identifier">map</span><span class="special">.</span><span class="identifier">begin</span> <span class="special">(),</span>
+                          <span class="identifier">map</span><span class="special">.</span><span class="identifier">end</span> <span class="special">())</span> <span class="special">==</span> <span class="number">1</span><span class="special">);</span>
+<span class="special">}</span>
+</pre>
+<p>
+        This demonstrates the nice separation of concerns that the Backbone library
+        provides.
+      </p>
+<p>
+        See the <a class="link" href="prefetching/a00001.html" title="Source listing for Prefetching">full
+        source listing</a>
+      </p>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"></td>
+<td align="right"><div class="copyright-footer">Copyright &#169; 2013 Leon Mergen<p>
+        Distributed under the 3-Clause BSD License. (See accompanying file COPYING
+        or copy at <a href="http://opensource.org/licenses/BSD-3-Clause" target="_top">http://opensource.org/licenses/BSD-3-Clause</a>)
+      </p>
+</div></td>
+</tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="your_first_map/a00001.html"><img src="../../images/prev.png" alt="Prev"></a><a accesskey="u" href="../tutorial.html"><img src="../../images/up.png" alt="Up"></a><a accesskey="h" href="../../index.html"><img src="../../images/home.png" alt="Home"></a><a accesskey="n" href="prefetching/a00001.html"><img src="../../images/next.png" alt="Next"></a>
+</div>
+</body>
+</html>

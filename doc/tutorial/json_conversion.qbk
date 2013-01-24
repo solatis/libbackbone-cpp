@@ -1,0 +1,137 @@
+[section JSON conversion]
+
+In the previous examples we demonstrated how to declare Backbone structures and how to interface them. This is nice, but doesn't really add much value compared to using non-Backbone structures.
+
+In this example, we will explore the power of Backbone structures by converting the structure of [link libbackbone_cpp.tutorial.your_first_map the previous example] directly to JSON. Note that this depends on the Ciere.Json library.
+
+First, let's import all the necessary headers again.
+
+  #include <stdint.h>
+  #include <string>
+  #include <iostream>
+
+  #include <ciere/json/io.hpp>
+
+  #include <boost/fusion/adapted/struct/adapt_assoc_struct.hpp>
+  #include <boost/fusion/include/adapt_assoc_struct.hpp>
+
+  #include <backbone++/json.hpp>
+  #include <backbone++/map.hpp>
+  #include <backbone++/model.hpp>
+  #include <backbone++/collection.hpp>
+
+
+And, let's use the same structures as in the previous example.
+
+  struct person : public backbone::model<person>
+  {
+     std::string                          name;
+     int16_t                              age;
+     backbone::collection <std::string>   hobbies;
+  
+     struct keys
+     {
+        struct name;
+        struct age;
+        struct hobbies;
+     };
+  };
+
+  BOOST_FUSION_ADAPT_ASSOC_STRUCT(
+     person,
+     (std::string,                        name,    person::keys::name)
+     (int16_t,                            age,     person::keys::age)
+     (backbone::collection <std::string>, hobbies, person::keys::hobbies))
+
+  struct employees : public backbone::map<int64_t, struct person>
+  {
+  }
+
+
+Now, let's fill up the structure again and convert it to JSON!
+
+
+  int main ()
+  {
+     person person;
+     person.set <person::keys::name> ("Bill Gates");
+     person.set <person::keys::age> (57);
+     person.get <person::keys::hobbies> ().add ("go");
+     person.get <person::keys::hobbies> ().add ("chess");
+
+     employees employees;
+     employees.add(1, std::move(person));
+     
+     ciere::json::value json = backbone::to_json(employees);
+     std::cout << json << std::endl;
+  }
+
+This will print out the following data:
+
+  {"1":{"age":57, "hobbies":["go", "chess"], "name":"Bill Gates"}}
+
+It's really that easy! Thanks to the Boost.Fusion adaption, Backbone is able to completely introspect the structures and automatically convert it to JSON.
+
+See the [link libbackbone_cpp.tutorial.json_conversion.a00001 full source listing]
+
+
+[section:a00001 Source listing for JSON conversion]
+
+
+  #include <stdint.h>
+  #include <string>
+  #include <iostream>
+
+  #include <ciere/json/io.hpp>
+
+  #include <boost/fusion/adapted/struct/adapt_assoc_struct.hpp>
+  #include <boost/fusion/include/adapt_assoc_struct.hpp>
+
+  #include <backbone++/json.hpp>
+  #include <backbone++/map.hpp>
+  #include <backbone++/model.hpp>
+  #include <backbone++/collection.hpp>
+
+  struct person : public backbone::model<person>
+  {
+     std::string                          name;
+     int16_t                              age;
+     backbone::collection <std::string>   hobbies;
+  
+     struct keys
+     {
+        struct name;
+        struct age;
+        struct hobbies;
+     };
+  };
+
+  BOOST_FUSION_ADAPT_ASSOC_STRUCT(
+     person,
+     (std::string,                        name,    person::keys::name)
+     (int16_t,                            age,     person::keys::age)
+     (backbone::collection <std::string>, hobbies, person::keys::hobbies))
+
+  struct employees : public backbone::map<int64_t, struct person>
+  {
+  }
+
+
+  int main ()
+  {
+     person person;
+     person.set <person::keys::name> ("Bill Gates");
+     person.set <person::keys::age> (57);
+     person.get <person::keys::hobbies> ().add ("go");
+     person.get <person::keys::hobbies> ().add ("chess");
+
+     employees employees;
+     employees.add(1, std::move(person));
+     
+     ciere::json::value json = backbone::to_json(employees);
+     std::cout << json << std::endl;
+  }
+
+[endsect]
+
+[endsect]

@@ -16,22 +16,8 @@
       <type>static ciere::json::value</type>
       <name>to_json</name>
       <anchorfile>namespacebackbone.html</anchorfile>
-      <anchor>a4afa8bd28e00ff6ca5222e971d367829</anchor>
-      <arglist>(Model const &amp;model)</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static ciere::json::value</type>
-      <name>to_json</name>
-      <anchorfile>namespacebackbone.html</anchorfile>
-      <anchor>a443c78da0f16adc98e84cecfe986735b</anchor>
-      <arglist>(backbone::map&lt; Key, Value, Signals &gt; const &amp;map)</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static ciere::json::value</type>
-      <name>to_json</name>
-      <anchorfile>namespacebackbone.html</anchorfile>
-      <anchor>af05f92bb4b8fc45f716665e72777163f</anchor>
-      <arglist>(backbone::collection&lt; Value, Signals &gt; const &amp;collection)</arglist>
+      <anchor>a5b576f3cd83cdcf0d15b24aa7573272f</anchor>
+      <arglist>(Type const &amp;obj)</arglist>
     </member>
   </compound>
   <compound kind="file">
@@ -75,22 +61,8 @@
       <type>static ciere::json::value</type>
       <name>to_json</name>
       <anchorfile>namespacebackbone.html</anchorfile>
-      <anchor>a4afa8bd28e00ff6ca5222e971d367829</anchor>
-      <arglist>(Model const &amp;model)</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static ciere::json::value</type>
-      <name>to_json</name>
-      <anchorfile>namespacebackbone.html</anchorfile>
-      <anchor>a443c78da0f16adc98e84cecfe986735b</anchor>
-      <arglist>(backbone::map&lt; Key, Value, Signals &gt; const &amp;map)</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static ciere::json::value</type>
-      <name>to_json</name>
-      <anchorfile>namespacebackbone.html</anchorfile>
-      <anchor>af05f92bb4b8fc45f716665e72777163f</anchor>
-      <arglist>(backbone::collection&lt; Value, Signals &gt; const &amp;collection)</arglist>
+      <anchor>a5b576f3cd83cdcf0d15b24aa7573272f</anchor>
+      <arglist>(Type const &amp;obj)</arglist>
     </member>
   </compound>
   <compound kind="struct">
@@ -103,6 +75,20 @@
       <name>base_type</name>
       <anchorfile>structbackbone_1_1model.html</anchorfile>
       <anchor>a9a6b267873ede8a2d198a931187ef335</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>Derived</type>
+      <name>derived_type</name>
+      <anchorfile>structbackbone_1_1model.html</anchorfile>
+      <anchor>a7ebee8e3a1537136cabe94b1779410e7</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>Signals</type>
+      <name>signals_type</name>
+      <anchorfile>structbackbone_1_1model.html</anchorfile>
+      <anchor>a8aaef7409eecb43eaa179b56b5bf857b</anchor>
       <arglist></arglist>
     </member>
     <member kind="function">
@@ -138,6 +124,27 @@
       <name>base_type</name>
       <anchorfile>structbackbone_1_1map.html</anchorfile>
       <anchor>adaa9974ff3c452fc3fd8721de9ca3ff1</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>Key</type>
+      <name>key_type</name>
+      <anchorfile>structbackbone_1_1map.html</anchorfile>
+      <anchor>a977cece44d4226b272b715199745eb66</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>Value</type>
+      <name>value_type</name>
+      <anchorfile>structbackbone_1_1map.html</anchorfile>
+      <anchor>a9b08918388fef36ee29844e6d924fe4c</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>Signals</type>
+      <name>signals_type</name>
+      <anchorfile>structbackbone_1_1map.html</anchorfile>
+      <anchor>a9b7def9c4bdfe2a147eeb9dcd290be5e</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
@@ -214,6 +221,20 @@
       <name>base_type</name>
       <anchorfile>structbackbone_1_1collection.html</anchorfile>
       <anchor>a8a267d99627862f889e8292592594856</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>Value</type>
+      <name>value_type</name>
+      <anchorfile>structbackbone_1_1collection.html</anchorfile>
+      <anchor>a95cd265f4461e8e85c77060f19d47434</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>Signals</type>
+      <name>signals_type</name>
+      <anchorfile>structbackbone_1_1collection.html</anchorfile>
+      <anchor>a3a60839a5b0deaf93549c7c86d18f4ca</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">

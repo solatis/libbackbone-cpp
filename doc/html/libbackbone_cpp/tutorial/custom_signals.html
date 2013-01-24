@@ -1,0 +1,170 @@
+<html>
+<head>
+<meta name="keywords" value="mvc,c++">
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>Custom signals</title>
+<link rel="stylesheet" href="../../boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
+<link rel="home" href="../../index.html" title="libbackbone-cpp 0.1.0">
+<link rel="up" href="../tutorial.html" title="Tutorial">
+<link rel="prev" href="signal_subscriptions/a00001.html" title="Source listing for Event subscriptions">
+<link rel="next" href="custom_signals/a00001.html" title="Source listing for Custom signals">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="spirit-nav">
+<a accesskey="p" href="signal_subscriptions/a00001.html"><img src="../../images/prev.png" alt="Prev"></a><a accesskey="u" href="../tutorial.html"><img src="../../images/up.png" alt="Up"></a><a accesskey="h" href="../../index.html"><img src="../../images/home.png" alt="Home"></a><a accesskey="n" href="custom_signals/a00001.html"><img src="../../images/next.png" alt="Next"></a>
+</div>
+<div class="section">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="libbackbone_cpp.tutorial.custom_signals"></a><a class="link" href="custom_signals.html" title="Custom signals">Custom signals</a>
+</h3></div></div></div>
+<p>
+        As described in the <a class="link" href="signal_subscriptions.html" title="Signal subscriptions">previous
+        tutorial</a>, Backbone automatically triggers signals which you can subscribe
+        to. However, you might want to extend the pre-defined signals with your own
+        signal types. In this tutorial we describe how to do that.
+      </p>
+<p>
+        If you look in <a class="link" href="../reference.html" title="Reference">the reference</a>
+        for the <a class="link" href="../reference/model.html" title="model">model</a>, <a class="link" href="../reference/collection.html" title="collection">collection</a> and <a class="link" href="../reference/map.html" title="map">map</a> classes, you can see that
+        the class take a template parameter called <code class="computeroutput"><span class="identifier">Sigals</span></code>
+        which has a default initialization. It is precisely this definition you need
+        to override with your own signal specification.
+      </p>
+<p>
+        To demonstrate how to do this for a Model, we will create a Person model
+        with our own signals, <code class="computeroutput"><span class="identifier">laugh</span></code>
+        and <code class="computeroutput"><span class="identifier">talk</span></code>.
+      </p>
+<pre class="programlisting"><span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">stdint</span><span class="special">.</span><span class="identifier">h</span><span class="special">&gt;</span>
+<span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">assert</span><span class="special">.</span><span class="identifier">h</span><span class="special">&gt;</span>
+<span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">string</span><span class="special">&gt;</span>
+<span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">vector</span><span class="special">&gt;</span>
+
+<span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">boost</span><span class="special">/</span><span class="identifier">fusion</span><span class="special">/</span><span class="identifier">adapted</span><span class="special">/</span><span class="keyword">struct</span><span class="special">/</span><span class="identifier">adapt_assoc_struct</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
+<span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">boost</span><span class="special">/</span><span class="identifier">fusion</span><span class="special">/</span><span class="identifier">include</span><span class="special">/</span><span class="identifier">adapt_assoc_struct</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
+
+<span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">backbone</span><span class="special">++/</span><span class="identifier">proxy</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
+<span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">backbone</span><span class="special">++/</span><span class="identifier">model</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
+</pre>
+<p>
+        Defining your own signal class is easy: just make sure it inherits from the
+        same base class as your Backbone class does. In case of a Model, this is
+        <code class="computeroutput"><span class="identifier">backbone</span><span class="special">::</span><span class="identifier">detail</span><span class="special">::</span><span class="identifier">model</span><span class="special">::</span><span class="identifier">signals</span></code>. This base type contains all the
+        built-in signals that the Model will trigger.
+      </p>
+<pre class="programlisting"><span class="keyword">struct</span> <span class="identifier">custom_signals</span> <span class="special">:</span>
+    <span class="keyword">public</span> <span class="identifier">backbone</span><span class="special">::</span><span class="identifier">detail</span><span class="special">::</span><span class="identifier">model</span><span class="special">::</span><span class="identifier">signals</span>
+<span class="special">{</span>
+   <span class="identifier">boost</span><span class="special">::</span><span class="identifier">signal</span> <span class="special">&lt;</span><span class="keyword">void</span> <span class="special">()&gt;</span>                      <span class="identifier">laugh</span><span class="special">;</span>
+   <span class="identifier">boost</span><span class="special">::</span><span class="identifier">signal</span> <span class="special">&lt;</span><span class="keyword">void</span> <span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span> <span class="keyword">const</span> <span class="special">&amp;)&gt;</span>   <span class="identifier">talk</span><span class="special">;</span>
+<span class="special">};</span>
+</pre>
+<p>
+        You can see that we created a new signals class which has a <code class="computeroutput"><span class="identifier">laugh</span></code> signal that doesn't take any aruments,
+        and a <code class="computeroutput"><span class="identifier">talk</span></code> signal which takes
+        a string as arguments. Let's continue with our <code class="computeroutput"><span class="identifier">person</span></code>
+        definition!
+      </p>
+<pre class="programlisting"><span class="keyword">struct</span> <span class="identifier">person_impl</span> <span class="special">:</span> <span class="keyword">public</span> <span class="identifier">backbone</span><span class="special">::</span><span class="identifier">model</span><span class="special">&lt;</span><span class="identifier">person_impl</span><span class="special">,</span> <span class="identifier">custom_signals</span><span class="special">&gt;</span>
+<span class="special">{</span>
+   <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span>                          <span class="identifier">name</span><span class="special">;</span>
+   <span class="identifier">int16_t</span>                              <span class="identifier">age</span><span class="special">;</span>
+
+   <span class="keyword">struct</span> <span class="identifier">keys</span>
+   <span class="special">{</span>
+      <span class="keyword">struct</span> <span class="identifier">name</span><span class="special">;</span>
+      <span class="keyword">struct</span> <span class="identifier">age</span><span class="special">;</span>
+   <span class="special">};</span>
+
+   <span class="keyword">void</span>
+   <span class="keyword">operator</span><span class="special">()</span> <span class="special">()</span>
+      <span class="special">{</span>
+         <span class="keyword">this</span><span class="special">-&gt;</span><span class="identifier">set</span> <span class="special">&lt;</span><span class="identifier">keys</span><span class="special">::</span><span class="identifier">name</span><span class="special">&gt;</span> <span class="special">(</span><span class="string">"Bill Gates"</span><span class="special">);</span>
+         <span class="keyword">this</span><span class="special">-&gt;</span><span class="identifier">set</span> <span class="special">&lt;</span><span class="identifier">keys</span><span class="special">::</span><span class="identifier">age</span><span class="special">&gt;</span> <span class="special">(</span><span class="number">57</span><span class="special">);</span>
+      <span class="special">}</span>
+</pre>
+<p>
+        So far so good, and nothing special. Let us define two public methods which
+        will both trigger the signals.
+      </p>
+<pre class="programlisting"><span class="keyword">void</span>
+<span class="identifier">talk</span> <span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span> <span class="keyword">const</span> <span class="special">&amp;</span> <span class="identifier">words</span><span class="special">)</span>
+   <span class="special">{</span>
+      <span class="keyword">this</span><span class="special">-&gt;</span><span class="identifier">signals</span> <span class="special">().</span><span class="identifier">talk</span> <span class="special">(</span><span class="identifier">words</span><span class="special">);</span>
+   <span class="special">}</span>
+
+<span class="keyword">void</span>
+<span class="identifier">laugh</span> <span class="special">()</span>
+   <span class="special">{</span>
+      <span class="keyword">this</span><span class="special">-&gt;</span><span class="identifier">signals</span> <span class="special">().</span><span class="identifier">laugh</span> <span class="special">();</span>
+   <span class="special">}</span>
+</pre>
+<p>
+        As you can see, triggering the signals is very easy. As we said earlier,
+        Backbone is just a thin wrapper around some Boost libraries and makes no
+        attept to hide this fact; you're just interfacing with the <a href="http://www.boost.org/libs/signals2/" target="_top">Boost.Signals</a>
+        library here. Let's continue with our definition of the person class.
+      </p>
+<pre class="programlisting"><span class="special">};</span>
+
+<span class="identifier">BOOST_FUSION_ADAPT_ASSOC_STRUCT</span><span class="special">(</span>
+   <span class="identifier">person_impl</span><span class="special">,</span>
+   <span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">,</span>                        <span class="identifier">name</span><span class="special">,</span>    <span class="identifier">person_impl</span><span class="special">::</span><span class="identifier">keys</span><span class="special">::</span><span class="identifier">name</span><span class="special">)</span>
+   <span class="special">(</span><span class="identifier">int16_t</span><span class="special">,</span>                            <span class="identifier">age</span><span class="special">,</span>     <span class="identifier">person_impl</span><span class="special">::</span><span class="identifier">keys</span><span class="special">::</span><span class="identifier">age</span><span class="special">))</span>
+
+
+<span class="keyword">struct</span> <span class="identifier">person</span> <span class="special">:</span> <span class="keyword">public</span> <span class="identifier">backbone</span><span class="special">::</span><span class="identifier">proxy</span><span class="special">::</span><span class="identifier">prefetch</span> <span class="special">&lt;</span><span class="identifier">person_impl</span><span class="special">&gt;</span>
+<span class="special">{</span>
+<span class="special">};</span>
+</pre>
+<p>
+        And let's actually use these signals!
+      </p>
+<pre class="programlisting"><span class="keyword">int</span> <span class="identifier">main</span> <span class="special">()</span>
+<span class="special">{</span>
+   <span class="identifier">person</span> <span class="identifier">person</span><span class="special">;</span>
+   <span class="identifier">person</span><span class="special">.</span><span class="identifier">signals</span> <span class="special">().</span><span class="identifier">laugh</span><span class="special">.</span><span class="identifier">connect</span> <span class="special">(</span>
+      <span class="special">[]</span> <span class="special">()</span>
+      <span class="special">{</span>
+         <span class="identifier">std</span><span class="special">::</span><span class="identifier">cout</span> <span class="special">&lt;&lt;</span> <span class="string">"person laughs!"</span> <span class="special">&lt;&lt;</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">endl</span><span class="special">;</span>
+      <span class="special">});</span>
+
+   <span class="identifier">person</span><span class="special">.</span><span class="identifier">signals</span> <span class="special">().</span><span class="identifier">talk</span><span class="special">.</span><span class="identifier">connect</span> <span class="special">(</span>
+      <span class="special">[]</span> <span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span> <span class="keyword">const</span> <span class="special">&amp;</span> <span class="identifier">words</span><span class="special">)</span>
+      <span class="special">{</span>
+         <span class="identifier">std</span><span class="special">::</span><span class="identifier">cout</span> <span class="special">&lt;&lt;</span> <span class="string">"person says: "</span> <span class="special">&lt;&lt;</span> <span class="identifier">words</span> <span class="special">&lt;&lt;</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">endl</span><span class="special">;</span>
+      <span class="special">});</span>
+
+   <span class="identifier">person</span><span class="special">.</span><span class="identifier">laugh</span> <span class="special">();</span>
+   <span class="identifier">person</span><span class="special">.</span><span class="identifier">talk</span> <span class="special">(</span><span class="string">"Backbone rocks!"</span><span class="special">);</span>
+<span class="special">}</span>
+</pre>
+<p>
+        This will print out:
+      </p>
+<pre class="programlisting"><span class="identifier">person</span> <span class="identifier">laughs</span><span class="special">!</span>
+<span class="identifier">person</span> <span class="identifier">says</span><span class="special">:</span> <span class="identifier">Backbone</span> <span class="identifier">rocks</span><span class="special">!</span>
+</pre>
+<p>
+        Yes, once again, it's that easy!
+      </p>
+<p>
+        See the <a class="link" href="custom_signals/a00001.html" title="Source listing for Custom signals">full
+        source listing</a>
+      </p>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"></td>
+<td align="right"><div class="copyright-footer">Copyright &#169; 2013 Leon Mergen<p>
+        Distributed under the 3-Clause BSD License. (See accompanying file COPYING
+        or copy at <a href="http://opensource.org/licenses/BSD-3-Clause" target="_top">http://opensource.org/licenses/BSD-3-Clause</a>)
+      </p>
+</div></td>
+</tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="signal_subscriptions/a00001.html"><img src="../../images/prev.png" alt="Prev"></a><a accesskey="u" href="../tutorial.html"><img src="../../images/up.png" alt="Up"></a><a accesskey="h" href="../../index.html"><img src="../../images/home.png" alt="Home"></a><a accesskey="n" href="custom_signals/a00001.html"><img src="../../images/next.png" alt="Next"></a>
+</div>
+</body>
+</html>

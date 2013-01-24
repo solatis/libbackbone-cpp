@@ -1,0 +1,210 @@
+[section Signal subscriptions]
+
+Backbone is built around the [@http://www.boost.org/libs/signals2/ Boost.Signals] library. When you read or change objects inside a model, the appropriate signals are triggered. This allows you to define a view that automatically re-renders when (a certain part of) the model changes, and allows for a decoupled program architecture. As a matter of fact, the backbone proxy classes discussed in the [link libbackbone_cpp.tutorial.prefetching previous] [link libbackbone_cpp.tutorial.jit_fetching tutorials] are entirely built on top of the signals framework.
+
+By default Backbone defines a sane set of default signals that are triggered for each model type. Defining your own signals is also supported and covered in the topic [link libbackbone_cpp.tutorial.custom_signals Advanced.1 - Custom signals].
+
+In this tutorial we're going to give you an impression on how the signals mechanism works. First of all, let's define our person structure and employees map again.
+
+  #include <stdint.h>
+  #include <string>
+
+  #include <boost/fusion/adapted/struct/adapt_assoc_struct.hpp>
+  #include <boost/fusion/include/adapt_assoc_struct.hpp>
+
+  #include <backbone++/proxy.hpp>
+  #include <backbone++/map.hpp>
+  #include <backbone++/model.hpp>
+ 
+  struct person_impl : public backbone::model<person_impl>
+  {
+     std::string                          name;
+     int16_t                              age;
+   
+     struct keys
+     {
+        struct name;
+        struct age;
+     };
+
+     void
+     operator() ()
+        {
+           this->set <keys::name> ("Bill Gates");
+           this->set <keys::age> (57);
+        }
+     };
+  
+  BOOST_FUSION_ADAPT_ASSOC_STRUCT(
+     person_impl,
+     (std::string,                        name,    person_impl::keys::name)
+     (int16_t,                            age,     person_impl::keys::age))
+
+  struct person : public backbone::proxy::prefetch <person_impl>
+  {
+  };
+
+
+  struct map_impl
+     : public backbone::map <int64_t, std::string>
+  {
+     void
+     operator() ()
+        {
+           this->add (1, "bar");
+           this->add (2, "wombat");
+        }
+  };
+
+  struct map : public backbone::proxy::prefetch <map_impl>
+  {
+  };
+
+
+Next, we're going to define two views, a `person_view` and a `map_view` which will be re-rendered as soon as the underlying model changes.
+
+  struct person_view
+  {
+     void
+     render ()
+        {
+           std::cout << "rendering person" << std::endl;
+        } 
+  };
+  
+  struct map_view
+  {
+     void
+     render ()
+        {
+           std::cout << "map person" << std::endl;
+        } 
+  };
+
+And last but not least, let's connect these views to the appropriate signal handlers:
+
+
+  int main ()
+  {   
+     person person;
+     map    map;
+  
+     person_view person_view;
+     person.signals ().change.connect (
+        std::bind (&person_view::render,
+                   &person_view));
+   
+     map_view map_view;
+     map.signals ().change.connect (
+        std::bind (&map_view::render,
+                   &map_view));
+  
+     person.set <person::keys::name> ("Gill Bates");
+     map.add(3, "wombat");
+  }
+
+This will print out the following:
+
+  rendering person
+  map person
+
+Once again, it's really that easy! Each model, collection and map has a signals () function to which you can access the underlying signals. Please consider the [link libbackbone_cpp.reference reference] for the full overview of signals and callback signature each object type triggers.
+
+See the [link libbackbone_cpp.tutorial.signal_subscriptions.a00001 full source listing]
+
+[section:a00001 Source listing for Event subscriptions]
+
+  #include <stdint.h>
+  #include <string>
+
+  #include <boost/fusion/adapted/struct/adapt_assoc_struct.hpp>
+  #include <boost/fusion/include/adapt_assoc_struct.hpp>
+
+  #include <backbone++/proxy.hpp>
+  #include <backbone++/map.hpp>
+  #include <backbone++/model.hpp>
+ 
+  struct person_impl : public backbone::model<person_impl>
+  {
+     std::string                          name;
+     int16_t                              age;
+   
+     struct keys
+     {
+        struct name;
+        struct age;
+     };
+
+     void
+     operator() ()
+        {
+           this->set <keys::name> ("Bill Gates");
+           this->set <keys::age> (57);
+        }
+     };
+  
+  BOOST_FUSION_ADAPT_ASSOC_STRUCT(
+     person_impl,
+     (std::string,                        name,    person_impl::keys::name)
+     (int16_t,                            age,     person_impl::keys::age))
+
+  struct person : public backbone::proxy::prefetch <person_impl>
+  {
+  };
+
+
+  struct map_impl
+     : public backbone::map <int64_t, std::string>
+  {
+     void
+     operator() ()
+        {
+           this->add (1, "bar");
+           this->add (2, "wombat");
+        }
+  };
+
+  struct map : public backbone::proxy::prefetch <map_impl>
+  {
+  };
+
+  struct person_view
+  {
+     void
+     render ()
+        {
+           std::cout << "rendering person" << std::endl;
+        } 
+  };
+  
+  struct map_view
+  {
+     void
+     render ()
+        {
+           std::cout << "map person" << std::endl;
+        } 
+  };
+
+  int main ()
+  {   
+     person person;
+     map    map;
+  
+     person_view person_view;
+     person.signals ().change.connect (
+        std::bind (&person_view::render,
+                   &person_view));
+   
+     map_view map_view;
+     map.signals ().change.connect (
+        std::bind (&map_view::render,
+                   &map_view));
+  
+     person.set <person::keys::name> ("Gill Bates");
+     map.add(3, "wombat");
+  }
+
+[endsect]
+
+[endsect]

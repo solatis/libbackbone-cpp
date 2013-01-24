@@ -1,0 +1,122 @@
+[section Your first map]
+
+A Backbone map is an associative container in which keys can be mapped to specific values. It is based on a STL map and provides Backbone functionality on top of this class.
+
+This example will extend [link libbackbone_cpp.tutorial.your_first_collection the previous example] and we are going to create a structure that maps employee ids with a specific employee.
+
+First, let's import all the necessary headers again.
+
+  #include <stdint.h>
+  #include <string>
+
+  #include <boost/fusion/adapted/struct/adapt_assoc_struct.hpp>
+  #include <boost/fusion/include/adapt_assoc_struct.hpp>
+
+  #include <backbone++/map.hpp>
+  #include <backbone++/model.hpp>
+  #include <backbone++/collection.hpp>
+
+
+And, let's use the same struct as in the previous example.
+
+  struct person : public backbone::model<person>
+  {
+     std::string                          name;
+     int16_t                              age;
+     backbone::collection <std::string>   hobbies;
+  
+     struct keys
+     {
+        struct name;
+        struct age;
+        struct hobbies;
+     };
+  };
+
+  BOOST_FUSION_ADAPT_ASSOC_STRUCT(
+     person,
+     (std::string,                        name,    person::keys::name)
+     (int16_t,                            age,     person::keys::age)
+     (backbone::collection <std::string>, hobbies, person::keys::hobbies))
+
+
+Now, we're going to define our Backbone map.
+
+  struct employees : public backbone::map<int64_t, struct person>
+  {
+  }
+
+It's as simple as that. In fact, in this example we could even have used a simple typedef for this map, but inheritin allows us to amend the class with additional functions.
+
+Let's fill our map and test its properties.
+
+
+  int main ()
+  {
+     person person;
+     person.set <person::keys::name> ("Bill Gates");
+     person.set <person::keys::age> (57);
+     person.get <person::keys::hobbies> ().add ("go");
+     person.get <person::keys::hobbies> ().add ("chess");
+
+     employees employees;
+     employees.add(1, std::move(person));
+     assert (employees.get (1).get <person::keys::name> () == "Bill Gates");
+  }
+
+A map behaves just like a normal STL map. You might notice that we're using the std::move() constructor to put the employee inside the container. This is required, since a Backbone model cannot be copied.
+
+See the [link libbackbone_cpp.tutorial.your_first_map.a00001 full source listing]
+
+
+[section:a00001 Source listing for Your first map]
+
+  #include <stdint.h>
+  #include <string>
+
+  #include <boost/fusion/adapted/struct/adapt_assoc_struct.hpp>
+  #include <boost/fusion/include/adapt_assoc_struct.hpp>
+
+  #include <backbone++/model.hpp>
+  #include <backbone++/collection.hpp>
+
+  struct person : public backbone::model<person>
+  {
+     std::string                          name;
+     int16_t                              age;
+     backbone::collection <std::string>   hobbies;
+  
+     struct keys
+     {
+        struct name;
+        struct age;
+        struct hobbies;
+     };
+  };
+
+  BOOST_FUSION_ADAPT_ASSOC_STRUCT(
+     person,
+     (std::string,                        name,    person::keys::name)
+     (int16_t,                            age,     person::keys::age)
+     (backbone::collection <std::string>, hobbies, person::keys::hobbies))
+
+  struct employees : public backbone::map<int64_t, struct person>
+  {
+  }
+
+  int main ()
+  {
+     person person;
+     person.set <person::keys::name> ("Bill Gates");
+     person.set <person::keys::age> (57);
+     person.get <person::keys::hobbies> ().add ("go");
+     person.get <person::keys::hobbies> ().add ("chess");
+
+     employees employees;
+     employees.add(1, std::move(person));
+     assert (employees.get (1).get <person::keys::name> () == "Bill Gates");
+  }
+
+[endsect]
+
+[endsect]

@@ -19,6 +19,10 @@ template <typename Key, typename Value, typename Signals = detail::map::signals 
 struct map : public detail::observable <Signals>
 {
    typedef map <Key, Value, Signals>            base_type;
+   typedef Key                                  key_type;
+   typedef Value                                value_type;
+   typedef Signals                              signals_type;
+
    typedef std::map <Key, Value>                map_type;
    typedef typename map_type::iterator          iterator;
 
@@ -46,6 +50,8 @@ struct map : public detail::observable <Signals>
          map_[key] = std::move (value);
 
          this->trigger (
+            this->signals ().change);
+         this->trigger (
             this->signals ().add, 
             map_[key]);
 
@@ -60,6 +66,8 @@ struct map : public detail::observable <Signals>
    erase (
       Key const &       key)
       {
+         this->trigger (
+            this->signals ().change);
          this->trigger (
             this->signals ().erase,
             map_.at (key));
@@ -77,6 +85,8 @@ struct map : public detail::observable <Signals>
       Key const &       key)
       {
          this->trigger (
+            this->signals ().read);
+         this->trigger (
             this->signals ().read_one,
             key);
 
@@ -90,6 +100,8 @@ struct map : public detail::observable <Signals>
    begin ()
       {
          this->trigger (
+            this->signals ().read);
+         this->trigger (
             this->signals ().read_all);
 
          return map_.begin ();         
@@ -101,6 +113,8 @@ struct map : public detail::observable <Signals>
    iterator
    end ()
       {
+         this->trigger (
+            this->signals ().read);
          this->trigger (
             this->signals ().read_all);
 

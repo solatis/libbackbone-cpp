@@ -1,6 +1,6 @@
 <html>
 <head>
-<meta name="keywords" value="paxos,c++">
+<meta name="keywords" value="mvc,c++">
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>Tutorial</title>
 <link rel="stylesheet" href="../boostbook.css" type="text/css">
@@ -20,8 +20,7 @@
 </h2></div></div></div>
 <h4>
 <a name="libbackbone_cpp.tutorial.h0"></a>
-      <span><a name="libbackbone_cpp.tutorial.basic_introduction"></a></span><a class="link" href="tutorial.html#libbackbone_cpp.tutorial.basic_introduction">Basic
-      introduction</a>
+      <span><a name="libbackbone_cpp.tutorial.introduction"></a></span><a class="link" href="tutorial.html#libbackbone_cpp.tutorial.introduction">Introduction</a>
     </h4>
 <p>
       The tutorial programs in this section introduce the fundamental concepts required
@@ -35,38 +34,68 @@
           - Your first model</a>
         </li>
 <li class="listitem">
-          <a class="link" href="../">Introduction.2 - Basic
-          map</a>
+          <a class="link" href="tutorial/your_first_collection.html" title="Your first collection">Introduction.2
+          - Your first collection</a>
         </li>
 <li class="listitem">
-          <a class="link" href="../">Introduction.3 -
-          Basic collection</a>
+          <a class="link" href="tutorial/your_first_map.html" title="Your first map">Introduction.3
+          - Your first map</a>
         </li>
 </ul></div>
 <h4>
 <a name="libbackbone_cpp.tutorial.h1"></a>
-      <span><a name="libbackbone_cpp.tutorial.fetching_data_using_a_proxy"></a></span><a class="link" href="tutorial.html#libbackbone_cpp.tutorial.fetching_data_using_a_proxy">Fetching
-      data using a proxy</a>
+      <span><a name="libbackbone_cpp.tutorial.fetching_models"></a></span><a class="link" href="tutorial.html#libbackbone_cpp.tutorial.fetching_models">Fetching
+      models</a>
     </h4>
 <p>
-      The tutorial programs in this section implement a distributed locking service.
-      The examples build up in complexity and eventually introduce to you a production-ready
-      distributed lock service.
+      Now that you know how to declare your Backbone model, it's useful to be able
+      to retrieve these models from a specific data source, such as a database. You
+      could do this completely outside of Backbone's control, but Backbone provides
+      two separate proxy classes that implement different strategies to retrieve
+      your model data: prefetching your entire model or performing Just-In-Time (JIT)
+      fetching of your models.
+    </p>
+<p>
+      This section describes two tutorials that demonstrate the implementation of
+      both strategies.
     </p>
 <div class="itemizedlist"><ul class="itemizedlist" type="disc">
 <li class="listitem">
-          <a class="link" href="../">Lock service.1
-          - Basic server</a>
+          <a class="link" href="tutorial/prefetching.html" title="Prefetching">Fetching.1 - Prefetching</a>
         </li>
 <li class="listitem">
-          <a class="link" href="../">Lock service.1
-          - Basic client</a>
-        </li>
-<li class="listitem">
-          <a class="link" href="../">Lock
-          service.2 - Durable server</a>
+          <a class="link" href="tutorial/jit_fetching.html" title="JIT fetching">Fetching.2 - JIT
+          fetching</a>
         </li>
 </ul></div>
+<h4>
+<a name="libbackbone_cpp.tutorial.h2"></a>
+      <span><a name="libbackbone_cpp.tutorial.basics"></a></span><a class="link" href="tutorial.html#libbackbone_cpp.tutorial.basics">Basics</a>
+    </h4>
+<p>
+      Once we know how to construct Backbone models, it is time to actually do useful
+      things with these models. The tutorials in this section intend to describe
+      various aspects of this functionality.
+    </p>
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<li class="listitem">
+          <a class="link" href="tutorial/json_conversion.html" title="JSON conversion">Basics.1 - Json
+          conversion</a>
+        </li>
+<li class="listitem">
+          <a class="link" href="tutorial/signal_subscriptions.html" title="Signal subscriptions">Basics.2
+          - Signal subscriptions</a>
+        </li>
+</ul></div>
+<h4>
+<a name="libbackbone_cpp.tutorial.h3"></a>
+      <span><a name="libbackbone_cpp.tutorial.advanced_topics"></a></span><a class="link" href="tutorial.html#libbackbone_cpp.tutorial.advanced_topics">Advanced
+      topics</a>
+    </h4>
+<div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+          <a class="link" href="tutorial/custom_signals.html" title="Custom signals">Advanced.1 - Custom
+          signals</a>
+        </li></ul></div>
 </div>
 <table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
 <td align="left"></td>

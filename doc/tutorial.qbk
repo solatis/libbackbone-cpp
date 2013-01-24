@@ -1,11 +1,15 @@
 [section Tutorial]
 
 [include tutorial/your_first_model.qbk]
+[include tutorial/your_first_collection.qbk]
+[include tutorial/your_first_map.qbk]
+[include tutorial/prefetching.qbk]
+[include tutorial/jitfetching.qbk]
+[include tutorial/json_conversion.qbk]
+[include tutorial/signal_subscriptions.qbk]
+[include tutorial/custom_signals.qbk]
 
 [/
-
-[include tutorial/basic_map.qbk]
-[include tutorial/basic_collection.qbk]
 
 [include tutorial/basic_lock_service_server.qbk]
 [include tutorial/basic_lock_service_client.qbk]
@@ -13,21 +17,34 @@
 
 /]
 
-[heading Basic introduction]
+[heading Introduction]
 
 The tutorial programs in this section introduce the fundamental concepts required to use the Backbone library. Keep in mind that in these examples, we focus on proving you with the basic working tools to convert your model to a Backbone model.
 
 * [link libbackbone_cpp.tutorial.your_first_model Introduction.1 - Your first model]
-* [link libpaxos_cpp.tutorial.basic_map Introduction.2 - Basic map]
-* [link libpaxos_cpp.tutorial.basic_collection Introduction.3 - Basic collection]
+* [link libbackbone_cpp.tutorial.your_first_collection Introduction.2 - Your first collection]
+* [link libbackbone_cpp.tutorial.your_first_map Introduction.3 - Your first map]
 
 
-[heading Fetching data using a proxy]
+[heading Fetching models]
 
-The tutorial programs in this section implement a distributed locking service. The examples build up in complexity and eventually introduce to you a production-ready distributed lock service.
+Now that you know how to declare your Backbone model, it's useful to be able to retrieve these models from a specific data source, such as a database. You could do this completely outside of Backbone's control, but Backbone provides two separate proxy classes that implement different strategies to retrieve your model data: prefetching your entire model or performing Just-In-Time (JIT) fetching of your models. 
 
-* [link libpaxos_cpp.tutorial.basic_lock_service_server Lock service.1 - Basic server]
-* [link libpaxos_cpp.tutorial.basic_lock_service_client Lock service.1 - Basic client]
-* [link libpaxos_cpp.tutorial.durable_lock_service_server Lock service.2 - Durable server]
+This section describes two tutorials that demonstrate the implementation of both strategies.
+
+* [link libbackbone_cpp.tutorial.prefetching Fetching.1 - Prefetching]
+* [link libbackbone_cpp.tutorial.jit_fetching Fetching.2 - JIT fetching]
+
+
+[heading Basics]
+
+Once we know how to construct Backbone models, it is time to actually do useful things with these models. The tutorials in this section intend to describe various aspects of this functionality.
+
+* [link libbackbone_cpp.tutorial.json_conversion Basics.1 - Json conversion]
+* [link libbackbone_cpp.tutorial.signal_subscriptions Basics.2 - Signal subscriptions]
+
+[heading Advanced topics]
+
+* [link libbackbone_cpp.tutorial.custom_signals Advanced.1 - Custom signals]
 
 [endsect]

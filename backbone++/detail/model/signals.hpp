@@ -10,8 +10,6 @@ namespace backbone { namespace detail { namespace model {
 
 struct signals : public detail::signals
 {
-   boost::signal <void ()>  read;
-   boost::signal <void ()>  change;
 };
 
 }; }; };

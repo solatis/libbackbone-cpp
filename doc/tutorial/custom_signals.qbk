@@ -1,0 +1,195 @@
+[section Custom signals]
+
+As described in the [link libbackbone_cpp.tutorial.signal_subscriptions previous tutorial], Backbone automatically triggers signals which you can subscribe to. However, you might want to extend the pre-defined signals with your own signal types. In this tutorial we describe how to do that.
+
+If you look in [link libbackbone_cpp.reference the reference] for the [link libbackbone_cpp.reference.model model], [link libbackbone_cpp.reference.collection collection] and [link libbackbone_cpp.reference.map map] classes, you can see that the class take a template parameter called `Sigals` which has a default initialization. It is precisely this definition you need to override with your own signal specification.
+
+To demonstrate how to do this for a Model, we will create a Person model with our own signals, `laugh` and `talk`.
+
+
+
+  #include <stdint.h>
+  #include <assert.h>
+  #include <string>
+  #include <vector>
+
+  #include <boost/fusion/adapted/struct/adapt_assoc_struct.hpp>
+  #include <boost/fusion/include/adapt_assoc_struct.hpp>
+
+  #include <backbone++/proxy.hpp>
+  #include <backbone++/model.hpp>
+
+Defining your own signal class is easy: just make sure it inherits from the same base class as your Backbone class does. In case of a Model, this is `backbone::detail::model::signals`. This base type contains all the built-in signals that the Model will trigger.
+
+  struct custom_signals : 
+      public backbone::detail::model::signals
+  {
+     boost::signal <void ()>                      laugh;
+     boost::signal <void (std::string const &)>   talk;
+  };
+
+You can see that we created a new signals class which has a `laugh` signal that doesn't take any aruments, and a `talk` signal which takes a string as arguments. Let's continue with our `person` definition!
+
+
+  struct person_impl : public backbone::model<person_impl, custom_signals>
+  {
+     std::string                          name;
+     int16_t                              age;
+   
+     struct keys
+     {
+        struct name;
+        struct age;
+     };
+
+     void
+     operator() ()
+        {
+           this->set <keys::name> ("Bill Gates");
+           this->set <keys::age> (57);
+        }
+
+So far so good, and nothing special. Let us define two public methods which will both trigger the signals.
+
+     void
+     talk (std::string const & words)
+        {
+           this->signals ().talk (words);
+        }
+  
+     void
+     laugh ()
+        {
+           this->signals ().laugh ();
+        }
+
+As you can see, triggering the signals is very easy. As we said earlier, Backbone is just a thin wrapper around some Boost libraries and makes no attept to hide this fact; you're just interfacing with the [@http://www.boost.org/libs/signals2/ Boost.Signals] library here. Let's continue with our definition of the person class.
+
+
+  };
+  
+  BOOST_FUSION_ADAPT_ASSOC_STRUCT(
+     person_impl,
+     (std::string,                        name,    person_impl::keys::name)
+     (int16_t,                            age,     person_impl::keys::age))
+  
+  
+  struct person : public backbone::proxy::prefetch <person_impl>
+  {
+  };
+
+
+And let's actually use these signals!
+
+  int main ()
+  {   
+     person person;
+     person.signals ().laugh.connect (
+        [] () 
+        {
+           std::cout << "person laughs!" << std::endl;
+        });
+  
+     person.signals ().talk.connect (
+        [] (std::string const & words) 
+        {
+           std::cout << "person says: " << words << std::endl;
+        });
+  
+     person.laugh ();
+     person.talk ("Backbone rocks!");
+  }
+
+This will print out:
+
+  person laughs!
+  person says: Backbone rocks!
+
+Yes, once again, it's that easy!
+
+See the [link libbackbone_cpp.tutorial.custom_signals.a00001 full source listing]
+
+[section:a00001 Source listing for Custom signals]
+
+  #include <stdint.h>
+  #include <assert.h>
+  #include <string>
+  #include <vector>
+
+  #include <boost/fusion/adapted/struct/adapt_assoc_struct.hpp>
+  #include <boost/fusion/include/adapt_assoc_struct.hpp>
+
+  #include <backbone++/proxy.hpp>
+  #include <backbone++/model.hpp>
+
+  struct custom_signals : 
+      public backbone::detail::model::signals
+  {
+     boost::signal <void ()>                      laugh;
+     boost::signal <void (std::string const &)>   talk;
+  };
+
+  struct person_impl : public backbone::model<person_impl, custom_signals>
+  {
+     std::string                          name;
+     int16_t                              age;
+   
+     struct keys
+     {
+        struct name;
+        struct age;
+     };
+
+     void
+     operator() ()
+        {
+           this->set <keys::name> ("Bill Gates");
+           this->set <keys::age> (57);
+        }
+
+     void
+     talk (std::string const & words)
+        {
+           this->signals ().talk (words);
+        }
+  
+     void
+     laugh ()
+        {
+           this->signals ().laugh ();
+        }
+  };
+  
+  BOOST_FUSION_ADAPT_ASSOC_STRUCT(
+     person_impl,
+     (std::string,                        name,    person_impl::keys::name)
+     (int16_t,                            age,     person_impl::keys::age))
+  
+  
+  struct person : public backbone::proxy::prefetch <person_impl>
+  {
+  };
+
+  int main ()
+  {   
+     person person;
+     person.signals ().laugh.connect (
+        [] () 
+        {
+           std::cout << "person laughs!" << std::endl;
+        });
+  
+     person.signals ().talk.connect (
+        [] (std::string const & words) 
+        {
+           std::cout << "person says: " << words << std::endl;
+        });
+  
+     person.laugh ();
+     person.talk ("Backbone rocks!");
+  }
+
+
+[endsect]
+
+[endsect]

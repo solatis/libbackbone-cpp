@@ -1,0 +1,251 @@
+[section JIT fetching]
+
+In the [link libbackbone_cpp.tutorial.prefetching previous example] we showed you how to use a pre-fetching proxy to retrieve your model data. This is useful when you know in advance your entire model will be used, but in many cases, only a subset of your entire model will be used. For example, your model can represent your entire user base, but with each HTTP request only a single user's data will be used.
+
+This is where Just-In-Time (JIT) fetching comes into play: you only retrieve data when you are actually using it for the first time. 
+
+JIT fetching is almost a drop-in replacement for prefetching, with the only exception being Maps. We will use the same code as in the previous example.
+
+  #include <stdint.h>
+  #include <string>
+
+  #include <boost/fusion/adapted/struct/adapt_assoc_struct.hpp>
+  #include <boost/fusion/include/adapt_assoc_struct.hpp>
+
+  #include <backbone++/map.hpp>
+  #include <backbone++/model.hpp>
+  #include <backbone++/collection.hpp>
+  #include <backbone++/proxy.hpp>
+ 
+  struct person_impl : public backbone::model<person_impl>
+  {
+     std::string                          name;
+     int16_t                              age;
+   
+     struct keys
+     {
+        struct name;
+        struct age;
+     };
+
+     void
+     operator() ()
+        {
+           this->set <keys::name> ("Bill Gates");
+           this->set <keys::age> (57);
+        }
+     };
+  
+  BOOST_FUSION_ADAPT_ASSOC_STRUCT(
+     person_impl,
+     (std::string,                        name,    person_impl::keys::name)
+     (int16_t,                            age,     person_impl::keys::age))
+
+  struct person : public backbone::proxy::jitfetch <person_impl>
+  {
+  };
+
+  struct collection_impl
+     : public backbone::collection <std::string>
+  {
+     void
+     operator() ()
+        {
+           this->add ("foo");
+        }
+  };
+
+  struct collection : public backbone::proxy::jitfetch <collection_impl>
+  {
+  };
+
+
+As you can see from the code above, for models and collections, JIT fetching is a drop-in replacement. For the maps, it's requires an additional method, a key-specific lookup function:
+
+
+  struct map_impl
+     : public backbone::map <int64_t, std::string>
+  {
+     void
+     operator() ()
+        {
+           this->add (1, "bar");
+           this->add (2, "wombat");
+        }
+
+     void
+     operator() (int64_t key)
+        {
+           switch (key)
+           {
+              case 1:
+                 this->add (1, "bar");
+                 break;
+
+              case 2:
+                 this->add (2, "wombat");
+                 break;
+           };
+        }
+  };
+
+  struct map : public backbone::proxy::jitfetch <map_impl>
+  {
+  };
+
+
+As you can see, if we only use a small subset of a Map, only a small subset of the data will be retrieved too! Let's demonstrate this by the following code:
+
+  int main ()
+  {   
+     person person;
+     assert (person.get <person::keys::name> () == "Bill Gates");
+     assert (person.get <person::keys::age> () == 57);
+  
+     collection collection;
+     assert (std::distance (collection.begin (),
+                            collection.end ()) == 1);
+  
+     map map1;
+     map map2;
+
+     //! Accessing the iterators requires all data to be retrieved, so this will call operator()()
+     assert (std::distance (map1.begin (),
+                            map1.end ()) == 2);   
+
+     //! If we inspect the second map, however, you will see this is a bit different; note that map_
+     //! is an internal, and we make use of that here. It is *not* recommended to access this container
+     //! directly in production code.
+     assert (std::distance (map2.map_.begin (),
+                            map2.map_.end ()) == 0);
+
+     assert (map2.get (1) == "bar");
+     
+     //! At this point, only a single element will be retrieved in the second map
+     assert (std::distance (map2.map_.begin (),
+                            map2.map_.end ()) == 1);
+  }
+
+
+This demonstrates how using JIT fetching can make your code be completely unaware of when new data is retrieved, and retrieve the minimal amount of data required to execute your function.
+
+See the [link libbackbone_cpp.tutorial.jit_fetching.a00001 full source listing]
+
+[section:a00001 Source listing for JIT fetching]
+
+
+  #include <stdint.h>
+  #include <string>
+
+  #include <boost/fusion/adapted/struct/adapt_assoc_struct.hpp>
+  #include <boost/fusion/include/adapt_assoc_struct.hpp>
+
+  #include <backbone++/model.hpp>
+  #include <backbone++/proxy.hpp>
+ 
+  struct person_impl : public backbone::model<person_impl>
+  {
+     std::string                          name;
+     int16_t                              age;
+   
+     struct keys
+     {
+        struct name;
+        struct age;
+     };
+
+     void
+     operator() ()
+        {
+           this->set <keys::name> ("Bill Gates");
+           this->set <keys::age> (57);
+        }
+     };
+  
+  BOOST_FUSION_ADAPT_ASSOC_STRUCT(
+     person_impl,
+     (std::string,                        name,    person_impl::keys::name)
+     (int16_t,                            age,     person_impl::keys::age))
+
+  struct person : public backbone::proxy::jitfetch <person_impl>
+  {
+  };
+
+  struct collection_impl
+     : public backbone::collection <std::string>
+  {
+     void
+     operator() ()
+        {
+           this->add ("foo");
+        }
+  };
+
+  struct collection : public backbone::proxy::jitfetch <collection_impl>
+  {
+  };
+
+  struct map_impl
+     : public backbone::map <int64_t, std::string>
+  {
+     void
+     operator() ()
+        {
+           this->add (1, "bar");
+           this->add (2, "wombat");
+        }
+
+     void
+     operator() (int64_t key)
+        {
+           switch (key)
+           {
+              case 1:
+                 this->add (1, "bar");
+                 break;
+
+              case 2:
+                 this->add (2, "wombat");
+                 break;
+           };
+        }
+  };
+
+  struct map : public backbone::proxy::jitfetch <map_impl>
+  {
+  };
+
+  int main ()
+  {   
+     person person;
+     assert (person.get <person::keys::name> () == "Bill Gates");
+     assert (person.get <person::keys::age> () == 57);
+  
+     collection collection;
+     assert (std::distance (collection.begin (),
+                            collection.end ()) == 1);
+  
+     map map1;
+     map map2;
+
+     //! Accessing the iterators requires all data to be retrieved, so this will call operator()()
+     assert (std::distance (map1.begin (),
+                            map1.end ()) == 2);   
+
+     //! If we inspect the second map, however, you will see this is a bit different; note that map_
+     //! is an internal, and we make use of that here. It is *not* recommended to access this container
+     //! directly in production code.
+     assert (std::distance (map2.map_.begin (),
+                            map2.map_.end ()) == 0);
+
+     assert (map2.get (1) == "bar");
+     
+     //! At this point, only a single element will be retrieved in the second map
+     assert (std::distance (map2.map_.begin (),
+                            map2.map_.end ()) == 1);
+  }
+
+
+[endsect]
+
+[endsect]

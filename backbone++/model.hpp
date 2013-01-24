@@ -21,6 +21,8 @@ template <typename Derived, typename Signals = detail::model::signals>
 struct model : public detail::observable <Signals>
 {
    typedef model <Derived, Signals>     base_type;
+   typedef Derived                      derived_type;
+   typedef Signals                      signals_type;
 
    model ()
       {

@@ -12,6 +12,8 @@ struct signals
 {
    boost::signal <void ()>  all;
    boost::signal <void ()>  construct;
+   boost::signal <void ()>  read;
+   boost::signal <void ()>  change;
 };
 
 }; };

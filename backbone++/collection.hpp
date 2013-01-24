@@ -20,6 +20,8 @@ template <typename Value, typename Signals = detail::collection::signals <Value>
 struct collection : public detail::observable <Signals>
 {
    typedef collection <Value, Signals>                  base_type;
+   typedef Value                                        value_type;
+   typedef Signals                                      signals_type;
 
    typedef std::vector <Value>                          collection_type;
    typedef typename collection_type::iterator           iterator;
@@ -42,6 +44,8 @@ struct collection : public detail::observable <Signals>
          collection_.push_back (std::move (value));
 
          this->trigger (
+            this->signals ().change);
+         this->trigger (
             this->signals ().add, 
             *collection_.rbegin ());
 
@@ -53,6 +57,8 @@ struct collection : public detail::observable <Signals>
       iterator          pos)
       {
          this->trigger (
+            this->signals ().change);
+         this->trigger (
             this->signals ().erase,
             *pos);
 
@@ -63,6 +69,8 @@ struct collection : public detail::observable <Signals>
    begin ()
       {
          this->trigger (
+            this->signals ().read);
+         this->trigger (
             this->signals ().read_all);
 
          return collection_.begin ();         
@@ -71,6 +79,8 @@ struct collection : public detail::observable <Signals>
    typename collection_type::iterator
    end ()
       {
+         this->trigger (
+            this->signals ().read);
          this->trigger (
             this->signals ().read_all);
 

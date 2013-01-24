@@ -39,7 +39,7 @@ As such, it currently provides the following functionality:
 * Extremely minimal and works as a wrapper around existing data structures;
 * Just-In-Time fetching of Model data;
 * Event listening / triggering;
-* Custom event definitions;
+* Custom signal definitions;
 * JSON conversion functions based on Ciere.Json;
 * A HTTP routing framework.
 

@@ -1,0 +1,196 @@
+[section Prefetching]
+
+Prefetching your model is useful when you want the retrieval of your model to be separated of the interfacing with your model. This can be useful when you decide to pre-fetch your model in the background and have the functions that interface with your model to be very snappy.
+
+We will once again use our person model, and show how to implement the retrieval functions.
+
+First, let's import all the necessary headers again.
+
+  #include <stdint.h>
+  #include <string>
+
+  #include <boost/fusion/adapted/struct/adapt_assoc_struct.hpp>
+  #include <boost/fusion/include/adapt_assoc_struct.hpp>
+
+  #include <backbone++/map.hpp>
+  #include <backbone++/model.hpp>
+  #include <backbone++/collection.hpp>
+  #include <backbone++/proxy.hpp>
+
+
+And, let's use the same structures as in the previous example. 
+ 
+  struct person_impl : public backbone::model<person_impl>
+  {
+     std::string                          name;
+     int16_t                              age;
+   
+     struct keys
+     {
+        struct name;
+        struct age;
+     };
+
+
+This time, our person class has an operator() function that "retrieves" the data. In our example this is just a function that sets the name and age, but it would be perfectly fine to have a (blocking) database-lookup call here.
+
+     void
+     operator() ()
+        {
+           this->set <keys::name> ("Bill Gates");
+           this->set <keys::age> (57);
+        }
+     };
+  
+  BOOST_FUSION_ADAPT_ASSOC_STRUCT(
+     person_impl,
+     (std::string,                        name,    person_impl::keys::name)
+     (int16_t,                            age,     person_impl::keys::age))
+  
+Now, as you might have noticed above, we have renamed our struct from `person` to `person_impl`. The reason for this is that the person struct that we will actually use on a high-level is a proxy interface to the actual implementation of our `person` class. Thus, we name the interface the name we wish to commonly refer it to, `person`, and our implementation `person_impl`.
+
+  struct person : public backbone::proxy::prefetch <person_impl>
+  {
+  };
+
+This also works for any type of backbone class! To demonstrate, let's define two more proxy classes, one to a collection and another to a map:
+
+
+  struct collection_impl
+     : public backbone::collection <std::string>
+  {
+     void
+     operator() ()
+        {
+           this->add ("foo");
+        }
+  };
+
+  struct collection : public backbone::proxy::prefetch <collection_impl>
+  {
+  };
+
+  struct map_impl
+     : public backbone::map <int64_t, std::string>
+  {
+     void
+     operator() ()
+        {
+           this->add (1, "bar");
+        }
+  };
+
+  struct map : public backbone::proxy::prefetch <map_impl>
+  {
+  };
+
+
+And that's all there's to it! As you can see from the code below, the code that interfaces with the model now is completely unaware of the retrieval of the data.
+
+
+  int main ()
+  {   
+     person person;
+     assert (person.get <person::keys::name> () == "Bill Gates");
+     assert (person.get <person::keys::age> () == 57);
+  
+     collection collection;
+     assert (std::distance (collection.begin (),
+                            collection.end ()) == 1);
+  
+     map map;
+     assert (std::distance (map.begin (),
+                            map.end ()) == 1);   
+  }
+
+This demonstrates the nice separation of concerns that the Backbone library provides. 
+
+See the [link libbackbone_cpp.tutorial.prefetching.a00001 full source listing]
+
+
+[section:a00001 Source listing for Prefetching]
+
+  #include <stdint.h>
+  #include <string>
+
+  #include <boost/fusion/adapted/struct/adapt_assoc_struct.hpp>
+  #include <boost/fusion/include/adapt_assoc_struct.hpp>
+
+  #include <backbone++/model.hpp>
+  #include <backbone++/proxy.hpp>
+ 
+  struct person_impl : public backbone::model<person_impl>
+  {
+     std::string                          name;
+     int16_t                              age;
+   
+     struct keys
+     {
+        struct name;
+        struct age;
+     };
+
+     void
+     operator() ()
+        {
+           this->set <keys::name> ("Bill Gates");
+           this->set <keys::age> (57);
+        }
+  };
+  
+  BOOST_FUSION_ADAPT_ASSOC_STRUCT(
+     person_impl,
+     (std::string,                        name,    person_impl::keys::name)
+     (int16_t,                            age,     person_impl::keys::age))  
+
+  struct person : public backbone::proxy::prefetch <person_impl>
+  {
+  };
+
+
+  struct collection_impl
+     : public backbone::collection <std::string>
+  {
+     void
+     operator() ()
+        {
+           this->add ("foo");
+        }
+  };
+
+  struct collection : public backbone::proxy::prefetch <collection_impl>
+  {
+  };
+
+  struct map_impl
+     : public backbone::map <int64_t, std::string>
+  {
+     void
+     operator() ()
+        {
+           this->add (1, "bar");
+        }
+  };
+
+  struct map : public backbone::proxy::prefetch <map_impl>
+  {
+  };
+
+  int main ()
+  {   
+     person person;
+     assert (person.get <person::keys::name> () == "Bill Gates");
+     assert (person.get <person::keys::age> () == 57);
+  
+     collection collection;
+     assert (std::distance (collection.begin (),
+                            collection.end ()) == 1);
+  
+     map map;
+     assert (std::distance (map.begin (),
+                            map.end ()) == 1);   
+  }
+
+[endsect]
+
+[endsect]

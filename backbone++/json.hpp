@@ -21,31 +21,15 @@ namespace backbone {
 
 /*!
   \brief Converts a backbone data structure to JSON
-  \param model Properly Fusion-adapted backbone::model structure
+  \param obj A Backbone data structure, which can be a backbone::model, 
+             backbone::collection or backbone::map
  */
-template <typename Model>
+template <typename Type>
 static ciere::json::value
 to_json (
-   Model const & model);
-
-/*!
-  \brief Converts a backbone data structure to JSON
-  \param map backbone::map instance
- */
-template <typename Key, typename Value, typename Signals>
-static ciere::json::value
-to_json (
-   backbone::map <Key, Value, Signals> const & map);
-
-/*!
-  \brief Converts a backbone data structure to JSON
-  \param collection backbone::collection instance
- */
-template <typename Value, typename Signals>
-static ciere::json::value
-to_json (
-   backbone::collection <Value, Signals> const & collection);
+   Type const & obj)
+{
+   return detail::json::writer::type_deduce <Type const>::call (obj);
+}
 
 };
-
-#include "json.inl"

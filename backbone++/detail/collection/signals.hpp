@@ -12,11 +12,9 @@ namespace backbone { namespace detail {  namespace collection {
 template <typename Type>
 struct signals : public detail::signals
 {
-
    boost::signal <void (Type &)>        add;
    boost::signal <void (Type &)>        erase;
    boost::signal <void ()>              read_all;
-
 };
 
 }; }; };

@@ -1,0 +1,109 @@
+[section Your first collection]
+
+A Backbone collection is a special type of model that stores a sequence of models. It is based on a STL vector class, and provides Backbone functionality on top of this class.
+
+This example will extend [link libbackbone_cpp.tutorial.your_first_model the previous example] and we are going to create a collection of hobbies for the person.
+
+First, let's import all the necessary headers again.
+
+  #include <stdint.h>
+  #include <string>
+
+  #include <boost/fusion/adapted/struct/adapt_assoc_struct.hpp>
+  #include <boost/fusion/include/adapt_assoc_struct.hpp>
+
+  #include <backbone++/model.hpp>
+  #include <backbone++/collection.hpp>
+
+
+Now, we're ready to create our collection. We will use the Person class from the previous example and add an additional "hobbies" member value.
+
+  struct person : public backbone::model<person>
+  {
+     std::string                          name;
+     int16_t                              age;
+     backbone::collection <std::string>   hobbies;
+  
+     struct keys
+     {
+        struct name;
+        struct age;
+        struct hobbies;
+     };
+  };
+
+  BOOST_FUSION_ADAPT_ASSOC_STRUCT(
+     person,
+     (std::string,                        name,    person::keys::name)
+     (int16_t,                            age,     person::keys::age)
+     (backbone::collection <std::string>, hobbies, person::keys::hobbies))
+
+As you can see, the code above is pretty straightforward. Let's test whether this structure works!
+
+  int main ()
+  {
+     person person;
+     person.set <person::keys::name> ("Bill Gates");
+     person.set <person::keys::age> (57);
+     person.get <person::keys::hobbies> ().add ("go");
+     person.get <person::keys::hobbies> ().add ("chess");
+
+     assert (*(person.get <person::keys::hobbies> ().begin ()) == "go");
+     assert (*(person.get <person::keys::hobbies> ().begin () + 1) == "chess");
+     assert (std::distance (person.get <person::keys::hobbies> ().begin (),
+                            person.get <person::keys::hobbies> ().end ()) == 2);
+
+A collection behaves just like a normal vector, and will work with regular STL algorithms.
+
+See the [link libbackbone_cpp.tutorial.your_first_collection.a00001 full source listing]
+
+
+[section:a00001 Source listing for Your first collection]
+
+  #include <stdint.h>
+  #include <string>
+
+  #include <boost/fusion/adapted/struct/adapt_assoc_struct.hpp>
+  #include <boost/fusion/include/adapt_assoc_struct.hpp>
+
+  #include <backbone++/model.hpp>
+  #include <backbone++/collection.hpp>
+
+  struct person : public backbone::model<person>
+  {
+     std::string                          name;
+     int16_t                              age;
+     backbone::collection <std::string>   hobbies;
+  
+     struct keys
+     {
+        struct name;
+        struct age;
+        struct hobbies;
+     };
+  };
+
+  BOOST_FUSION_ADAPT_ASSOC_STRUCT(
+     person,
+     (std::string,                        name,    person::keys::name)
+     (int16_t,                            age,     person::keys::age)
+     (backbone::collection <std::string>, hobbies, person::keys::hobbies))
+
+  int main ()
+  {
+     person person;
+     person.set <person::keys::name> ("Bill Gates");
+     person.set <person::keys::age> (57);
+     person.get <person::keys::hobbies> ().add ("go");
+     person.get <person::keys::hobbies> ().add ("chess");
+
+     assert (*(person.get <person::keys::hobbies> ().begin ()) == "go");
+     assert (*(person.get <person::keys::hobbies> ().begin () + 1) == "chess");
+     assert (std::distance (person.get <person::keys::hobbies> ().begin (),
+                            person.get <person::keys::hobbies> ().end ()) == 2);
+  }
+
+[endsect]
+
+
+[endsect]

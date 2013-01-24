@@ -1,6 +1,6 @@
 [section Your first model]
 
-A Backbone model is the M of MVC: it stores data, and provides a get () and set () function to change that data. Appropriate events are triggered when the data is changed. To provide this characteristic, a backbone model is implemented as follows:
+A Backbone model is the M of MVC: it stores data, and provides a get () and set () function to change that data. Appropriate signals are triggered when the data is changed. To provide this characteristic, a backbone model is implemented as follows:
 
 * you instantiate a class that inherits from [link libbackbone_cpp.reference.model model];
 * you provide data that is stored within your model;

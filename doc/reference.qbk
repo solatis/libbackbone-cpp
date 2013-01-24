@@ -50,6 +50,20 @@ Provides interface to a model.
   
   ]
 
+  [
+
+    [[link libbackbone_cpp.reference.collection.signals_type signals_type]]
+    []
+  
+  ]
+
+  [
+
+    [[link libbackbone_cpp.reference.collection.value_type value_type]]
+    []
+  
+  ]
+
 ]
 
 [heading Member Functions]
@@ -147,6 +161,20 @@ Provides interface to a model.
   [
 
     [[link libbackbone_cpp.reference.collection.iterator iterator]]
+    []
+  
+  ]
+
+  [
+
+    [[link libbackbone_cpp.reference.collection.signals_type signals_type]]
+    []
+  
+  ]
+
+  [
+
+    [[link libbackbone_cpp.reference.collection.value_type value_type]]
     []
   
   ]
@@ -319,6 +347,40 @@ Constructor.
 
 
 
+[section:signals_type collection::signals_type]
+
+[indexterm2 signals_type..collection] 
+
+  typedef Signals signals_type;
+
+
+
+[heading Requirements]
+
+[*Header: ][^backbone++/collection.hpp]
+
+
+[endsect]
+
+
+
+[section:value_type collection::value_type]
+
+[indexterm2 value_type..collection] 
+
+  typedef Value value_type;
+
+
+
+[heading Requirements]
+
+[*Header: ][^backbone++/collection.hpp]
+
+
+[endsect]
+
+
+
 [endsect]
 
 [section:map map]
@@ -354,7 +416,28 @@ Provides interface to a map.
 
   [
 
+    [[link libbackbone_cpp.reference.map.key_type key_type]]
+    []
+  
+  ]
+
+  [
+
     [[link libbackbone_cpp.reference.map.map_type map_type]]
+    []
+  
+  ]
+
+  [
+
+    [[link libbackbone_cpp.reference.map.signals_type signals_type]]
+    []
+  
+  ]
+
+  [
+
+    [[link libbackbone_cpp.reference.map.value_type value_type]]
     []
   
   ]
@@ -475,7 +558,28 @@ Reference to the added value inside the map
 
   [
 
+    [[link libbackbone_cpp.reference.map.key_type key_type]]
+    []
+  
+  ]
+
+  [
+
     [[link libbackbone_cpp.reference.map.map_type map_type]]
+    []
+  
+  ]
+
+  [
+
+    [[link libbackbone_cpp.reference.map.signals_type signals_type]]
+    []
+  
+  ]
+
+  [
+
+    [[link libbackbone_cpp.reference.map.value_type value_type]]
     []
   
   ]
@@ -643,6 +747,23 @@ Reference to the
 
 
 
+[section:key_type map::key_type]
+
+[indexterm2 key_type..map] 
+
+  typedef Key key_type;
+
+
+
+[heading Requirements]
+
+[*Header: ][^backbone++/map.hpp]
+
+
+[endsect]
+
+
+
 [section:map map::map]
 
 [indexterm2 map..map] 
@@ -686,6 +807,40 @@ Constructor.
 
 
 
+[section:signals_type map::signals_type]
+
+[indexterm2 signals_type..map] 
+
+  typedef Signals signals_type;
+
+
+
+[heading Requirements]
+
+[*Header: ][^backbone++/map.hpp]
+
+
+[endsect]
+
+
+
+[section:value_type map::value_type]
+
+[indexterm2 value_type..map] 
+
+  typedef Value value_type;
+
+
+
+[heading Requirements]
+
+[*Header: ][^backbone++/map.hpp]
+
+
+[endsect]
+
+
+
 [endsect]
 
 [section:model model]
@@ -707,6 +862,20 @@ Provides interface to a model.
   [
 
     [[link libbackbone_cpp.reference.model.base_type base_type]]
+    []
+  
+  ]
+
+  [
+
+    [[link libbackbone_cpp.reference.model.derived_type derived_type]]
+    []
+  
+  ]
+
+  [
+
+    [[link libbackbone_cpp.reference.model.signals_type signals_type]]
     []
   
   ]
@@ -757,6 +926,20 @@ Provides interface to a model.
   
   ]
 
+  [
+
+    [[link libbackbone_cpp.reference.model.derived_type derived_type]]
+    []
+  
+  ]
+
+  [
+
+    [[link libbackbone_cpp.reference.model.signals_type signals_type]]
+    []
+  
+  ]
+
 ]
 
 [heading Member Functions]
@@ -779,6 +962,23 @@ Provides interface to a model.
   ]
   
 ]
+
+
+[heading Requirements]
+
+[*Header: ][^backbone++/model.hpp]
+
+
+[endsect]
+
+
+
+[section:derived_type model::derived_type]
+
+[indexterm2 derived_type..model] 
+
+  typedef Derived derived_type;
+
 
 
 [heading Requirements]
@@ -826,6 +1026,23 @@ Provides interface to a model.
   void set(
       Value && value);
 
+
+
+[endsect]
+
+
+
+[section:signals_type model::signals_type]
+
+[indexterm2 signals_type..model] 
+
+  typedef Signals signals_type;
+
+
+
+[heading Requirements]
+
+[*Header: ][^backbone++/model.hpp]
 
 
 [endsect]
@@ -891,127 +1108,37 @@ Initialize a model and let its members be fetched as soon as the get () function
 
 [endsect]
 
+
 [section:to_json to_json]
 
 [indexterm1 to_json] 
 Converts a backbone data structure to JSON. 
 
+
+  template<
+      typename Type >
+  static ciere::json::value to_json(
+      Type const & obj);
+
+
+
+[heading Parameters]
     
-  template<
-      typename Model >
-  ciere::json::value ``[link libbackbone_cpp.reference.to_json.overload1 to_json]``(
-      Model const & model);
-  ``  [''''&raquo;''' [link libbackbone_cpp.reference.to_json.overload1 more...]]``
 
-  template<
-      typename Key ,
-      typename Value ,
-      typename Signals >
-  ciere::json::value ``[link libbackbone_cpp.reference.to_json.overload2 to_json]``(
-      backbone::map< Key, Value, Signals > const & map);
-  ``  [''''&raquo;''' [link libbackbone_cpp.reference.to_json.overload2 more...]]``
+[variablelist
+  
+[[obj][A Backbone data structure, which can be a [link libbackbone_cpp.reference.model `model`], [link libbackbone_cpp.reference.collection `collection`] or [link libbackbone_cpp.reference.map `map`] ]]
 
-  template<
-      typename Value ,
-      typename Signals >
-  ciere::json::value ``[link libbackbone_cpp.reference.to_json.overload3 to_json]``(
-      backbone::collection< Value, Signals > const & collection);
-  ``  [''''&raquo;''' [link libbackbone_cpp.reference.to_json.overload3 more...]]``
+]
+
+
 
 [heading Requirements]
 
 [*Header: ][^backbone++/json.hpp]
 
 
-[section:overload1 to_json (1 of 3 overloads)]
-
-
-Converts a backbone data structure to JSON. 
-
-
-  template<
-      typename Model >
-  static ciere::json::value to_json(
-      Model const & model);
-
-
-
-[heading Parameters]
-    
-
-[variablelist
-  
-[[model][Properly Fusion-adapted [link libbackbone_cpp.reference.model `model`] structure ]]
-
-]
-
-
-
-
 [endsect]
 
-
-
-[section:overload2 to_json (2 of 3 overloads)]
-
-
-Converts a backbone data structure to JSON. 
-
-
-  template<
-      typename Key ,
-      typename Value ,
-      typename Signals >
-  static ciere::json::value to_json(
-      backbone::map< Key, Value, Signals > const & map);
-
-
-
-[heading Parameters]
-    
-
-[variablelist
-  
-[[map][[link libbackbone_cpp.reference.map `map`] instance ]]
-
-]
-
-
-
-
-[endsect]
-
-
-
-[section:overload3 to_json (3 of 3 overloads)]
-
-
-Converts a backbone data structure to JSON. 
-
-
-  template<
-      typename Value ,
-      typename Signals >
-  static ciere::json::value to_json(
-      backbone::collection< Value, Signals > const & collection);
-
-
-
-[heading Parameters]
-    
-
-[variablelist
-  
-[[collection][[link libbackbone_cpp.reference.collection `collection`] instance ]]
-
-]
-
-
-
-
-[endsect]
-
-
-[endsect]
 
 [endsect]
